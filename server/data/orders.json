@@ -1,0 +1,551 @@
+[
+  {
+    "_id": "ord_1788867126920_515",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-6360",
+    "customerName": "ashu",
+    "customerEmail": "ashu@gmail.com",
+    "phone": "+916362765415",
+    "deliveryAddress": "Edge HIll University, St Helens Rd",
+    "pincode": "L394QP",
+    "items": [
+      {
+        "productId": "watch3",
+        "name": "Ladies' Petite Gold Watch",
+        "image": "/photos/watch/3.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 20g",
+        "price": "₹3,01,774",
+        "category": "watch",
+        "_id": "6a9ff1c61281f5284ad02051"
+      },
+      {
+        "productId": "watch1",
+        "name": "Royal Gold Watch",
+        "image": "/photos/watch/1.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 25g",
+        "price": "₹3,77,217",
+        "category": "watch",
+        "_id": "6a9ff1d31281f5284ad02056"
+      },
+      {
+        "productId": "pendent5",
+        "name": "Sacred Om Pendant",
+        "image": "/photos/pendent/5.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 5g",
+        "price": "₹75,443",
+        "category": "pendent",
+        "_id": "6a9ff2161281f5284ad02062"
+      }
+    ],
+    "totalAmount": 700710.3180000001,
+    "status": "Cancelled",
+    "paymentMethod": "Razorpay Online Secured",
+    "createdAt": "2026-09-08T11:32:06.920Z",
+    "returnRequested": true,
+    "returnType": "Return",
+    "returnReason": "didnt like the product",
+    "returnStatus": "Approved & Refund Credited",
+    "adminReturnNote": "Approved by Store Manager"
+  },
+  {
+    "_id": "ord_1788865119454_829",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-1736",
+    "customerName": "deevyanshisahu05",
+    "customerEmail": "deevyanshisahu05@gmail.com",
+    "phone": "+447742995467",
+    "deliveryAddress": "Edge HIll University, St Helens Rd",
+    "pincode": "L394QP",
+    "items": [
+      {
+        "productId": "nosepin6",
+        "name": "Minimalist Diamond Stud",
+        "image": "/photos/nose/2.jpg",
+        "purity": "Purity: 75%",
+        "weight": "Weight: 0.45g",
+        "price": "₹5,559",
+        "category": "nosepin",
+        "_id": "6a9fea5348fafc434ec69c1d"
+      }
+    ],
+    "totalAmount": 7225.77,
+    "status": "Delivered",
+    "paymentMethod": "Razorpay Online Secured",
+    "createdAt": "2026-09-08T10:58:39.454Z"
+  },
+  {
+    "_id": "ord_1788864710034_757",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-8864",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshusahu05@gmail.com",
+    "phone": "+916362765415",
+    "deliveryAddress": "Edge HIll University, St Helens Rd",
+    "pincode": "L394QP",
+    "items": [
+      {
+        "productId": "pendent7",
+        "name": "Ganesh Blessing Pendant",
+        "image": "/photos/pendent/7.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 6.5g",
+        "price": "₹98,077",
+        "category": "pendent"
+      }
+    ],
+    "totalAmount": 102519.31,
+    "status": "Processing",
+    "paymentMethod": "Razorpay Online Secured",
+    "createdAt": "2026-09-08T10:51:50.034Z"
+  },
+  {
+    "_id": "ord_1788864081036_219",
+    "userId": null,
+    "invoiceNo": "FAIL-JS-081036",
+    "customerName": "Payment Fail Tester",
+    "customerEmail": "failtest@example.com",
+    "phone": "+91 9876543210",
+    "deliveryAddress": "Store Pick-up",
+    "pincode": "560001",
+    "items": [],
+    "totalAmount": 32000,
+    "status": "Payment Failed",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-08T10:41:21.036Z"
+  },
+  {
+    "_id": "ord_1788864063751_212",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-2727",
+    "customerName": "Test Client",
+    "customerEmail": "client@example.com",
+    "phone": "+91 9876543210",
+    "deliveryAddress": "Store Address",
+    "pincode": "560001",
+    "items": [],
+    "totalAmount": 45000,
+    "status": "Processing",
+    "paymentMethod": "Razorpay Online Secured",
+    "createdAt": "2026-09-08T10:41:03.751Z"
+  },
+  {
+    "_id": "ord_1788862718470_992",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-9994",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshusahu@gmail.com",
+    "phone": "+916362765415",
+    "deliveryAddress": "Edge HIll University, St Helens Rd",
+    "pincode": "L394QP",
+    "items": [
+      {
+        "productId": "watch7",
+        "name": "Sports Chronograph Gold Watch",
+        "image": "/photos/watch/7.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 32g",
+        "price": "₹4,82,838",
+        "category": "watch"
+      }
+    ],
+    "totalAmount": 498323.14,
+    "status": "Processing",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-08T10:18:38.470Z"
+  },
+  {
+    "_id": "ord_1788862114183_213",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-2049",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshusahu@gmail.com",
+    "phone": "+91 9876543210",
+    "deliveryAddress": "no.1 dr tcm royan road chaluwadipalya",
+    "pincode": "560001",
+    "items": [
+      {
+        "productId": "nosepin6",
+        "name": "Minimalist Diamond Stud",
+        "image": "/photos/nose/2.jpg",
+        "purity": "Purity: 18K (75.0% Pure Gold)",
+        "weight": "Weight: 0.45g",
+        "price": "₹5,559",
+        "category": "nosepin"
+      }
+    ],
+    "totalAmount": 6725.77,
+    "status": "Processing",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-08T10:08:34.183Z"
+  },
+  {
+    "_id": "ord_1788807592481_176",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-2962",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshusahu@gmail.com",
+    "phone": "+91 9876543210",
+    "deliveryAddress": "no.1 dr tcm royan road chaluwadipalya",
+    "pincode": "560001",
+    "items": [
+      {
+        "productId": "men6",
+        "name": "Men's Gold Cufflinks",
+        "image": "/photos/men/6.jpg",
+        "purity": "Purity: 75%",
+        "weight": "Weight: 5g",
+        "price": "₹61,897",
+        "category": "men"
+      }
+    ],
+    "totalAmount": 65253.91,
+    "status": "Processing",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T18:59:52.481Z"
+  },
+  {
+    "_id": "ord_1788806365104_186",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-1421",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshu.sahu@bcah.christuniversity.in",
+    "phone": "+916362765415",
+    "deliveryAddress": "Edge HIll University, St Helens Rd",
+    "pincode": "L394QP",
+    "items": [
+      {
+        "productId": "chain1",
+        "name": "Classic Gold Chain",
+        "image": "/photos/chain/1.jpg",
+        "purity": "Purity: 22K (91.6% Pure Gold)",
+        "weight": "Weight: 8g",
+        "price": "₹1,20,955",
+        "category": "chain"
+      }
+    ],
+    "totalAmount": 1623.6,
+    "status": "Delivered",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T18:39:25.104Z",
+    "returnRequested": true,
+    "returnType": "Exchange",
+    "returnReason": "Size adjustment / Style preference",
+    "returnStatus": "Approved & Replacement Dispatched",
+    "adminReturnNote": "Approved by Store Manager"
+  },
+  {
+    "_id": "ord_1788806306339_135",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-6428",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshusahu@gmail.com",
+    "phone": "+916362765415",
+    "deliveryAddress": "1, TCM Royan Rd",
+    "pincode": "560053",
+    "items": [
+      {
+        "productId": "rings_1788802084295",
+        "name": "My ring",
+        "image": "/photos/product1.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 6g",
+        "price": "₹55,046",
+        "category": "rings"
+      }
+    ],
+    "totalAmount": 58197.38,
+    "status": "Processing",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T18:38:26.339Z"
+  },
+  {
+    "_id": "ord_1788805451194_181",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-3282",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshu.sahu@bcah.christuniversity.in",
+    "phone": "+916362765415",
+    "deliveryAddress": "1, TCM Royan Rd",
+    "pincode": "560053",
+    "items": [
+      {
+        "productId": "bangle5",
+        "name": "Broad Textured Bangle",
+        "image": "/photos/bangles/5.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 20g",
+        "price": "₹3,02,412",
+        "category": "bangles",
+        "_id": "6a9f013cfcd18a4a055892f9"
+      }
+    ],
+    "totalAmount": 1811.06,
+    "status": "Cancelled",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T18:24:11.194Z",
+    "cancelReason": "Changed my mind / Placed by mistake"
+  },
+  {
+    "_id": "ord_1788804970216_862",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-3111",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshusahu@gmail.com",
+    "phone": "+916362765415",
+    "deliveryAddress": "Edge HIll University, St Helens Rd",
+    "pincode": "L394QP",
+    "items": [
+      {
+        "productId": "ring2",
+        "name": "Royal Crown Diamond Ring",
+        "image": "/photos/rings/ring2.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 6.15g",
+        "price": "₹92,961",
+        "category": "rings",
+        "_id": "6a9eff5b318899d6a9a72142"
+      }
+    ],
+    "totalAmount": 96749.83,
+    "status": "Processing",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T18:16:10.216Z"
+  },
+  {
+    "_id": "ord_1788803489716_134",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-4793",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshu.sahu@bcah.christuniversity.in",
+    "phone": "+916362765415",
+    "deliveryAddress": "Edge HIll University, St Helens Rd",
+    "pincode": "L394QP",
+    "items": [
+      {
+        "productId": "chain6",
+        "name": "Spiga Wheat Chain",
+        "image": "/photos/chain/6.jpg",
+        "purity": "Purity: 75%",
+        "weight": "Weight: 7.5g",
+        "price": "₹92,943",
+        "category": "chain",
+        "_id": "6a9ef98ab0fe1fbfffd96ba5"
+      },
+      {
+        "productId": "chain7",
+        "name": "Fluid Snake Chain",
+        "image": "/photos/chain/7.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 11g",
+        "price": "₹1,66,488",
+        "category": "chain",
+        "_id": "6a9ef98fb0fe1fbfffd96baa"
+      }
+    ],
+    "totalAmount": 96902.27,
+    "status": "Cancelled",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T17:51:29.716Z"
+  },
+  {
+    "_id": "ord_1788802980428_297",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-2173",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshu.sahu@bcah.christuniversity.in",
+    "phone": "+916362765415",
+    "deliveryAddress": "Edge HIll University, St Helens Rd",
+    "pincode": "L394QP",
+    "items": [
+      {
+        "productId": "rings_1788802084295",
+        "name": "My ring",
+        "image": "/photos/product1.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 6g",
+        "price": "₹90,849",
+        "category": "rings",
+        "_id": "6a9ef44097bcc3a7728e1fa5"
+      }
+    ],
+    "totalAmount": 85567.023,
+    "status": "Delivered",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T17:43:00.428Z"
+  },
+  {
+    "_id": "ord_1788802637471_15",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-9999",
+    "customerName": "Deevyanshu Single Test",
+    "customerEmail": "deevyanshusahu@gmail.com",
+    "phone": "+91 9876543210",
+    "deliveryAddress": "no.1 dr tcm royan road",
+    "pincode": "560001",
+    "items": [
+      {
+        "name": "Single Order Test Ring",
+        "price": "?50,000",
+        "weight": "5.0g"
+      }
+    ],
+    "totalAmount": 53000,
+    "status": "Cancelled",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T17:37:17.471Z",
+    "returnRequested": true,
+    "returnType": "Return",
+    "returnReason": "Ring size slightly larger than expected",
+    "returnStatus": "Pending Inspection"
+  },
+  {
+    "_id": "ord_1788802540925_864",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-7022",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshu.sahu@bcah.christuniversity.in",
+    "phone": "+916362765415",
+    "deliveryAddress": "1, TCM Royan Rd",
+    "pincode": "560053",
+    "items": [
+      {
+        "productId": "rings_1788802084295",
+        "name": "My ring",
+        "image": "/photos/product1.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 6g",
+        "price": "₹90,849",
+        "category": "rings",
+        "_id": "6a9ef44097bcc3a7728e1fa5"
+      },
+      {
+        "productId": "nosepin5",
+        "name": "Lustrous Pearl Nosepin",
+        "image": "/photos/nose/1.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 0.55g",
+        "price": "₹8,324",
+        "category": "nosepin",
+        "_id": "6a9ef5cbf831e613cfded9ae"
+      }
+    ],
+    "totalAmount": 103148.19,
+    "status": "Cancelled",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T17:35:40.925Z"
+  },
+  {
+    "_id": "ord_1788802540860_969",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-5515",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshu.sahu@bcah.christuniversity.in",
+    "phone": "+916362765415",
+    "deliveryAddress": "1, TCM Royan Rd",
+    "pincode": "560053",
+    "items": [
+      {
+        "productId": "rings_1788802084295",
+        "name": "My ring",
+        "image": "/photos/product1.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 6g",
+        "price": "₹90,849",
+        "category": "rings",
+        "_id": "6a9ef44097bcc3a7728e1fa5"
+      },
+      {
+        "productId": "nosepin5",
+        "name": "Lustrous Pearl Nosepin",
+        "image": "/photos/nose/1.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 0.55g",
+        "price": "₹8,324",
+        "category": "nosepin",
+        "_id": "6a9ef5cbf831e613cfded9ae"
+      }
+    ],
+    "totalAmount": 103148.19,
+    "status": "Delivered",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T17:35:40.860Z"
+  },
+  {
+    "_id": "ord_1788802458911_536",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-5683",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshusahu@gmail.com",
+    "phone": "+91 9876543210",
+    "deliveryAddress": "no.1 dr tcm royan road chaluwadipalya",
+    "pincode": "560001",
+    "items": [
+      {
+        "name": "Royal Solitaire Diamond Ring",
+        "price": "?45,000",
+        "weight": "6.15g",
+        "purity": "22K",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 47835,
+    "status": "Delivered",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T17:34:18.911Z"
+  },
+  {
+    "_id": "ord_1788802133817_201",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-4910",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshusahu@gmail.com",
+    "phone": "+916362765415",
+    "deliveryAddress": "Edge HIll University, St Helens Rd",
+    "pincode": "L394QP",
+    "items": [
+      {
+        "productId": "rings_1788802084295",
+        "name": "My ring",
+        "image": "/photos/product1.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 6g",
+        "price": "₹90,849",
+        "category": "rings",
+        "_id": "6a9ef44097bcc3a7728e1fa5"
+      }
+    ],
+    "totalAmount": 85567.023,
+    "status": "Cancelled",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T17:28:53.817Z"
+  },
+  {
+    "_id": "ord_1788802133744_103",
+    "userId": null,
+    "invoiceNo": "INV-JS-2026-2726",
+    "customerName": "Deevyanshu Sahu",
+    "customerEmail": "deevyanshusahu@gmail.com",
+    "phone": "+916362765415",
+    "deliveryAddress": "Edge HIll University, St Helens Rd",
+    "pincode": "L394QP",
+    "items": [
+      {
+        "productId": "rings_1788802084295",
+        "name": "My ring",
+        "image": "/photos/product1.jpg",
+        "purity": "Purity: 91.6%",
+        "weight": "Weight: 6g",
+        "price": "₹90,849",
+        "category": "rings",
+        "_id": "6a9ef44097bcc3a7728e1fa5"
+      }
+    ],
+    "totalAmount": 85567.023,
+    "status": "Delivered",
+    "paymentMethod": "Razorpay Online Payment",
+    "createdAt": "2026-09-07T17:28:53.744Z"
+  }
+]

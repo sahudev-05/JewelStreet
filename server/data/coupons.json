@@ -1,0 +1,42 @@
+[
+  {
+    "id": "cpn_jewel10",
+    "code": "JEWEL10",
+    "discountType": "percentage",
+    "discountValue": 10,
+    "minPurchase": 0,
+    "description": "10% Off on Gross Purchase",
+    "isActive": true,
+    "createdAt": "2026-09-07T17:52:58.104Z"
+  },
+  {
+    "id": "cpn_freeship",
+    "code": "FREESHIP",
+    "discountType": "flat",
+    "discountValue": 1500,
+    "minPurchase": 0,
+    "description": "Free Insured Armored Delivery (₹1,500 Off)",
+    "isActive": true,
+    "createdAt": "2026-09-07T17:52:58.104Z"
+  },
+  {
+    "id": "cpn_save500",
+    "code": "SAVE500",
+    "discountType": "flat",
+    "discountValue": 500,
+    "minPurchase": 5000,
+    "description": "₹500 Flat Savings on ₹5,000+",
+    "isActive": true,
+    "createdAt": "2026-09-07T17:52:58.104Z"
+  },
+  {
+    "id": "cpn_royal20",
+    "code": "ROYAL20",
+    "discountType": "percentage",
+    "discountValue": 20,
+    "minPurchase": 50000,
+    "description": "👑 Royal Master Offer: 20% Off on ₹50,000+",
+    "isActive": false,
+    "createdAt": "2026-09-07T17:52:58.104Z"
+  }
+]

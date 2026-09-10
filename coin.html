@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Coins</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #10061e;
+            color: white;
+            text-align: center;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #250c3c;
+            padding: 10px 20px;
+            color: white;
+        }
+        .gold-rate {
+            font-weight: bold;
+            color: #FFD700;
+        }
+        .cart-counter {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 3px 8px;
+            font-size: 14px;
+        }
+        table {
+            width: 60%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #1a092e;
+        }
+        th, td {
+            padding: 10px;
+            border: 2px solid #FFD700;
+        }
+        th {
+            background-color: #250c3c;
+            color: white;
+        }
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            background-color: #1a092e;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            padding: 15px;
+            width: 220px;
+            text-align: center;
+        }
+        .cart-btn {
+            background-color: #FFD700;
+            border: none;
+            color: black;
+            font-weight: bold;
+            padding: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo">JEWEL STREET</div>
+        <div class="gold-rate">Gold Rate: <span id="gold-price">Loading...</span> per gram</div>
+        <div>
+            <a href="cart.html" style="color: white; text-decoration: none;">
+                🛒 Cart <span id="cart" class="cart-counter">0</span>
+            </a>
+        </div>
+    </div>
+
+    <h2>Gold Prices</h2>
+    <table>
+        <tr>
+            <th>Purity</th>
+            <th>Price per Gram (INR)</th>
+        </tr>
+        <tr>
+            <td>24K</td>
+            <td id="gold-24k-rate">Loading...</td>
+        </tr>
+        <tr>
+            <td>22K</td>
+            <td id="gold-22k-rate">Loading...</td>
+        </tr>
+        <tr>
+            <td>18K</td>
+            <td id="gold-18k-rate">Loading...</td>
+        </tr>
+    </table>
+
+    <h2>Gold Coins</h2>
+    <div class="cards-container">
+        <div class="card" id="gold-24k">
+            <h3 class="product-name">24K Gold Coin</h3>
+            <p class="product-purity">Purity: 24K</p>
+            <label>Weight (gm):</label>
+            <select class="product-weight" onchange="updatePrice(this, 'price-24k', 'gold-24k-rate')">
+                <option value="1" selected>1 gm</option>
+                <option value="5">5 gm</option>
+                <option value="10">10 gm</option>
+            </select>
+            <p>Price: <span id="price-24k">₹0</span></p>
+            <button class="fav-btn" onclick="toggleFavorite('24K', this)"><i class="far fa-heart"></i></button>
+            <button class="cart-btn" onclick="addToCart('gold-24k', this)">Add to Cart</button>
+        </div>
+
+        <div class="card" id="gold-22k">
+            <h3 class="product-name">22K Gold Coin</h3>
+            <p class="product-purity">Purity: 22K</p>
+            <label>Weight (gm):</label>
+            <select class="product-weight" onchange="updatePrice(this, 'price-22k', 'gold-22k-rate')">
+                <option value="1" selected>1 gm</option>
+                <option value="5">5 gm</option>
+                <option value="10">10 gm</option>
+            </select>
+            <p>Price: <span id="price-22k">₹0</span></p>
+            <button class="fav-btn" onclick="toggleFavorite('24K', this)"><i class="far fa-heart"></i></button>
+            <button class="cart-btn" onclick="addToCart('gold-22k', this)">Add to Cart</button>
+        </div>
+
+        <div class="card" id="gold-18k">
+            <h3 class="product-name">18K Gold Coin</h3>
+            <p class="product-purity">Purity: 18K</p>
+            <label>Weight (gm):</label>
+            <select class="product-weight" onchange="updatePrice(this, 'price-18k', 'gold-18k-rate')">
+                <option value="1" selected>1 gm</option>
+                <option value="5">5 gm</option>
+                <option value="10">10 gm</option>
+            </select>
+            <p>Price: <span id="price-18k">₹0</span></p>
+            <button class="fav-btn" onclick="toggleFavorite('24K', this)"><i class="far fa-heart"></i></button>
+            <button class="cart-btn" onclick="addToCart('gold-18k', this)">Add to Cart</button>
+        </div>
+    </div>
+
+    <script>
+        async function fetchGoldRate() {
+            const goldApiUrl = "https://api.gold-api.com/price/XAU";
+            const usdToInr = 87;
+            const priceIncreaseFactor = 1.10;
+
+            try {
+                let response = await fetch(goldApiUrl);
+                let data = await response.json();
+                let goldPriceUSD = data.price;
+                let goldPriceINR = (goldPriceUSD * usdToInr) * priceIncreaseFactor;
+                let goldPricePerGramINR = goldPriceINR / 31.1035;
+
+                let gold24k = goldPricePerGramINR.toFixed(2);
+                let gold22k = (goldPricePerGramINR * (22 / 24)).toFixed(2);
+                let gold18k = (goldPricePerGramINR * (18 / 24)).toFixed(2);
+
+                document.getElementById("gold-price").innerText = `₹${gold24k}`;
+                document.getElementById("gold-24k-rate").innerText = gold24k;
+                document.getElementById("gold-22k-rate").innerText = gold22k;
+                document.getElementById("gold-18k-rate").innerText = gold18k;
+
+                updatePrice(document.querySelector("#gold-24k select"), "price-24k", "gold-24k-rate");
+                updatePrice(document.querySelector("#gold-22k select"), "price-22k", "gold-22k-rate");
+                updatePrice(document.querySelector("#gold-18k select"), "price-18k", "gold-18k-rate");
+
+            } catch (error) {
+                console.error("Error fetching gold rate:", error);
+            }
+        }
+
+        function updatePrice(select, priceId, goldRateId) {
+            let ratePerGram = parseFloat(document.getElementById(goldRateId).innerText);
+            let weight = parseFloat(select.value);
+            document.getElementById(priceId).innerText = `₹${(ratePerGram * weight).toFixed(2)}`;
+        }
+
+        fetchGoldRate();
+        function addToCart(productId, button) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let productCard = button.closest('.card');
+        
+        let product = {
+            id: productId,
+            name: productCard.querySelector('.product-name').textContent,
+            purity: productCard.querySelector('.product-purity').textContent,
+            weight: productCard.querySelector('.product-weight').value + "g",
+            price: productCard.querySelector('p span').textContent
+        };
+
+        // Prevent duplicate entries in the cart
+        let existingProduct = cart.find(item => item.id === productId && item.weight === product.weight);
+        if (existingProduct) {
+            alert("This item is already in the cart!");
+            return;
+        }
+
+        cart.push(product);
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        button.textContent = "Added to Cart";
+        button.disabled = true;
+
+        updateCartCount();
+    }
+
+    function updateCartCount() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart').textContent = cart.length;
+    }
+
+    // Update cart count on page load
+    updateCartCount();
+
+
+    function toggleFavorite(productId, button) {
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            if (favorites.includes(productId)) {
+                favorites = favorites.filter(id => id !== productId);
+                button.classList.remove("favorited");
+                button.innerHTML = '<i class="far fa-heart"></i>';
+            } else {
+                favorites.push(productId);
+                button.classList.add("favorited");
+                button.innerHTML = '<i class="fas fa-heart"></i>';
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            document.getElementById('favorites-count').textContent = favorites.length;
+        }
+
+    </script>
+<a href="index.html">a</a>
+</body>
+</html>
+

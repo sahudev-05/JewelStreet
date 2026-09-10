@@ -1,0 +1,3636 @@
+{
+  "rings": [
+    {
+      "id": "rings_1788802084295",
+      "name": "My ring",
+      "purity": "91.6%",
+      "weight": 6,
+      "price": "₹83,738",
+      "image": "/photos/product1.jpg",
+      "rating": 5,
+      "reviewCount": 0,
+      "description": "Handcrafted luxury Jewel Street creation.",
+      "stock": 12,
+      "reviews": [],
+      "makingChargePercent": 20
+    },
+    {
+      "id": "ring2",
+      "name": "Royal Crown Diamond Ring",
+      "purity": "91.6%",
+      "weight": 6.15,
+      "image": "/photos/rings/ring2.jpg",
+      "rating": 4.8,
+      "reviewCount": 112,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Priya Sharma",
+          "rating": 5,
+          "date": "2 days ago",
+          "title": "Exquisite Craftsmanhip!",
+          "comment": "The ring sparkles magnificently. The 91.6 BIS hallmark is laser engraved inside the band."
+        },
+        {
+          "id": 2,
+          "author": "Rohan Mehta",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Perfect Proposal Ring",
+          "comment": "Proposed with this ring and she absolutely loved it! Premium luxury finish and sturdy weight."
+        },
+        {
+          "id": 3,
+          "author": "Ananya Roy",
+          "rating": 4,
+          "date": "2 weeks ago",
+          "title": "Very Elegant",
+          "comment": "Minimalist design, looks very expensive. Arrived with tamper-proof packaging and hallmark certificate."
+        }
+      ],
+      "description": "Royal crown design in 22K (91.6%) hallmarked gold with precision diamond pavé setting.",
+      "makingChargePercent": 20,
+      "price": "₹85,831"
+    },
+    {
+      "id": "ring3",
+      "name": "Gold Band Ring",
+      "purity": "75%",
+      "weight": 5.8,
+      "image": "/photos/rings/ring3.jpg",
+      "rating": 4.7,
+      "reviewCount": 89,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Priya Sharma",
+          "rating": 5,
+          "date": "2 days ago",
+          "title": "Exquisite Craftsmanhip!",
+          "comment": "The ring sparkles magnificently. The 91.6 BIS hallmark is laser engraved inside the band."
+        },
+        {
+          "id": 2,
+          "author": "Rohan Mehta",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Perfect Proposal Ring",
+          "comment": "Proposed with this ring and she absolutely loved it! Premium luxury finish and sturdy weight."
+        },
+        {
+          "id": 3,
+          "author": "Ananya Roy",
+          "rating": 4,
+          "date": "2 weeks ago",
+          "title": "Very Elegant",
+          "comment": "Minimalist design, looks very expensive. Arrived with tamper-proof packaging and hallmark certificate."
+        }
+      ],
+      "description": "Sleek luxury gold band crafted with comfort-fit curved inner profile.",
+      "makingChargePercent": 20,
+      "price": "₹66,277"
+    },
+    {
+      "id": "ring4",
+      "name": "Eternity Engagement Ring",
+      "purity": "91.6%",
+      "weight": 7.2,
+      "image": "/photos/rings/ring4.jpg",
+      "rating": 5,
+      "reviewCount": 204,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Priya Sharma",
+          "rating": 5,
+          "date": "2 days ago",
+          "title": "Exquisite Craftsmanhip!",
+          "comment": "The ring sparkles magnificently. The 91.6 BIS hallmark is laser engraved inside the band."
+        },
+        {
+          "id": 2,
+          "author": "Rohan Mehta",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Perfect Proposal Ring",
+          "comment": "Proposed with this ring and she absolutely loved it! Premium luxury finish and sturdy weight."
+        },
+        {
+          "id": 3,
+          "author": "Ananya Roy",
+          "rating": 4,
+          "date": "2 weeks ago",
+          "title": "Very Elegant",
+          "comment": "Minimalist design, looks very expensive. Arrived with tamper-proof packaging and hallmark certificate."
+        }
+      ],
+      "description": "Timeless engagement ring symbolizing endless love, featuring high-clarity diamonds.",
+      "makingChargePercent": 20,
+      "price": "₹1,00,486"
+    },
+    {
+      "id": "ring5",
+      "name": "Cluster Diamond Ring",
+      "purity": "75%",
+      "weight": 5.5,
+      "image": "/photos/rings/ring5.jpg",
+      "rating": 4.8,
+      "reviewCount": 95,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Priya Sharma",
+          "rating": 5,
+          "date": "2 days ago",
+          "title": "Exquisite Craftsmanhip!",
+          "comment": "The ring sparkles magnificently. The 91.6 BIS hallmark is laser engraved inside the band."
+        },
+        {
+          "id": 2,
+          "author": "Rohan Mehta",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Perfect Proposal Ring",
+          "comment": "Proposed with this ring and she absolutely loved it! Premium luxury finish and sturdy weight."
+        },
+        {
+          "id": 3,
+          "author": "Ananya Roy",
+          "rating": 4,
+          "date": "2 weeks ago",
+          "title": "Very Elegant",
+          "comment": "Minimalist design, looks very expensive. Arrived with tamper-proof packaging and hallmark certificate."
+        }
+      ],
+      "description": "Intricate cluster setting with sparkling stones designed to capture light from every angle.",
+      "makingChargePercent": 20,
+      "price": "₹62,849"
+    },
+    {
+      "id": "ring6",
+      "name": "Imperial Cocktail Ring",
+      "purity": "91.6%",
+      "weight": 8,
+      "image": "/photos/rings/ring6.jpg",
+      "rating": 4.9,
+      "reviewCount": 130,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Priya Sharma",
+          "rating": 5,
+          "date": "2 days ago",
+          "title": "Exquisite Craftsmanhip!",
+          "comment": "The ring sparkles magnificently. The 91.6 BIS hallmark is laser engraved inside the band."
+        },
+        {
+          "id": 2,
+          "author": "Rohan Mehta",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Perfect Proposal Ring",
+          "comment": "Proposed with this ring and she absolutely loved it! Premium luxury finish and sturdy weight."
+        },
+        {
+          "id": 3,
+          "author": "Ananya Roy",
+          "rating": 4,
+          "date": "2 weeks ago",
+          "title": "Very Elegant",
+          "comment": "Minimalist design, looks very expensive. Arrived with tamper-proof packaging and hallmark certificate."
+        }
+      ],
+      "description": "Bold statement cocktail ring for gala evenings and grand festive occasions.",
+      "makingChargePercent": 20,
+      "price": "₹1,11,651"
+    },
+    {
+      "id": "ring7",
+      "name": "Infinite Eternity Ring",
+      "purity": "75%",
+      "weight": 4.9,
+      "image": "/photos/rings/ring7.jpg",
+      "rating": 4.7,
+      "reviewCount": 76,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Priya Sharma",
+          "rating": 5,
+          "date": "2 days ago",
+          "title": "Exquisite Craftsmanhip!",
+          "comment": "The ring sparkles magnificently. The 91.6 BIS hallmark is laser engraved inside the band."
+        },
+        {
+          "id": 2,
+          "author": "Rohan Mehta",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Perfect Proposal Ring",
+          "comment": "Proposed with this ring and she absolutely loved it! Premium luxury finish and sturdy weight."
+        },
+        {
+          "id": 3,
+          "author": "Ananya Roy",
+          "rating": 4,
+          "date": "2 weeks ago",
+          "title": "Very Elegant",
+          "comment": "Minimalist design, looks very expensive. Arrived with tamper-proof packaging and hallmark certificate."
+        }
+      ],
+      "description": "Continuous band of prong-set gems representing everlasting commitment.",
+      "makingChargePercent": 20,
+      "price": "₹55,993"
+    }
+  ],
+  "necklace": [
+    {
+      "id": "necklace1",
+      "name": "Royal Heritage Gold Necklace",
+      "purity": "91.6%",
+      "weight": 12.5,
+      "image": "/photos/necklace/necklace1.jpg",
+      "rating": 4.9,
+      "reviewCount": 182,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Sunita Verma",
+          "rating": 5,
+          "date": "3 days ago",
+          "title": "Grand Royal Look",
+          "comment": "Bought this necklace for a family wedding. Everyone gave endless compliments!"
+        },
+        {
+          "id": 2,
+          "author": "Kavita Reddy",
+          "rating": 5,
+          "date": "2 weeks ago",
+          "title": "100% Genuine Quality",
+          "comment": "Verified the gold purity at a local assayer and it was exactly 91.6%. Highly trusted brand."
+        }
+      ],
+      "description": "Opulent traditional necklace with intricate gold filigree craftsmanship."
+    },
+    {
+      "id": "necklace2",
+      "name": "Ethereal Diamond Choker",
+      "purity": "75%",
+      "weight": 10,
+      "image": "/photos/necklace/necklace2.jpg",
+      "rating": 4.8,
+      "reviewCount": 94,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Sunita Verma",
+          "rating": 5,
+          "date": "3 days ago",
+          "title": "Grand Royal Look",
+          "comment": "Bought this necklace for a family wedding. Everyone gave endless compliments!"
+        },
+        {
+          "id": 2,
+          "author": "Kavita Reddy",
+          "rating": 5,
+          "date": "2 weeks ago",
+          "title": "100% Genuine Quality",
+          "comment": "Verified the gold purity at a local assayer and it was exactly 91.6%. Highly trusted brand."
+        }
+      ],
+      "description": "Contemporary diamond choker designed to rest elegantly along the collarbone."
+    },
+    {
+      "id": "necklace3",
+      "name": "Pearl & Gold Symphony Necklace",
+      "purity": "91.6%",
+      "weight": 14,
+      "image": "/photos/necklace/necklace3.jpg",
+      "rating": 4.9,
+      "reviewCount": 140,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Sunita Verma",
+          "rating": 5,
+          "date": "3 days ago",
+          "title": "Grand Royal Look",
+          "comment": "Bought this necklace for a family wedding. Everyone gave endless compliments!"
+        },
+        {
+          "id": 2,
+          "author": "Kavita Reddy",
+          "rating": 5,
+          "date": "2 weeks ago",
+          "title": "100% Genuine Quality",
+          "comment": "Verified the gold purity at a local assayer and it was exactly 91.6%. Highly trusted brand."
+        }
+      ],
+      "description": "Lustrous South Sea pearls intertwined with 22K gold beads."
+    },
+    {
+      "id": "necklace4",
+      "name": "Layered Elegance Necklace",
+      "purity": "75%",
+      "weight": 8,
+      "image": "/photos/necklace/necklace4.jpg",
+      "rating": 4.7,
+      "reviewCount": 88,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Sunita Verma",
+          "rating": 5,
+          "date": "3 days ago",
+          "title": "Grand Royal Look",
+          "comment": "Bought this necklace for a family wedding. Everyone gave endless compliments!"
+        },
+        {
+          "id": 2,
+          "author": "Kavita Reddy",
+          "rating": 5,
+          "date": "2 weeks ago",
+          "title": "100% Genuine Quality",
+          "comment": "Verified the gold purity at a local assayer and it was exactly 91.6%. Highly trusted brand."
+        }
+      ],
+      "description": "Multi-strand delicate gold chain necklace for effortless layering."
+    },
+    {
+      "id": "necklace5",
+      "name": "Celestial Diamond Pendant Necklace",
+      "purity": "91.6%",
+      "weight": 9.5,
+      "image": "/photos/necklace/necklace5.jpg",
+      "rating": 4.8,
+      "reviewCount": 110,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Sunita Verma",
+          "rating": 5,
+          "date": "3 days ago",
+          "title": "Grand Royal Look",
+          "comment": "Bought this necklace for a family wedding. Everyone gave endless compliments!"
+        },
+        {
+          "id": 2,
+          "author": "Kavita Reddy",
+          "rating": 5,
+          "date": "2 weeks ago",
+          "title": "100% Genuine Quality",
+          "comment": "Verified the gold purity at a local assayer and it was exactly 91.6%. Highly trusted brand."
+        }
+      ],
+      "description": "Striking central diamond pendant suspended on a fine 22K gold chain."
+    },
+    {
+      "id": "necklace6",
+      "name": "Velvet Choker Necklace",
+      "purity": "75%",
+      "weight": 11,
+      "image": "/photos/necklace/necklace6.jpg",
+      "rating": 4.6,
+      "reviewCount": 65,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Sunita Verma",
+          "rating": 5,
+          "date": "3 days ago",
+          "title": "Grand Royal Look",
+          "comment": "Bought this necklace for a family wedding. Everyone gave endless compliments!"
+        },
+        {
+          "id": 2,
+          "author": "Kavita Reddy",
+          "rating": 5,
+          "date": "2 weeks ago",
+          "title": "100% Genuine Quality",
+          "comment": "Verified the gold purity at a local assayer and it was exactly 91.6%. Highly trusted brand."
+        }
+      ],
+      "description": "Chic modern choker with geometric gold motifs."
+    },
+    {
+      "id": "necklace7",
+      "name": "Grand Maharani Necklace",
+      "purity": "91.6%",
+      "weight": 16,
+      "image": "/photos/necklace/necklace7.jpg",
+      "rating": 5,
+      "reviewCount": 220,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Sunita Verma",
+          "rating": 5,
+          "date": "3 days ago",
+          "title": "Grand Royal Look",
+          "comment": "Bought this necklace for a family wedding. Everyone gave endless compliments!"
+        },
+        {
+          "id": 2,
+          "author": "Kavita Reddy",
+          "rating": 5,
+          "date": "2 weeks ago",
+          "title": "100% Genuine Quality",
+          "comment": "Verified the gold purity at a local assayer and it was exactly 91.6%. Highly trusted brand."
+        }
+      ],
+      "description": "Showstopping bridal centerpiece with temple gold motifs and ruby accents."
+    },
+    {
+      "id": "necklace8",
+      "name": "Delicate Petal Necklace",
+      "purity": "75%",
+      "weight": 7.5,
+      "image": "/photos/necklace/necklace8.jpg",
+      "rating": 4.7,
+      "reviewCount": 79,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Sunita Verma",
+          "rating": 5,
+          "date": "3 days ago",
+          "title": "Grand Royal Look",
+          "comment": "Bought this necklace for a family wedding. Everyone gave endless compliments!"
+        },
+        {
+          "id": 2,
+          "author": "Kavita Reddy",
+          "rating": 5,
+          "date": "2 weeks ago",
+          "title": "100% Genuine Quality",
+          "comment": "Verified the gold purity at a local assayer and it was exactly 91.6%. Highly trusted brand."
+        }
+      ],
+      "description": "Subtle floral petal charms strung on 18K yellow gold."
+    }
+  ],
+  "earrings": [
+    {
+      "id": "earring1",
+      "name": "Diamond Solitaire Stud Earrings",
+      "purity": "91.6%",
+      "weight": 2.5,
+      "image": "/photos/earring/1.jpg",
+      "rating": 4.9,
+      "reviewCount": 215,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Classic four-prong solitaire studs in 22K gold."
+    },
+    {
+      "id": "earring2",
+      "name": "Cascading Drop Earrings",
+      "purity": "75%",
+      "weight": 3,
+      "image": "/photos/earring/2.jpg",
+      "rating": 4.8,
+      "reviewCount": 140,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Gracefully swaying drop earrings designed for light reflections."
+    },
+    {
+      "id": "earring3",
+      "name": "Classic Gold Hoop Earrings",
+      "purity": "91.6%",
+      "weight": 4,
+      "image": "/photos/earring/3.jpg",
+      "rating": 4.7,
+      "reviewCount": 168,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "High-polish seamless gold hoops with secure click closure."
+    },
+    {
+      "id": "earring4",
+      "name": "Chandelier Diamond Earrings",
+      "purity": "75%",
+      "weight": 5.5,
+      "image": "/photos/earring/4.jpg",
+      "rating": 4.9,
+      "reviewCount": 190,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Dramatic chandelier design with multi-tiered gem droplets."
+    },
+    {
+      "id": "earring5",
+      "name": "Heritage Jhumka Earrings",
+      "purity": "91.6%",
+      "weight": 6,
+      "image": "/photos/earring/5.jpg",
+      "rating": 5,
+      "reviewCount": 280,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Traditional bell-shaped Jhumkas with delicate gold tassel drops."
+    },
+    {
+      "id": "earring6",
+      "name": "Lustrous Pearl Drop Earrings",
+      "purity": "75%",
+      "weight": 3.5,
+      "image": "/photos/earring/6.jpg",
+      "rating": 4.8,
+      "reviewCount": 105,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Freshwater pearls hanging beneath polished gold studs."
+    },
+    {
+      "id": "earring7",
+      "name": "Modern Clip Earrings",
+      "purity": "91.6%",
+      "weight": 2.8,
+      "image": "/photos/earring/7.jpg",
+      "rating": 4.6,
+      "reviewCount": 62,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Ergonomic non-pierced luxury gold clips."
+    },
+    {
+      "id": "earring8",
+      "name": "Geometric Cuff Earrings",
+      "purity": "75%",
+      "weight": 3.2,
+      "image": "/photos/earring/8.jpg",
+      "rating": 4.7,
+      "reviewCount": 84,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Contemporary ear cuff wrapping comfortably around the helix."
+    }
+  ],
+  "chain": [
+    {
+      "id": "chain1",
+      "name": "Classic Gold Chain",
+      "purity": "91.6%",
+      "weight": 8,
+      "image": "/photos/chain/1.jpg",
+      "rating": 4.9,
+      "reviewCount": 175,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Durable 22K gold chain with hand-finished links."
+    },
+    {
+      "id": "chain2",
+      "name": "Figaro Link Chain",
+      "purity": "75%",
+      "weight": 10,
+      "image": "/photos/chain/2.jpg",
+      "rating": 4.8,
+      "reviewCount": 130,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Distinctive Figaro pattern featuring alternating long and short links."
+    },
+    {
+      "id": "chain3",
+      "name": "Diamond Cut Rope Chain",
+      "purity": "91.6%",
+      "weight": 12,
+      "image": "/photos/chain/3.jpg",
+      "rating": 4.9,
+      "reviewCount": 198,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Twisted rope chain with precision diamond-cut facet edges for maximum sheen."
+    },
+    {
+      "id": "chain4",
+      "name": "Sleek Box Chain",
+      "purity": "75%",
+      "weight": 9,
+      "image": "/photos/chain/4.jpg",
+      "rating": 4.7,
+      "reviewCount": 92,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Square interlocking links offering a smooth, flexible texture."
+    },
+    {
+      "id": "chain5",
+      "name": "Heavy Cuban Link Chain",
+      "purity": "91.6%",
+      "weight": 15,
+      "image": "/photos/chain/5.jpg",
+      "rating": 5,
+      "reviewCount": 240,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Bold luxury Cuban link chain crafted for substantial weight and presence."
+    },
+    {
+      "id": "chain6",
+      "name": "Spiga Wheat Chain",
+      "purity": "75%",
+      "weight": 7.5,
+      "image": "/photos/chain/6.jpg",
+      "rating": 4.8,
+      "reviewCount": 86,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Braided wheat motif chain known for strength and flexibility."
+    },
+    {
+      "id": "chain7",
+      "name": "Fluid Snake Chain",
+      "purity": "91.6%",
+      "weight": 11,
+      "image": "/photos/chain/7.jpg",
+      "rating": 4.7,
+      "reviewCount": 115,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Silky smooth ring joints forming a continuous fluid ribbon."
+    },
+    {
+      "id": "chain8",
+      "name": "Bead & Bar Chain",
+      "purity": "75%",
+      "weight": 6.5,
+      "image": "/photos/chain/8.jpg",
+      "rating": 4.6,
+      "reviewCount": 70,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Delicate polished spheres interspersed with sleek gold bars."
+    }
+  ],
+  "bangles": [
+    {
+      "id": "bangle1",
+      "name": "Classic Gold Bangle",
+      "purity": "91.6%",
+      "weight": 14,
+      "image": "/photos/bangles/1.jpg",
+      "rating": 4.9,
+      "reviewCount": 160,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Solid 22K gold bangle with mirror polish finish."
+    },
+    {
+      "id": "bangle2",
+      "name": "Diamond Eternity Bangle",
+      "purity": "75%",
+      "weight": 12,
+      "image": "/photos/bangles/2.jpg",
+      "rating": 4.8,
+      "reviewCount": 118,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Channel-set diamonds around the perimeter of 18K gold."
+    },
+    {
+      "id": "bangle3",
+      "name": "Kada Bangle with Screw Lock",
+      "purity": "91.6%",
+      "weight": 16,
+      "image": "/photos/bangles/3.jpg",
+      "rating": 4.9,
+      "reviewCount": 145,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Substantial Kada style bangle with heavy hinge lock."
+    },
+    {
+      "id": "bangle4",
+      "name": "Stackable Thin Bangle",
+      "purity": "75%",
+      "weight": 8,
+      "image": "/photos/bangles/4.jpg",
+      "rating": 4.7,
+      "reviewCount": 90,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Slender stackable bangle for everyday luxury styling."
+    },
+    {
+      "id": "bangle5",
+      "name": "Broad Textured Bangle",
+      "purity": "91.6%",
+      "weight": 20,
+      "image": "/photos/bangles/5.jpg",
+      "rating": 5,
+      "reviewCount": 205,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Wide statement bangle with hammered gold texture."
+    },
+    {
+      "id": "bangle6",
+      "name": "Open Cuff Bangle",
+      "purity": "75%",
+      "weight": 10,
+      "image": "/photos/bangles/6.jpg",
+      "rating": 4.8,
+      "reviewCount": 102,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Flexible open wrist cuff with ball endcaps."
+    },
+    {
+      "id": "bangle7",
+      "name": "Filigree Art Bangle",
+      "purity": "91.6%",
+      "weight": 15,
+      "image": "/photos/bangles/7.jpg",
+      "rating": 4.9,
+      "reviewCount": 135,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Intricate openwork lace motifs crafted in pure gold."
+    },
+    {
+      "id": "bangle8",
+      "name": "Meenakari Enamel Bangle",
+      "purity": "75%",
+      "weight": 11,
+      "image": "/photos/bangles/8.jpg",
+      "rating": 4.7,
+      "reviewCount": 81,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Vibrant handcrafted enamel work combined with gold."
+    }
+  ],
+  "bracelets": [
+    {
+      "id": "bracelet1",
+      "name": "Luxury Tennis Bracelet",
+      "purity": "91.6%",
+      "weight": 6,
+      "image": "/photos/bracelete/1.jpg",
+      "rating": 4.9,
+      "reviewCount": 172,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Continuous line of brilliant diamonds in 22K gold settings."
+    },
+    {
+      "id": "bracelet2",
+      "name": "Golden Charm Bracelet",
+      "purity": "75%",
+      "weight": 5,
+      "image": "/photos/bracelete/2.jpg",
+      "rating": 4.8,
+      "reviewCount": 114,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Polished link chain adorned with symbolic gold charms."
+    },
+    {
+      "id": "bracelet3",
+      "name": "Gold Chain Link Bracelet",
+      "purity": "91.6%",
+      "weight": 7,
+      "image": "/photos/bracelete/3.jpg",
+      "rating": 4.7,
+      "reviewCount": 98,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Bold interlocking links with luxury lobster clasp."
+    },
+    {
+      "id": "bracelet4",
+      "name": "Infinity Bangle Bracelet",
+      "purity": "75%",
+      "weight": 8,
+      "image": "/photos/bracelete/4.jpg",
+      "rating": 4.8,
+      "reviewCount": 126,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Infinity symbol centerpiece with sparkling pave stones."
+    },
+    {
+      "id": "bracelet5",
+      "name": "Sleek Cuff Bracelet",
+      "purity": "91.6%",
+      "weight": 9,
+      "image": "/photos/bracelete/5.jpg",
+      "rating": 4.9,
+      "reviewCount": 140,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Structured metallic cuff tailored for elegant wrists."
+    },
+    {
+      "id": "bracelet6",
+      "name": "Cuban Link Bracelet",
+      "purity": "75%",
+      "weight": 6.5,
+      "image": "/photos/bracelete/6.jpg",
+      "rating": 4.7,
+      "reviewCount": 88,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Classic Cuban links with high gloss polish."
+    },
+    {
+      "id": "bracelet7",
+      "name": "Beaded Gold Bracelet",
+      "purity": "91.6%",
+      "weight": 5.5,
+      "image": "/photos/bracelete/7.jpg",
+      "rating": 4.8,
+      "reviewCount": 95,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Strung golden spheres with adjustable extension chain."
+    },
+    {
+      "id": "bracelet8",
+      "name": "Woven Mesh Bracelet",
+      "purity": "75%",
+      "weight": 4,
+      "image": "/photos/bracelete/8.jpg",
+      "rating": 4.6,
+      "reviewCount": 68,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Supple woven gold mesh strap."
+    }
+  ],
+  "kada": [
+    {
+      "id": "kada1",
+      "name": "Classic Sovereign Kada",
+      "purity": "91.6%",
+      "weight": 20,
+      "image": "/photos/kada/1.jpg",
+      "rating": 5,
+      "reviewCount": 230,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Heavyweight traditional 22K gold Kada with smooth rounded profile."
+    },
+    {
+      "id": "kada2",
+      "name": "Diamond Embossed Kada",
+      "purity": "75%",
+      "weight": 18,
+      "image": "/photos/kada/2.jpg",
+      "rating": 4.8,
+      "reviewCount": 142,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Contemporary Kada featuring solitaire diamond highlights."
+    },
+    {
+      "id": "kada3",
+      "name": "Men's Imperial Kada",
+      "purity": "91.6%",
+      "weight": 25,
+      "image": "/photos/kada/3.jpg",
+      "rating": 4.9,
+      "reviewCount": 260,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Masculine solid gold Kada designed for strength and elegance."
+    },
+    {
+      "id": "kada4",
+      "name": "Slim Everyday Kada",
+      "purity": "75%",
+      "weight": 12,
+      "image": "/photos/kada/4.jpg",
+      "rating": 4.7,
+      "reviewCount": 104,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Lightweight Kada suitable for daily wear."
+    },
+    {
+      "id": "kada5",
+      "name": "Antique Temple Kada",
+      "purity": "91.6%",
+      "weight": 22,
+      "image": "/photos/kada/5.jpg",
+      "rating": 4.9,
+      "reviewCount": 185,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Intricately carved temple motifs with matte antique finish."
+    },
+    {
+      "id": "kada6",
+      "name": "Lion Head Kada",
+      "purity": "75%",
+      "weight": 16,
+      "image": "/photos/kada/6.jpg",
+      "rating": 4.8,
+      "reviewCount": 130,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Regal lion terminal heads sculpted at the open ends."
+    },
+    {
+      "id": "kada7",
+      "name": "Filigree Carved Kada",
+      "purity": "91.6%",
+      "weight": 19,
+      "image": "/photos/kada/7.jpg",
+      "rating": 4.8,
+      "reviewCount": 115,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Handicrafted filigree work wrapping around the perimeter."
+    },
+    {
+      "id": "kada8",
+      "name": "Heavy Armor Kada",
+      "purity": "75%",
+      "weight": 28,
+      "image": "/photos/kada/8.jpg",
+      "rating": 5,
+      "reviewCount": 290,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Extra thick solid gold Kada for grand statement styling."
+    }
+  ],
+  "men": [
+    {
+      "id": "men1",
+      "name": "Men's Heavy Gold Chain",
+      "purity": "91.6%",
+      "weight": 15,
+      "image": "/photos/men/1.jpg",
+      "rating": 5,
+      "reviewCount": 275,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Solid 22K gold chain for men with thick box clasp."
+    },
+    {
+      "id": "men2",
+      "name": "Men's Diamond Signet Ring",
+      "purity": "75%",
+      "weight": 8,
+      "image": "/photos/men/2.jpg",
+      "rating": 4.8,
+      "reviewCount": 150,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Square flat-top signet ring studded with black & white diamonds."
+    },
+    {
+      "id": "men3",
+      "name": "Men's Cuban Link Bracelet",
+      "purity": "91.6%",
+      "weight": 12,
+      "image": "/photos/men/3.jpg",
+      "rating": 4.9,
+      "reviewCount": 190,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Wide Cuban link wristband for men."
+    },
+    {
+      "id": "men4",
+      "name": "Men's Sovereign Kada",
+      "purity": "75%",
+      "weight": 20,
+      "image": "/photos/men/4.jpg",
+      "rating": 4.9,
+      "reviewCount": 210,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Robust solid gold Kada crafted for masculine hands."
+    },
+    {
+      "id": "men5",
+      "name": "Men's Shield Pendant",
+      "purity": "91.6%",
+      "weight": 6,
+      "image": "/photos/men/5.jpg",
+      "rating": 4.7,
+      "reviewCount": 96,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Geometric shield pendant in brushed gold."
+    },
+    {
+      "id": "men6",
+      "name": "Men's Gold Cufflinks",
+      "purity": "75%",
+      "weight": 5,
+      "image": "/photos/men/6.jpg",
+      "rating": 4.8,
+      "reviewCount": 82,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Luxury suit shirt cufflinks with onyx stone inlay."
+    },
+    {
+      "id": "men7",
+      "name": "Men's Dog Tag Pendant",
+      "purity": "91.6%",
+      "weight": 10,
+      "image": "/photos/men/7.jpg",
+      "rating": 4.8,
+      "reviewCount": 125,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Sleek military-inspired dog tag crafted in 22K gold."
+    },
+    {
+      "id": "men8",
+      "name": "Men's ID Bar Bracelet",
+      "purity": "75%",
+      "weight": 14,
+      "image": "/photos/men/8.jpg",
+      "rating": 4.7,
+      "reviewCount": 108,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Customizable gold ID plaque attached to a heavy chain."
+    }
+  ],
+  "kids": [
+    {
+      "id": "kids1",
+      "name": "Kids Gold Bangle Pair",
+      "purity": "91.6%",
+      "weight": 5,
+      "image": "/photos/kids/1.jpg",
+      "rating": 4.9,
+      "reviewCount": 130,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Smooth rounded non-scratching gold bangles for children."
+    },
+    {
+      "id": "kids2",
+      "name": "Kids Little Star Ring",
+      "purity": "75%",
+      "weight": 1.5,
+      "image": "/photos/kids/2.jpg",
+      "rating": 4.8,
+      "reviewCount": 84,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Cute star motif ring with adjustable size band."
+    },
+    {
+      "id": "kids3",
+      "name": "Kids Angel Pendant Necklace",
+      "purity": "91.6%",
+      "weight": 4,
+      "image": "/photos/kids/3.jpg",
+      "rating": 4.9,
+      "reviewCount": 110,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Charming angel motif necklace in pure gold."
+    },
+    {
+      "id": "kids4",
+      "name": "Kids Screw-Back Earrings",
+      "purity": "75%",
+      "weight": 1.2,
+      "image": "/photos/kids/4.jpg",
+      "rating": 4.9,
+      "reviewCount": 155,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Safety screw-back studs designed specifically for young ears."
+    },
+    {
+      "id": "kids5",
+      "name": "Kids Nazariya Anklet",
+      "purity": "91.6%",
+      "weight": 3,
+      "image": "/photos/kids/5.jpg",
+      "rating": 5,
+      "reviewCount": 210,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Protective black bead and gold Nazariya anklet."
+    },
+    {
+      "id": "kids6",
+      "name": "Kids Charm Bracelet",
+      "purity": "75%",
+      "weight": 2.5,
+      "image": "/photos/kids/6.jpg",
+      "rating": 4.7,
+      "reviewCount": 78,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Delicate bracelet with miniature teddy bear charm."
+    },
+    {
+      "id": "kids7",
+      "name": "Kids Ganesh Pendant",
+      "purity": "91.6%",
+      "weight": 2,
+      "image": "/photos/kids/7.jpg",
+      "rating": 4.9,
+      "reviewCount": 140,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Blessed Lord Ganesha charm in 22K gold."
+    },
+    {
+      "id": "kids8",
+      "name": "Kids Light Chain",
+      "purity": "75%",
+      "weight": 3.5,
+      "image": "/photos/kids/8.jpg",
+      "rating": 4.8,
+      "reviewCount": 92,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Soft flexible gold neck chain for children."
+    }
+  ],
+  "coin": [
+    {
+      "id": "coin1",
+      "name": "1g 24K Pure Gold Coin",
+      "purity": "91.6%",
+      "weight": 1,
+      "image": "/photos/product11.jpg",
+      "rating": 5,
+      "reviewCount": 310,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Vikram Singh",
+          "rating": 5,
+          "date": "Yesterday",
+          "title": "Pure Investment",
+          "comment": "24K / 91.6 certified coin with tamper-evident blister packaging. Ideal for gifting."
+        },
+        {
+          "id": 2,
+          "author": "Deepak Patel",
+          "rating": 5,
+          "date": "5 days ago",
+          "title": "Instant Add to Cart & Fast Delivery",
+          "comment": "Delivered within 48 hours with insured courier. Highly satisfied!"
+        }
+      ],
+      "description": "1 Gram 999 24K / 91.6 Hallmark Certified Pure Gold Coin in tamper-proof assay card."
+    },
+    {
+      "id": "coin2",
+      "name": "2g 24K Pure Gold Coin",
+      "purity": "91.6%",
+      "weight": 2,
+      "image": "/photos/product11.jpg",
+      "rating": 4.9,
+      "reviewCount": 245,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Vikram Singh",
+          "rating": 5,
+          "date": "Yesterday",
+          "title": "Pure Investment",
+          "comment": "24K / 91.6 certified coin with tamper-evident blister packaging. Ideal for gifting."
+        },
+        {
+          "id": 2,
+          "author": "Deepak Patel",
+          "rating": 5,
+          "date": "5 days ago",
+          "title": "Instant Add to Cart & Fast Delivery",
+          "comment": "Delivered within 48 hours with insured courier. Highly satisfied!"
+        }
+      ],
+      "description": "2 Gram 999 24K / 91.6 Hallmark Certified Pure Gold Coin with Lakshmi motif engraving."
+    },
+    {
+      "id": "coin3",
+      "name": "5g 24K Pure Gold Coin",
+      "purity": "91.6%",
+      "weight": 5,
+      "image": "/photos/product11.jpg",
+      "rating": 5,
+      "reviewCount": 420,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Vikram Singh",
+          "rating": 5,
+          "date": "Yesterday",
+          "title": "Pure Investment",
+          "comment": "24K / 91.6 certified coin with tamper-evident blister packaging. Ideal for gifting."
+        },
+        {
+          "id": 2,
+          "author": "Deepak Patel",
+          "rating": 5,
+          "date": "5 days ago",
+          "title": "Instant Add to Cart & Fast Delivery",
+          "comment": "Delivered within 48 hours with insured courier. Highly satisfied!"
+        }
+      ],
+      "description": "5 Gram BIS Hallmarked 24K / 91.6 Gold bullion coin. Perfect investment item."
+    },
+    {
+      "id": "coin4",
+      "name": "8g 24K Pure Gold Coin (1 Sovereign)",
+      "purity": "91.6%",
+      "weight": 8,
+      "image": "/photos/product11.jpg",
+      "rating": 5,
+      "reviewCount": 380,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Vikram Singh",
+          "rating": 5,
+          "date": "Yesterday",
+          "title": "Pure Investment",
+          "comment": "24K / 91.6 certified coin with tamper-evident blister packaging. Ideal for gifting."
+        },
+        {
+          "id": 2,
+          "author": "Deepak Patel",
+          "rating": 5,
+          "date": "5 days ago",
+          "title": "Instant Add to Cart & Fast Delivery",
+          "comment": "Delivered within 48 hours with insured courier. Highly satisfied!"
+        }
+      ],
+      "description": "8 Gram (1 Sovereign / Pavan) Pure Gold Coin with certificate of weight and purity."
+    },
+    {
+      "id": "coin5",
+      "name": "10g 24K Pure Gold Coin",
+      "purity": "91.6%",
+      "weight": 10,
+      "image": "/photos/product11.jpg",
+      "rating": 5,
+      "reviewCount": 510,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Vikram Singh",
+          "rating": 5,
+          "date": "Yesterday",
+          "title": "Pure Investment",
+          "comment": "24K / 91.6 certified coin with tamper-evident blister packaging. Ideal for gifting."
+        },
+        {
+          "id": 2,
+          "author": "Deepak Patel",
+          "rating": 5,
+          "date": "5 days ago",
+          "title": "Instant Add to Cart & Fast Delivery",
+          "comment": "Delivered within 48 hours with insured courier. Highly satisfied!"
+        }
+      ],
+      "description": "10 Gram 24K / 91.6 Pure Gold Coin with Swiss assay certificate package."
+    },
+    {
+      "id": "coin6",
+      "name": "20g 24K Pure Gold Coin Bar",
+      "purity": "91.6%",
+      "weight": 20,
+      "image": "/photos/product11.jpg",
+      "rating": 4.9,
+      "reviewCount": 195,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Vikram Singh",
+          "rating": 5,
+          "date": "Yesterday",
+          "title": "Pure Investment",
+          "comment": "24K / 91.6 certified coin with tamper-evident blister packaging. Ideal for gifting."
+        },
+        {
+          "id": 2,
+          "author": "Deepak Patel",
+          "rating": 5,
+          "date": "5 days ago",
+          "title": "Instant Add to Cart & Fast Delivery",
+          "comment": "Delivered within 48 hours with insured courier. Highly satisfied!"
+        }
+      ],
+      "description": "20 Gram Minted Pure Gold Investment Coin."
+    },
+    {
+      "id": "coin7",
+      "name": "50g 24K Pure Gold Bullion Bar",
+      "purity": "91.6%",
+      "weight": 50,
+      "image": "/photos/product11.jpg",
+      "rating": 5,
+      "reviewCount": 140,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Vikram Singh",
+          "rating": 5,
+          "date": "Yesterday",
+          "title": "Pure Investment",
+          "comment": "24K / 91.6 certified coin with tamper-evident blister packaging. Ideal for gifting."
+        },
+        {
+          "id": 2,
+          "author": "Deepak Patel",
+          "rating": 5,
+          "date": "5 days ago",
+          "title": "Instant Add to Cart & Fast Delivery",
+          "comment": "Delivered within 48 hours with insured courier. Highly satisfied!"
+        }
+      ],
+      "description": "50 Gram High Purity Gold Bullion for serious investors."
+    },
+    {
+      "id": "coin8",
+      "name": "100g 24K Pure Gold Bullion Bar",
+      "purity": "91.6%",
+      "weight": 100,
+      "image": "/photos/product11.jpg",
+      "rating": 5,
+      "reviewCount": 98,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Vikram Singh",
+          "rating": 5,
+          "date": "Yesterday",
+          "title": "Pure Investment",
+          "comment": "24K / 91.6 certified coin with tamper-evident blister packaging. Ideal for gifting."
+        },
+        {
+          "id": 2,
+          "author": "Deepak Patel",
+          "rating": 5,
+          "date": "5 days ago",
+          "title": "Instant Add to Cart & Fast Delivery",
+          "comment": "Delivered within 48 hours with insured courier. Highly satisfied!"
+        }
+      ],
+      "description": "100 Gram Master Bullion Bar with individual serial number registration."
+    }
+  ],
+  "anklet": [
+    {
+      "id": "anklet1",
+      "name": "Sterling Silver Payal",
+      "purity": "75%",
+      "weight": 4,
+      "image": "/photos/anklets/1.jpg",
+      "rating": 4.8,
+      "reviewCount": 110,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Traditional silver anklet with melodious bell charms."
+    },
+    {
+      "id": "anklet2",
+      "name": "Luxury Gold Anklet",
+      "purity": "91.6%",
+      "weight": 5,
+      "image": "/photos/anklets/2.jpg",
+      "rating": 4.9,
+      "reviewCount": 145,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Delicate 22K gold anklet with diamond-cut beads."
+    },
+    {
+      "id": "anklet3",
+      "name": "Beaded Charm Anklet",
+      "purity": "75%",
+      "weight": 3.5,
+      "image": "/photos/anklets/3.jpg",
+      "rating": 4.7,
+      "reviewCount": 88,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Layered bead chain anklet with spring clasp."
+    },
+    {
+      "id": "anklet4",
+      "name": "Dual Chain Anklet",
+      "purity": "91.6%",
+      "weight": 4.5,
+      "image": "/photos/anklets/4.jpg",
+      "rating": 4.8,
+      "reviewCount": 102,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Sleek double strand anklet in pure gold."
+    },
+    {
+      "id": "anklet5",
+      "name": "Starlet Charm Anklet",
+      "purity": "75%",
+      "weight": 3,
+      "image": "/photos/anklets/1.jpg",
+      "rating": 4.6,
+      "reviewCount": 75,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Star motif anklet suitable for summer footwear."
+    },
+    {
+      "id": "anklet6",
+      "name": "Jhumki Bell Anklet",
+      "purity": "91.6%",
+      "weight": 6,
+      "image": "/photos/anklets/2.jpg",
+      "rating": 4.9,
+      "reviewCount": 132,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Heavy bridal payal with dangling Jhumki bells."
+    },
+    {
+      "id": "anklet7",
+      "name": "Heritage Payal Anklet",
+      "purity": "75%",
+      "weight": 5.5,
+      "image": "/photos/anklets/3.jpg",
+      "rating": 4.8,
+      "reviewCount": 95,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Antique design payal with oxidized gold highlights."
+    },
+    {
+      "id": "anklet8",
+      "name": "Minimalist Thread Anklet",
+      "purity": "91.6%",
+      "weight": 2.8,
+      "image": "/photos/anklets/4.jpg",
+      "rating": 4.7,
+      "reviewCount": 68,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Feather-light gold anklet for daily wear."
+    }
+  ],
+  "pendent": [
+    {
+      "id": "pendent1",
+      "name": "Solitaire Gold Pendant",
+      "purity": "91.6%",
+      "weight": 3.5,
+      "image": "/photos/pendent/1.jpg",
+      "rating": 4.9,
+      "reviewCount": 165,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "22K gold pendant featuring a central sparkling diamond."
+    },
+    {
+      "id": "pendent2",
+      "name": "Ethereal Diamond Drop Pendant",
+      "purity": "75%",
+      "weight": 2.8,
+      "image": "/photos/pendent/2.jpg",
+      "rating": 4.8,
+      "reviewCount": 120,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Tear-drop diamond pendant in 18K white and yellow gold."
+    },
+    {
+      "id": "pendent3",
+      "name": "Temple Gold Pendant",
+      "purity": "91.6%",
+      "weight": 4,
+      "image": "/photos/pendent/3.jpg",
+      "rating": 4.9,
+      "reviewCount": 140,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Divine goddess motif carved in solid 22K gold."
+    },
+    {
+      "id": "pendent4",
+      "name": "Romantic Heart Pendant",
+      "purity": "75%",
+      "weight": 2.5,
+      "image": "/photos/pendent/4.jpg",
+      "rating": 4.7,
+      "reviewCount": 108,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Polished open heart design studded with pave gems."
+    },
+    {
+      "id": "pendent5",
+      "name": "Sacred Om Pendant",
+      "purity": "91.6%",
+      "weight": 5,
+      "image": "/photos/pendent/5.jpg",
+      "rating": 5,
+      "reviewCount": 230,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Auspicious Om symbol in pure hallmarked 22K gold."
+    },
+    {
+      "id": "pendent6",
+      "name": "Floral Bloom Pendant",
+      "purity": "75%",
+      "weight": 3.2,
+      "image": "/photos/pendent/6.jpg",
+      "rating": 4.8,
+      "reviewCount": 94,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Multi-petal flower cluster pendant."
+    },
+    {
+      "id": "pendent7",
+      "name": "Ganesh Blessing Pendant",
+      "purity": "91.6%",
+      "weight": 6.5,
+      "image": "/photos/pendent/7.jpg",
+      "rating": 5,
+      "reviewCount": 270,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Sculpted Lord Ganesha pendant with ruby eye."
+    },
+    {
+      "id": "pendent8",
+      "name": "Star of Wonder Pendant",
+      "purity": "75%",
+      "weight": 2,
+      "image": "/photos/pendent/8.jpg",
+      "rating": 4.6,
+      "reviewCount": 82,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Eight-pointed celestial star pendant."
+    }
+  ],
+  "mangalsutra": [
+    {
+      "id": "mangalsutra1",
+      "name": "Classic Bridal Mangalsutra",
+      "purity": "91.6%",
+      "weight": 8,
+      "image": "/photos/mangalsutra/1.jpg",
+      "rating": 5,
+      "reviewCount": 290,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Traditional black bead chain with 22K gold dual wati pendant."
+    },
+    {
+      "id": "mangalsutra2",
+      "name": "Modern Short Mangalsutra",
+      "purity": "75%",
+      "weight": 6,
+      "image": "/photos/mangalsutra/2.jpg",
+      "rating": 4.9,
+      "reviewCount": 210,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Chic short length mangalsutra with diamond bar centerpiece."
+    },
+    {
+      "id": "mangalsutra3",
+      "name": "Solitaire Diamond Mangalsutra",
+      "purity": "91.6%",
+      "weight": 10,
+      "image": "/photos/mangalsutra/3.jpg",
+      "rating": 4.9,
+      "reviewCount": 180,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Brilliant solitaire diamond set on black bead gold chain."
+    },
+    {
+      "id": "mangalsutra4",
+      "name": "Sleek Tanmaniya",
+      "purity": "75%",
+      "weight": 4,
+      "image": "/photos/mangalsutra/4.jpg",
+      "rating": 4.8,
+      "reviewCount": 135,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Minimalist tanmaniya designed for office wear."
+    },
+    {
+      "id": "mangalsutra5",
+      "name": "Traditional Wati Mangalsutra",
+      "purity": "91.6%",
+      "weight": 12,
+      "image": "/photos/mangalsutra/1.jpg",
+      "rating": 5,
+      "reviewCount": 240,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Double bowl wati motifs symbolizing harmony."
+    },
+    {
+      "id": "mangalsutra6",
+      "name": "Designer Floral Mangalsutra",
+      "purity": "75%",
+      "weight": 9,
+      "image": "/photos/mangalsutra/2.jpg",
+      "rating": 4.8,
+      "reviewCount": 160,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Floral diamond centerpiece on flexible bead chain."
+    },
+    {
+      "id": "mangalsutra7",
+      "name": "Royal Long Mangalsutra",
+      "purity": "91.6%",
+      "weight": 14,
+      "image": "/photos/mangalsutra/3.jpg",
+      "rating": 4.9,
+      "reviewCount": 205,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Long double-strand chain with grand pendant."
+    },
+    {
+      "id": "mangalsutra8",
+      "name": "Lightweight Daily Mangalsutra",
+      "purity": "75%",
+      "weight": 5,
+      "image": "/photos/mangalsutra/4.jpg",
+      "rating": 4.7,
+      "reviewCount": 118,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Comfortable daily wear gold mangalsutra."
+    }
+  ],
+  "nosepin": [
+    {
+      "id": "nosepin1",
+      "name": "Solitaire Diamond Nosepin",
+      "purity": "91.6%",
+      "weight": 0.5,
+      "image": "/photos/nose/1.jpg",
+      "rating": 4.9,
+      "reviewCount": 320,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Single high-clarity diamond in 22K gold screw setting."
+    },
+    {
+      "id": "nosepin2",
+      "name": "Floral Cluster Nosepin",
+      "purity": "75%",
+      "weight": 0.8,
+      "image": "/photos/nose/2.jpg",
+      "rating": 4.8,
+      "reviewCount": 195,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Seven-diamond floral cluster nose pin."
+    },
+    {
+      "id": "nosepin3",
+      "name": "Twist Wire Nosepin",
+      "purity": "91.6%",
+      "weight": 0.6,
+      "image": "/photos/nose/3.jpg",
+      "rating": 4.7,
+      "reviewCount": 140,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Handcrafted twisted gold wire stud."
+    },
+    {
+      "id": "nosepin4",
+      "name": "Classic Gold Ring Nosepin",
+      "purity": "75%",
+      "weight": 0.7,
+      "image": "/photos/nose/4.jpg",
+      "rating": 4.8,
+      "reviewCount": 210,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Seamless gold wire hoop for nose piercing."
+    },
+    {
+      "id": "nosepin5",
+      "name": "Lustrous Pearl Nosepin",
+      "purity": "91.6%",
+      "weight": 0.55,
+      "image": "/photos/nose/1.jpg",
+      "rating": 4.6,
+      "reviewCount": 98,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Tiny seed pearl set on gold stud."
+    },
+    {
+      "id": "nosepin6",
+      "name": "Minimalist Diamond Stud",
+      "purity": "75%",
+      "weight": 0.45,
+      "image": "/photos/nose/2.jpg",
+      "rating": 4.8,
+      "reviewCount": 165,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Subtle diamond accent nose pin."
+    },
+    {
+      "id": "nosepin7",
+      "name": "Nath Ring Nosepin",
+      "purity": "91.6%",
+      "weight": 0.75,
+      "image": "/photos/nose/3.jpg",
+      "rating": 4.9,
+      "reviewCount": 180,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Bridal nath ring with gold drop bead."
+    },
+    {
+      "id": "nosepin8",
+      "name": "Antique Carved Nosepin",
+      "purity": "75%",
+      "weight": 0.65,
+      "image": "/photos/nose/4.jpg",
+      "rating": 4.7,
+      "reviewCount": 112,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Matte antique finished gold stud."
+    }
+  ],
+  "hair": [
+    {
+      "id": "hair1",
+      "name": "Gold Filigree Hair Pin",
+      "purity": "75%",
+      "weight": 3,
+      "image": "/photos/hair/1.jpg",
+      "rating": 4.8,
+      "reviewCount": 95,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Luxury hair hairpin crafted with 18K gold lace details."
+    },
+    {
+      "id": "hair2",
+      "name": "Jeweled Hair Comb",
+      "purity": "91.6%",
+      "weight": 5,
+      "image": "/photos/hair/2.jpg",
+      "rating": 4.9,
+      "reviewCount": 124,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Bridal hair comb adorned with gold leaves and stones."
+    },
+    {
+      "id": "hair3",
+      "name": "Royal Maang Tikka",
+      "purity": "75%",
+      "weight": 4.5,
+      "image": "/photos/hair/3.jpg",
+      "rating": 5,
+      "reviewCount": 215,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Traditional Maang Tikka with ruby drop and gold chain."
+    },
+    {
+      "id": "hair4",
+      "name": "Juda Hair Pin Set",
+      "purity": "91.6%",
+      "weight": 6,
+      "image": "/photos/hair/4.jpg",
+      "rating": 4.8,
+      "reviewCount": 110,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Set of hair pins for decorative bun styling."
+    },
+    {
+      "id": "hair5",
+      "name": "Gold Leaf Hair Band",
+      "purity": "75%",
+      "weight": 3.5,
+      "image": "/photos/hair/1.jpg",
+      "rating": 4.7,
+      "reviewCount": 88,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Flexible hair headband decorated with gold laurel leaves."
+    },
+    {
+      "id": "hair6",
+      "name": "Grand Matha Patti",
+      "purity": "91.6%",
+      "weight": 8,
+      "image": "/photos/hair/2.jpg",
+      "rating": 5,
+      "reviewCount": 260,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Dual-line bridal Matha Patti forehead jewelry."
+    },
+    {
+      "id": "hair7",
+      "name": "Side Passa Hair Piece",
+      "purity": "75%",
+      "weight": 7,
+      "image": "/photos/hair/3.jpg",
+      "rating": 4.9,
+      "reviewCount": 175,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Nawab style side Passa for festive hair arrangements."
+    },
+    {
+      "id": "hair8",
+      "name": "Gold Seenthhi Hair Pin",
+      "purity": "91.6%",
+      "weight": 5.5,
+      "image": "/photos/hair/4.jpg",
+      "rating": 4.8,
+      "reviewCount": 104,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Center parting hair accessory in pure gold."
+    }
+  ],
+  "watch": [
+    {
+      "id": "watch1",
+      "name": "Royal Gold Watch",
+      "purity": "91.6%",
+      "weight": 25,
+      "image": "/photos/watch/1.jpg",
+      "rating": 5,
+      "reviewCount": 198,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Solid 22K gold bracelet timepiece with Swiss movement."
+    },
+    {
+      "id": "watch2",
+      "name": "Diamond Bezel Luxury Watch",
+      "purity": "75%",
+      "weight": 30,
+      "image": "/photos/watch/2.jpg",
+      "rating": 4.9,
+      "reviewCount": 160,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "18K gold watch featuring a bezel set with 36 brilliant diamonds."
+    },
+    {
+      "id": "watch3",
+      "name": "Ladies' Petite Gold Watch",
+      "purity": "91.6%",
+      "weight": 20,
+      "image": "/photos/watch/3.jpg",
+      "rating": 4.9,
+      "reviewCount": 210,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Slender gold watch with mother of pearl dial."
+    },
+    {
+      "id": "watch4",
+      "name": "Men's Imperial Gold Watch",
+      "purity": "75%",
+      "weight": 35,
+      "image": "/photos/watch/4.jpg",
+      "rating": 5,
+      "reviewCount": 240,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Heavy gold men's wrist watch with sapphire crystal."
+    },
+    {
+      "id": "watch5",
+      "name": "Vintage Gold Pocket Watch",
+      "purity": "91.6%",
+      "weight": 28,
+      "image": "/photos/watch/5.jpg",
+      "rating": 4.8,
+      "reviewCount": 115,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Classic mechanical skeleton pocket watch."
+    },
+    {
+      "id": "watch6",
+      "name": "Gold Smart Watch Band",
+      "purity": "75%",
+      "weight": 22,
+      "image": "/photos/watch/6.jpg",
+      "rating": 4.7,
+      "reviewCount": 92,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Luxury gold link band compatible with smart watches."
+    },
+    {
+      "id": "watch7",
+      "name": "Sports Chronograph Gold Watch",
+      "purity": "91.6%",
+      "weight": 32,
+      "image": "/photos/watch/7.jpg",
+      "rating": 4.9,
+      "reviewCount": 178,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Water-resistant gold chronograph watch."
+    },
+    {
+      "id": "watch8",
+      "name": "Automatic Skeleton Gold Watch",
+      "purity": "75%",
+      "weight": 40,
+      "image": "/photos/watch/8.jpg",
+      "rating": 5,
+      "reviewCount": 225,
+      "reviews": [
+        {
+          "id": 1,
+          "author": "Aarti Kulkarni",
+          "rating": 5,
+          "date": "4 days ago",
+          "title": "Superb Polish & Finish",
+          "comment": "The gold luster and finish is beyond expectations. Fits so comfortably."
+        },
+        {
+          "id": 2,
+          "author": "Nikhil Saxena",
+          "rating": 5,
+          "date": "1 week ago",
+          "title": "Worth Every Rupee",
+          "comment": "Top-tier luxury presentation box and official guarantee card included."
+        }
+      ],
+      "description": "Transparent dial revealing intricate gold movement gears."
+    }
+  ]
+}

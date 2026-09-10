@@ -1,0 +1,13 @@
+{
+  "name": "jewelstreet",
+  "version": "1.0.0",
+  "description": "Jewel Street MERN Stack E-Commerce",
+  "scripts": {
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start:server": "cd server && npm start"
+  },
+  "private": true
+}

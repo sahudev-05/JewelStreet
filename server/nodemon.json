@@ -1,0 +1,17 @@
+{
+  "watch": [
+    "index.js",
+    "config/",
+    "middleware/",
+    "models/",
+    "routes/",
+    "services/"
+  ],
+  "ext": "js,mjs,cjs",
+  "ignore": [
+    "data/*",
+    "node_modules/*",
+    "*.json"
+  ],
+  "delay": "1000"
+}

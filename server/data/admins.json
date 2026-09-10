@@ -1,0 +1,11 @@
+[
+  {
+    "id": "admin_deevyanshu_master",
+    "name": "Deevyanshu Sahu",
+    "email": "deevyanshu.sahu@gmail.com",
+    "role": "master_admin",
+    "password": "masterPassProtected",
+    "mustChangePassword": false,
+    "createdAt": "2026-09-08T11:06:41.294Z"
+  }
+]

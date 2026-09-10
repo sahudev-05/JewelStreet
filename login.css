@@ -1,0 +1,107 @@
+:root {
+    --white-color: #f5f5f5;
+    --grey-color: #808080;
+    --blue-color: #4444ff;
+}
+body{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color:antiquewhite;
+    margin: 0%;
+    margin-right: 3%;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+.btn{
+    background-color: var(--white-color);
+    border: 1px solid var(--grey-color);
+    border-radius: 15px;
+    padding:15px 32px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    width:300px;
+    height: 57px;
+    transition: background-color 0.3s;
+}
+.btn:hover{
+    background-color: var(--blue-color);
+    color: var(--white-color);
+}
+.btn-login{
+    background-color: var(--blue-color);
+    color: var(--white-color);
+    font-weight: bold;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.left-self{
+    align-self: flex-start;
+}
+.description{
+    color: var(--grey-color);
+    text-wrap: nowrap;
+}
+form{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.input-field{
+    width: 280px;
+    padding: 20px 10px;
+    margin: 10px 0;
+    border-radius: 15px;
+    border:1px solid var(--grey-color) ;
+}
+
+.input-field:focus{
+    outline: none;
+}
+.section-login{
+    margin: 50px;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.login-img{
+    width: 50%;
+    height: 90vh;
+    object-fit: cover;
+    border-radius: 15px;
+}
+.my{
+    margin: 15px 0;
+}
+@media screen and (max-width:768px){
+    .login-img{
+        display: none;
+    }
+}
+.password{
+
+    position: relative;
+  
+  }
+  
+  #togglePassword {
+
+    position: absolute;
+
+    right: 10px;
+
+    cursor: pointer;
+
+}

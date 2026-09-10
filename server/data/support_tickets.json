@@ -1,0 +1,50 @@
+[
+  {
+    "ticketId": "TKT-108291",
+    "customerName": "Ananya Sharma",
+    "customerEmail": "ananya.sharma@example.com",
+    "customerPhone": "+91 98450 12345",
+    "subject": "Request for custom engraving on Solitaire Royal Ring",
+    "category": "Custom Design Request",
+    "message": "Hello, I ordered the 18K Diamond Solitaire ring. Could you please add laser engraving initials \"A & K\" inside the band before armored transit dispatch?",
+    "orderNo": "INV-JS-2026-8812",
+    "priority": "medium",
+    "status": "Resolved",
+    "resolutionNotes": "Yes we can arrange that for you kindly return us your product",
+    "resolvedBy": "Deevyanshu Sahu (Royal Admin)",
+    "resolvedAt": "2026-09-08T10:53:56.872Z",
+    "createdAt": "2026-09-08T05:34:49.568Z"
+  },
+  {
+    "ticketId": "TKT-108284",
+    "customerName": "Rohan Mehra",
+    "customerEmail": "rohan.mehra@example.com",
+    "customerPhone": "+91 99201 54321",
+    "subject": "BIS Hallmark Certificate verification enquiry",
+    "category": "Purity & BIS Hallmark",
+    "message": "Can you please confirm if the 22K Gold Temple Necklace includes the official BIS Hallmark card with HUID code in the velvet case?",
+    "orderNo": "INV-JS-2026-7734",
+    "priority": "high",
+    "status": "In Progress",
+    "resolutionNotes": "Concierge contacted customer on call confirming 100% BIS 916 Hallmark certificate with laser-etched HUID is included.",
+    "resolvedBy": "Deevyanshu Sahu",
+    "resolvedAt": null,
+    "createdAt": "2026-09-07T16:34:49.568Z"
+  },
+  {
+    "ticketId": "TKT-108260",
+    "customerName": "Pooja Hegde",
+    "customerEmail": "pooja.h@example.com",
+    "customerPhone": "+91 97112 89012",
+    "subject": "Bangle size exchange to 2.6 size",
+    "category": "Return & Exchange",
+    "message": "The 2.4 size bangle feels slightly tight. Would like to exchange it under the 7-Day Royal Privilege for size 2.6.",
+    "orderNo": "INV-JS-2026-6641",
+    "priority": "medium",
+    "status": "Resolved",
+    "resolutionNotes": "Armored courier pickup scheduled and 2.6 size reserved at atelier. Dispatched on priority.",
+    "resolvedBy": "Deevyanshu Sahu",
+    "resolvedAt": "2026-09-08T08:34:49.568Z",
+    "createdAt": "2026-09-06T22:34:49.568Z"
+  }
+]

@@ -1,0 +1,55 @@
+{
+  "date": "2026-09-08",
+  "goldRatePerGramINR": 12302,
+  "rate24K": 12302,
+  "rate916": 11269,
+  "rate750": 9227,
+  "rate916TenGram": 112690,
+  "rate750TenGram": 92270,
+  "change24h": "+1.35%",
+  "history": [
+    {
+      "date": "Sep 01",
+      "rate24K": 12117,
+      "rate916": 11099,
+      "rate750": 9088
+    },
+    {
+      "date": "Sep 02",
+      "rate24K": 12154,
+      "rate916": 11133,
+      "rate750": 9116
+    },
+    {
+      "date": "Sep 03",
+      "rate24K": 12204,
+      "rate916": 11179,
+      "rate750": 9153
+    },
+    {
+      "date": "Sep 04",
+      "rate24K": 12240,
+      "rate916": 11212,
+      "rate750": 9180
+    },
+    {
+      "date": "Sep 05",
+      "rate24K": 12191,
+      "rate916": 11167,
+      "rate750": 9143
+    },
+    {
+      "date": "Sep 06",
+      "rate24K": 12265,
+      "rate916": 11235,
+      "rate750": 9199
+    },
+    {
+      "date": "Sep 07",
+      "rate24K": 12302,
+      "rate916": 11269,
+      "rate750": 9227
+    }
+  ],
+  "lastUpdated": "Daily Rate (2026-09-08)"
+}

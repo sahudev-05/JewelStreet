@@ -1,0 +1,164 @@
+/* Intro Stamp Backdrop Overlay */
+.intro-stamp-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: radial-gradient(circle at center, #160147 0%, #090029 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: all;
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.intro-stamp-backdrop.phase-fly {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Background Spotlight Radial Glow */
+.stamp-radial-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(230, 185, 126, 0.25) 0%, rgba(230, 185, 126, 0) 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.intro-stamp-backdrop.phase-stamp .stamp-radial-glow,
+.intro-stamp-backdrop.phase-shine .stamp-radial-glow {
+  opacity: 1;
+  animation: glowPulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+
+/* Stamp Shockwave Ripple */
+.stamp-shockwave-ring {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 3px solid #e6b97e;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-stamp-backdrop.phase-stamp .stamp-shockwave-ring,
+.intro-stamp-backdrop.phase-shine .stamp-shockwave-ring {
+  animation: stampShockwave 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes stampShockwave {
+  0% {
+    transform: scale(0.15);
+    opacity: 1;
+    box-shadow: 0 0 30px #e6b97e, inset 0 0 30px #e6b97e;
+  }
+  100% {
+    transform: scale(5);
+    opacity: 0;
+    box-shadow: 0 0 100px rgba(230, 185, 126, 0);
+  }
+}
+
+/* Central Stamp Container — Ultra Smooth Easing */
+.stamp-center-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+  will-change: transform, opacity, filter;
+}
+
+/* Stage 1: Initial State */
+.intro-stamp-backdrop.phase-initial .stamp-center-box {
+  transform: scale(2.5) translateY(-50px);
+  opacity: 0;
+  filter: blur(14px);
+}
+
+/* Stage 2: Silky Stamp Impact */
+.intro-stamp-backdrop.phase-stamp .stamp-center-box {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  filter: blur(0);
+  animation: stampImpactSilky 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes stampImpactSilky {
+  0% {
+    transform: scale(2.4) translateY(-30px);
+    opacity: 0;
+    filter: blur(12px) drop-shadow(0 0 70px rgba(230, 185, 126, 0.9));
+  }
+  70% {
+    transform: scale(0.96);
+    opacity: 1;
+    filter: blur(0) drop-shadow(0 0 50px rgba(230, 185, 126, 0.8));
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0) drop-shadow(0 0 30px rgba(230, 185, 126, 0.5));
+  }
+}
+
+/* Stage 3: Metallic Shine Glow */
+.intro-stamp-backdrop.phase-shine .stamp-center-box {
+  transform: scale(1.03);
+  filter: drop-shadow(0 0 40px rgba(230, 185, 126, 0.95));
+}
+
+/* Stage 4: Glide up to navbar position smoothly */
+.intro-stamp-backdrop.phase-fly .stamp-center-box {
+  transform: scale(0.42) translateY(-44vh);
+  opacity: 0.05;
+  filter: blur(2px);
+}
+
+/* Enlarged Logo & Typography */
+.stamp-logo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.stamp-logo-img {
+  width: 140px; /* ENLARGED STAMP LOGO */
+  height: auto;
+  filter: drop-shadow(0 6px 25px rgba(230, 185, 126, 0.7));
+}
+
+.stamp-brand-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 4.2rem; /* ENLARGED STAMP BRAND TITLE */
+  font-weight: 700;
+  letter-spacing: 7px;
+  color: #fdfbf7;
+  text-transform: uppercase;
+  text-shadow: 0 4px 30px rgba(230, 185, 126, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+}
+
+.stamp-brand-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 9px;
+  color: #e6b97e;
+  margin-top: 10px;
+}

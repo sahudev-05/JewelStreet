@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Delivery Availability</title>
+    
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+    <style>
+        /* Theme Colors */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #10061e;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ffcc00;
+        }
+
+        .location-container {
+            background: #1a0b2e;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        button {
+            background: #ffcc00;
+            color: #10061e;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        button:hover {
+            background: #e6b800;
+        }
+
+        #message {
+            font-size: 16px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        #map {
+            width: 100%;
+            height: 300px;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Check Delivery Availability</h1>
+    <div class="location-container">
+        <button onclick="getUserLocation()">📍 Get Your Location</button>
+        <p id="message">Click the button to check if delivery is available.</p>
+        <p id="address"></p>
+        <input type="text" id="pincode" placeholder="Enter Pincode to Check">
+        <button onclick="checkPincode()">Check Delivery</button>
+        <p id="pincode-message"></p>
+        <div id="map"></div>
+    </div>
+
+    <script>
+        let map, marker, currentPincode;
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showLocation, handleError);
+            } else {
+                document.getElementById("message").innerText = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showLocation(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const userLocation = [lat, lng];
+
+            document.getElementById("message").innerText = `📍 Your Location: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+
+            if (!map) {
+                map = L.map('map').setView(userLocation, 15);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+
+                marker = L.marker(userLocation, { draggable: true }).addTo(map);
+                marker.on('dragend', function (event) {
+                    let newPos = marker.getLatLng();
+                    getAddress(newPos.lat, newPos.lng);
+                });
+
+                // Draw a circle to cover the area (5km radius)
+                L.circle(userLocation, {
+                    color: 'blue',
+                    fillColor: '#add8e6',
+                    fillOpacity: 0.3,
+                    radius: 5000  // 5km
+                }).addTo(map);
+
+                // Auto-zoom to fit the detected area
+                map.fitBounds([[lat - 0.05, lng - 0.05], [lat + 0.05, lng + 0.05]]);
+                
+            } else {
+                map.setView(userLocation, 15);
+                marker.setLatLng(userLocation);
+            }
+
+            getAddress(lat, lng);
+        }
+
+        function handleError(error) {
+            let message;
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    message = "❌ Permission denied. Please allow location access.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message = "❌ Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    message = "❌ The request to get user location timed out.";
+                    break;
+                default:
+                    message = "❌ An unknown error occurred.";
+                    break;
+            }
+            document.getElementById("message").innerText = message;
+        }
+
+        function getAddress(lat, lng) {
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                .then(response => response.json())
+                .then(data => {
+                    const address = data.display_name;
+                    currentPincode = data.address.postcode || "Unknown";
+                    document.getElementById("address").innerText = `📍 Address: ${address}`;
+                    document.getElementById("pincode").value = currentPincode;
+
+                    if (data.address.country === "India") {
+                        document.getElementById("message").innerText += " ✅ Delivery is available in your area!";
+                    } else {
+                        document.getElementById("message").innerText += " ❌ Delivery is not available outside India.";
+                    }
+                })
+                .catch(() => {
+                    document.getElementById("message").innerText += " ❌ Could not verify address.";
+                });
+        }
+
+        function checkPincode() {
+            const pincode = document.getElementById("pincode").value.trim(); // Trim spaces
+
+            if (pincode === "") {
+                document.getElementById("pincode-message").innerText = "❌ Please enter a valid pincode.";
+                return;
+            }
+
+            // Sample List of Available Delivery Pincodes (Replace with your backend API or DB)
+            const availablePincodes = ["110001", "400001", "560001", "600001", "700001"];
+
+            if (availablePincodes.includes(pincode)) {
+                document.getElementById("pincode-message").innerText = `✅ Delivery is available for pincode ${pincode}`;
+            } else {
+                document.getElementById("pincode-message").innerText = `❌ Delivery is NOT available for pincode ${pincode}`;
+            }
+        }
+    </script>
+
+<br> <br> <br>
+<a href="index.html">Return Back TO Homepage </a>
+</body>
+</html>
+
+

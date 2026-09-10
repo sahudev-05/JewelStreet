@@ -1,0 +1,191 @@
+.favs-page {
+  background: var(--bg-deep);
+  min-height: 100vh;
+  padding: 40px 16px 60px;
+}
+
+.favs-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.favs-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.favs-header h1 {
+  color: var(--accent-primary);
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-family: var(--serif-font);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.favs-header h1 i { color: var(--accent-primary); }
+.favs-header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 6px; }
+
+/* Empty */
+.empty-favs {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.empty-icon { font-size: 3.5rem; margin-bottom: 20px; color: var(--accent-primary); }
+.empty-favs h3 { color: var(--text-main); font-size: 1.4rem; margin: 0 0 10px; }
+.empty-favs p { color: var(--text-muted); margin-bottom: 28px; }
+
+.shop-btn {
+  display: inline-block;
+  background: var(--accent-gradient);
+  color: #000;
+  padding: 12px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.shop-btn:hover { opacity: 0.9; }
+
+/* Grid */
+.favs-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.fav-card {
+  width: clamp(220px, 22vw, 300px);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-main);
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.fav-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-primary);
+}
+
+.fav-image-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.fav-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.fav-card:hover .fav-image-wrap img { transform: scale(1.06); }
+
+.remove-fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(9, 0, 41, 0.85);
+  border: 1px solid rgba(186, 75, 95, 0.4);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #e89da9;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.remove-fav-btn:hover { transform: scale(1.15); border-color: #e89da9; }
+
+.fav-info { padding: 16px; }
+.fav-info h3 { color: var(--text-main); font-family: var(--serif-font); font-size: 1.1rem; margin: 0 0 6px; }
+.fav-detail { color: var(--text-muted); font-size: 0.8rem; margin: 2px 0; }
+.fav-price { color: var(--accent-primary); font-weight: 700; font-size: 1.1rem; margin: 8px 0 12px; }
+
+.fav-actions { display: flex; gap: 10px; }
+
+.fav-cart-btn {
+  flex: 1;
+  padding: 10px;
+  background: var(--accent-gradient);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: opacity 0.3s;
+}
+
+.fav-cart-btn:hover:not(:disabled) { opacity: 0.9; }
+.fav-cart-btn.in-cart { background: #1f0b36; color: var(--accent-primary); border: 1px solid var(--border-color); }
+.fav-cart-btn:disabled { cursor: default; }
+
+.fav-remove-btn {
+  padding: 9px 12px;
+  background: rgba(230, 185, 126, 0.1);
+  color: #e6b97e;
+  border: 1px solid rgba(230, 185, 126, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.fav-remove-btn:hover { background: rgba(230, 185, 126, 0.25); }
+
+.back-nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 10px 22px;
+  border: 1px solid var(--border-color);
+  border-radius: 30px;
+  transition: all 0.25s ease;
+}
+
+.back-link:hover { background: var(--accent-primary); color: #000; }
+
+.go-cart-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-gradient);
+  color: #000;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: 30px;
+  transition: opacity 0.3s;
+}
+
+.go-cart-link:hover { opacity: 0.9; }
+
+@media (max-width: 480px) {
+  .fav-card { width: clamp(160px, 46vw, 220px); }
+}

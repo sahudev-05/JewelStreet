@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rings</title>
+    <link rel="stylesheet" href="cards.css">
+    <script>
+        async function fetchGoldRate() {
+            try {
+                let response = await fetch("https://api.gold-api.com/price/XAU");
+                let data = await response.json();
+                if (data.price) {
+                    let goldRatePerGramUSD = parseFloat(data.price) / 31.1035; // Convert from per ounce to per gram
+                    let exchangeRate = 87; // Approximate USD to INR conversion rate
+                    let goldRatePerGramINR = goldRatePerGramUSD * exchangeRate;
+                    localStorage.setItem("goldRate", goldRatePerGramINR);
+                    updatePrices(goldRatePerGramINR);
+                } else {
+                    console.error("Invalid gold rate data received");
+                }
+            } catch (error) {
+                console.error("Error fetching gold rate:", error);
+            }
+        }
+
+        function updatePrices(goldRate) {
+            document.querySelectorAll(".card").forEach(card => {
+                let weightText = card.querySelector(".product-weight").textContent;
+                let weight = parseFloat(weightText.replace("Weight:", "").trim());
+                let purityText = card.querySelector(".product-purity").textContent;
+                let purity = purityText.includes("75%") ? 0.75 : 0.916;
+                if (!isNaN(weight) && !isNaN(purity)) {
+                    let goldPrice = goldRate * weight * purity;
+                    let makingCharge = goldPrice * 0.30; // 20% making charges
+                    let finalPrice = goldPrice + makingCharge;
+                    card.querySelector(".product-price").textContent = `Price: ₹${finalPrice.toFixed(2)} (Incl. 25+5% making charges)`;
+                } else {
+                    card.querySelector(".product-price").textContent = "Price: Unable to calculate";
+                }
+            });
+        }
+
+        function addToCart(productId, button) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let productCard = button.closest('.card');
+            let product = {
+                id: productId,
+                name: productCard.querySelector('.product-name').textContent,
+                image: productCard.querySelector('.product-image').src,
+                purity: productCard.querySelector('.product-purity').textContent,
+                weight: productCard.querySelector('.product-weight').textContent,
+                price: productCard.querySelector('.product-price').textContent
+            };
+            cart.push(product);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            button.textContent = "Added to Cart";
+            button.disabled = true;
+            document.getElementById('cart').textContent = cart.length;
+        }
+
+        function addToFavorites(productId, button) {
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            if (!favorites.includes(productId)) {
+                favorites.push(productId);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                button.classList.add('favorited');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchGoldRate);
+    </script>
+</head>
+<body>
+    <h1 class="page-title">Bracelete</h1>
+   
+    <div class="cards-container">
+        <div class="card">
+            <img src="photos/bracelete/1.jpg" alt="Ring" class="product-image">
+            <div class="product-name">Bracelete</div>
+            <div class="product-purity">Purity: 75%</div>
+            <div class="product-weight">Weight: 6.150g</div>
+            <div class="product-price">Calculating...</div>
+            <div class="button-container">
+                <button class="cart-button" onclick="addToCart('ring1', this)">Add to Cart</button>
+                <button class="heart-button" onclick="addToFavorites('ring1', this)">❤</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="photos/bracelete/2.jpg" alt="Ring" class="product-image">
+            <div class="product-name">Bracelete</div>
+            <div class="product-purity">Purity: 91.6%</div>
+            <div class="product-weight">Weight: 6.150g</div>
+            <div class="product-price">Calculating...</div>
+            <div class="button-container">
+                <button class="cart-button" onclick="addToCart('ring1', this)">Add to Cart</button>
+                <button class="heart-button" onclick="addToFavorites('ring1', this)">❤</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="photos/bracelete/3.jpg" alt="Ring" class="product-image">
+            <div class="product-name">Bracelete</div>
+            <div class="product-purity">Purity: 75%</div>
+            <div class="product-weight">Weight: 6.150g</div>
+            <div class="product-price">Calculating...</div>
+            <div class="button-container">
+                <button class="cart-button" onclick="addToCart('ring1', this)">Add to Cart</button>
+                <button class="heart-button" onclick="addToFavorites('ring1', this)">❤</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="photos/bracelete/4.jpg" alt="Ring" class="product-image">
+            <div class="product-name">Bracelete</div>
+            <div class="product-purity">Purity: 91.6%</div>
+            <div class="product-weight">Weight: 6.150g</div>
+            <div class="product-price">Calculating...</div>
+            <div class="button-container">
+                <button class="cart-button" onclick="addToCart('ring1', this)">Add to Cart</button>
+                <button class="heart-button" onclick="addToFavorites('ring1', this)">❤</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="photos/bracelete/5.jpg" alt="Ring" class="product-image">
+            <div class="product-name">bracelete</div>
+            <div class="product-purity">Purity: 75%</div>
+            <div class="product-weight">Weight: 6.150g</div>
+            <div class="product-price">Calculating...</div>
+            <div class="button-container">
+                <button class="cart-button" onclick="addToCart('ring1', this)">Add to Cart</button>
+                <button class="heart-button" onclick="addToFavorites('ring1', this)">❤</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="photos/bracelete/6.jpg" alt="Ring" class="product-image">
+            <div class="product-name">Bracelete</div>
+            <div class="product-purity">Purity: 91.6%</div>
+            <div class="product-weight">Weight: 6.150g</div>
+            <div class="product-price">Calculating...</div>
+            <div class="button-container">
+                <button class="cart-button" onclick="addToCart('ring1', this)">Add to Cart</button>
+                <button class="heart-button" onclick="addToFavorites('ring1', this)">❤</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="photos/bracelete/7.jpg" alt="Ring" class="product-image">
+            <div class="product-name">Bracelete</div>
+            <div class="product-purity">Purity: 75%</div>
+            <div class="product-weight">Weight: 6.150g</div>
+            <div class="product-price">Calculating...</div>
+            <div class="button-container">
+                <button class="cart-button" onclick="addToCart('ring1', this)">Add to Cart</button>
+                <button class="heart-button" onclick="addToFavorites('ring1', this)">❤</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="photos/bracelete/8.jpg" alt="Ring" class="product-image">
+            <div class="product-name">Bracelete</div>
+            <div class="product-purity">Purity: 91.6%</div>
+            <div class="product-weight">Weight: 6.150g</div>
+            <div class="product-price">Calculating...</div>
+            <div class="button-container">
+                <button class="cart-button" onclick="addToCart('ring1', this)">Add to Cart</button>
+                <button class="heart-button" onclick="addToFavorites('ring1', this)">❤</button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <a href="index.html" style="display: block; text-align: center; margin-top: 20px;">Return back to home page</a>
+</body>
+</html>
