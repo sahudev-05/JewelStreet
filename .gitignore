@@ -1,3 +1,5 @@
+jewelry-ecommerce-main/
+.vscode/
 node_modules/
 .env
 .env.*
@@ -6,7 +8,3 @@ dist/
 build/
 .vite/
 *.log
-
-.vscode/
-
-jewelry-ecommerce-main/
