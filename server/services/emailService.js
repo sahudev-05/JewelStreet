@@ -504,7 +504,7 @@ const sendViaEmailJS = async (templateParams) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Origin': 'http://localhost:5173',
+            'Origin': process.env.CLIENT_URL || 'https://jewel-street.vercel.app',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
           },
           body: JSON.stringify({
@@ -705,9 +705,42 @@ If you have any questions regarding your refund status, please reply directly to
 };
 
 // Admin Welcome Credentials Email via EmailJS
-const sendAdminWelcomeEmail = async ({ name, email, password, role = 'admin' }) => {
+const sendAdminWelcomeEmail = async ({ name, email, password, role = 'admin', assignedRole = 'inventory_manager', allowedActivities = [] }) => {
   const currentDate = new Date().toLocaleDateString('en-IN');
   const subjectTitle = `JEWEL STREET — Store Administrator Credentials (${name})`;
+  const portalUrl = (process.env.CLIENT_URL || 'https://jewel-street.vercel.app') + '/admin';
+  const siteUrl = process.env.CLIENT_URL || 'https://jewel-street.vercel.app';
+
+  const ROLE_NAMES = {
+    master_admin: 'Master Administrator',
+    inventory_manager: 'Catalog & Inventory Manager',
+    order_manager: 'Order Fulfillment Specialist',
+    support_specialist: 'Customer Support Executive',
+    customer_manager: 'Customer Relations Manager',
+    reports_analyst: 'Business & Financial Analyst',
+    promotions_manager: 'Promotions & Marketing Lead',
+    store_operations: 'Store Operations Supervisor',
+    custom: 'Custom Privileges Administrator',
+    admin: 'Store Administrator'
+  };
+
+  const ACTIVITY_NAMES = {
+    inventory: 'Inventory & Catalog Management',
+    orders: 'Orders & Armored Fulfillment',
+    customers: 'Customer Directory & Profiles',
+    support: 'Problem Solver & Client Support',
+    reports: 'Reports & Financial Analytics',
+    coupons: 'Promotional Offers & Coupons',
+    admins: 'Administrator Access Control'
+  };
+
+  const displayRole = role === 'master_admin' ? '👑 Master Administrator (Full Access)' : (ROLE_NAMES[assignedRole] || 'Store Administrator');
+  const activitiesList = role === 'master_admin'
+    ? 'All Activities (Inventory, Orders, Customers, Support, Reports, Coupons, Admins)'
+    : ((allowedActivities && allowedActivities.length > 0)
+        ? allowedActivities.map(a => ACTIVITY_NAMES[a] || a).join(', ')
+        : 'Catalog & Inventory Management');
+
   const summaryText = `
 JEWEL STREET — STORE ADMINISTRATOR CREDENTIALS
 ==================================================
@@ -718,8 +751,10 @@ You have been appointed as an Administrator for the Jewel Street Store Managemen
 YOUR CREDENTIALS:
 - Email Address: ${email}
 - Passcode: ${password}
-- System Role: ${role === 'master_admin' ? 'Master Administrator' : 'Store Administrator'}
-- Portal URL: http://localhost:5173/admin
+- Assigned Role: ${displayRole}
+- Authorized Activities: ${activitiesList}
+- Portal URL: ${portalUrl}
+- Storefront: ${siteUrl}
 
 SECURITY NOTICE:
 Please log in to the admin command center and update your passcode upon first session.
@@ -738,7 +773,7 @@ Please log in to the admin command center and update your passcode upon first se
           <td style="padding: 20px 0 10px 0; font-family: sans-serif;">
             <h2 style="font-family: serif; color: #e6b97e; font-size: 20px; margin-bottom: 8px;">Welcome to the Store Management Team, ${name}!</h2>
             <p style="color: #d5ccf0; line-height: 1.6; font-size: 13px; margin: 0;">
-              You have been officially appointed as an Administrator for the Jewel Street Store Management Command Center. Below are your security access credentials.
+              You have been officially appointed as an Administrator for the Jewel Street Store Management Command Center. Below are your security access credentials and role authorizations.
             </p>
           </td>
         </tr>
@@ -746,12 +781,14 @@ Please log in to the admin command center and update your passcode upon first se
           <td style="padding: 12px 0;">
             <table width="100%" style="background-color: #06001a; border: 1px solid #e6b97e33; border-radius: 12px; padding: 18px;">
               <tr>
-                <td style="font-family: monospace; font-size: 13px; color: #d5ccf0; line-height: 1.8;">
+                <td style="font-family: monospace; font-size: 13px; color: #d5ccf0; line-height: 1.9;">
                   <strong>Admin Name:</strong> <span style="color: #ffffff;">${name}</span><br/>
                   <strong>Login Email:</strong> <span style="color: #e6b97e; font-weight: bold;">${email}</span><br/>
                   <strong>Passcode:</strong> <span style="color: #e6b97e; font-weight: bold;">${password}</span><br/>
-                  <strong>System Role:</strong> <span style="color: #e6b97e;">${role === 'master_admin' ? 'Master Administrator' : 'Store Administrator'}</span><br/>
-                  <strong>Portal Link:</strong> <a href="http://localhost:5173/admin" style="color: #e6b97e;">http://localhost:5173/admin</a>
+                  <strong>Assigned Role:</strong> <span style="color: #4ecdc4; font-weight: bold;">${displayRole}</span><br/>
+                  <strong>Authorized Activities:</strong> <span style="color: #e6b97e;">${activitiesList}</span><br/>
+                  <strong>Portal URL:</strong> <a href="${portalUrl}" style="color: #e6b97e; font-weight: bold; text-decoration: underline;">${portalUrl}</a><br/>
+                  <strong>Website:</strong> <a href="${siteUrl}" style="color: #d5ccf0; text-decoration: underline;">${siteUrl}</a>
                 </td>
               </tr>
             </table>
@@ -759,7 +796,7 @@ Please log in to the admin command center and update your passcode upon first se
         </tr>
         <tr>
           <td style="padding: 10px 0; font-family: sans-serif; font-size: 12px; color: #e6b97e;">
-            <strong>Security Notice:</strong> Please log in to the admin portal and update your passcode upon first session.
+            <strong>Security Notice:</strong> Please log in to the admin portal and update your passcode upon first session. You will have access strictly to your assigned operational modules.
           </td>
         </tr>
         <tr>
@@ -780,13 +817,13 @@ Please log in to the admin command center and update your passcode upon first se
     customer_name: name,
     customer_email: email,
     admin_password: password,
-    admin_role: role,
+    admin_role: displayRole,
     invoice_no: 'ADMIN-SYS-KEY',
     order_date: currentDate,
     total_amount: 'N/A (Admin Role Assignment)',
     delivery_address: 'Jewel Street Corporate Portal',
     phone: 'N/A',
-    items_summary: 'Store Administrator Privileges Assigned',
+    items_summary: `Store Privileges Assigned: ${displayRole}`,
     message: summaryText,
     html_content: htmlContent,
     html_invoice: htmlContent,
@@ -967,6 +1004,7 @@ If you did not request this code, please ignore this email or reach out to our C
 const sendAdminPasswordUpdatedEmail = async ({ name, email, newPassword }) => {
   const currentDate = new Date().toLocaleDateString('en-IN');
   const subjectTitle = `JEWEL STREET — Administrator Passcode Updated (${name})`;
+  const portalUrl = (process.env.CLIENT_URL || 'https://jewel-street.vercel.app') + '/admin';
   const summaryText = `
 JEWEL STREET — ADMINISTRATOR PASSCODE UPDATED
 ==================================================
@@ -977,7 +1015,7 @@ Your Jewel Street Administrator account passcode has been updated by the Master 
 UPDATED CREDENTIALS:
 - Email: ${email}
 - New Passcode: ${newPassword}
-- Portal URL: http://localhost:5173/admin
+- Portal URL: ${portalUrl}
 
 Please log in to verify your access.
 ==================================================
@@ -1007,7 +1045,7 @@ Please log in to verify your access.
                   <strong>Admin Name:</strong> <span style="color: #ffffff;">${name}</span><br/>
                   <strong>Login Email:</strong> <span style="color: #e6b97e; font-weight: bold;">${email}</span><br/>
                   <strong>Updated Passcode:</strong> <span style="color: #e6b97e; font-weight: bold;">${newPassword}</span><br/>
-                  <strong>Portal URL:</strong> <a href="http://localhost:5173/admin" style="color: #e6b97e;">http://localhost:5173/admin</a>
+                  <strong>Portal URL:</strong> <a href="${portalUrl}" style="color: #e6b97e; font-weight: bold; text-decoration: underline;">${portalUrl}</a>
                 </td>
               </tr>
             </table>
