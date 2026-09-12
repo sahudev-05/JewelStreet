@@ -252,6 +252,16 @@ const AdminDashboard = () => {
         : ['inventory']);
 
   useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const requestedTab = params.get('tab');
+      if (requestedTab) {
+        setActiveTab(requestedTab);
+      }
+    } catch (e) {}
+  }, []);
+
+  useEffect(() => {
     if (isAdmin && effectiveActivities.length > 0 && !effectiveActivities.includes(activeTab)) {
       setActiveTab(effectiveActivities[0]);
     }
@@ -721,9 +731,14 @@ const AdminDashboard = () => {
 
   const handleTabSwitch = (tab) => {
     setActiveTab(tab);
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('tab', tab);
+      window.history.replaceState(null, '', url.toString());
+    } catch (e) {}
     if (tab === 'reports' && !inventoryReport) fetchReports();
     if (tab === 'admins') fetchAdmins();
-    if (tab === 'coupons' && coupons.length === 0) fetchCoupons();
+    if (tab === 'coupons') fetchCoupons();
     if (tab === 'customers') fetchCustomers();
     if (tab === 'support') fetchTickets();
   };
@@ -2151,7 +2166,9 @@ const AdminDashboard = () => {
         )}
 
         {/* Tab 5: Offers & Coupons Management */}
-        {effectiveActivities.includes('coupons') && activeTab === 'coupons' && (
+        {effectiveActivities.includes('coupons') && activeTab === 'coupons' && (() => {
+          const hasCouponsAccess = isMaster || effectiveActivities.includes('coupons');
+          return (
             <div className="admin-tab-content">
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '28px', alignItems: 'start' }}>
                 
@@ -2163,7 +2180,7 @@ const AdminDashboard = () => {
                       <label>Coupon Code * (e.g. ROYAL25)</label>
                       <input
                         type="text"
-                        disabled={!isMaster}
+                        disabled={!hasCouponsAccess}
                         value={newCouponForm.code}
                         onChange={e => setNewCouponForm(p => ({ ...p, code: e.target.value }))}
                         placeholder="e.g. FESTIVE20"
@@ -2176,7 +2193,7 @@ const AdminDashboard = () => {
                       <div className="form-row">
                         <label>Discount Type *</label>
                         <select
-                          disabled={!isMaster}
+                          disabled={!hasCouponsAccess}
                           value={newCouponForm.discountType}
                           onChange={e => setNewCouponForm(p => ({ ...p, discountType: e.target.value }))}
                           style={{ width: '100%', padding: '10px', background: '#090029', border: '1px solid var(--border-color)', borderRadius: '8px', color: '#e6b97e', fontWeight: 'bold' }}
@@ -2190,7 +2207,7 @@ const AdminDashboard = () => {
                         <input
                           type="number"
                           step="0.01"
-                          disabled={!isMaster}
+                          disabled={!hasCouponsAccess}
                           value={newCouponForm.discountValue}
                           onChange={e => setNewCouponForm(p => ({ ...p, discountValue: e.target.value }))}
                           placeholder={newCouponForm.discountType === 'percentage' ? '15' : '2000'}
@@ -2204,7 +2221,7 @@ const AdminDashboard = () => {
                       <label>Min. Cart Value Required (₹)</label>
                       <input
                         type="number"
-                        disabled={!isMaster}
+                        disabled={!hasCouponsAccess}
                         value={newCouponForm.minPurchase}
                         onChange={e => setNewCouponForm(p => ({ ...p, minPurchase: e.target.value }))}
                         placeholder="e.g. 25000 (0 for no min limit)"
@@ -2216,7 +2233,7 @@ const AdminDashboard = () => {
                       <label>Offer Description / Terms</label>
                       <input
                         type="text"
-                        disabled={!isMaster}
+                        disabled={!hasCouponsAccess}
                         value={newCouponForm.description}
                         onChange={e => setNewCouponForm(p => ({ ...p, description: e.target.value }))}
                         placeholder="e.g. 15% Off on all Diamond Ornaments above ₹25,000"
@@ -2226,10 +2243,10 @@ const AdminDashboard = () => {
 
                     <button
                       type="submit"
-                      disabled={!isMaster || couponCreating}
-                      style={{ width: '100%', padding: '12px', background: isMaster ? 'linear-gradient(135deg,#e6b97e,#d4a060)' : '#444', border: 'none', borderRadius: '8px', color: isMaster ? '#0d0028' : '#888', fontWeight: 'bold', cursor: isMaster ? 'pointer' : 'not-allowed', fontSize: '0.95rem', marginTop: '4px' }}
+                      disabled={!hasCouponsAccess || couponCreating}
+                      style={{ width: '100%', padding: '12px', background: hasCouponsAccess ? 'linear-gradient(135deg,#e6b97e,#d4a060)' : '#444', border: 'none', borderRadius: '8px', color: hasCouponsAccess ? '#0d0028' : '#888', fontWeight: 'bold', cursor: hasCouponsAccess ? 'pointer' : 'not-allowed', fontSize: '0.95rem', marginTop: '4px' }}
                     >
-                      {!isMaster ? '🔒 Master Admin Only' : couponCreating ? '⏳ Creating Offer...' : '🏷️ Create & Publish Offer'}
+                      {!hasCouponsAccess ? '🔒 Access Denied' : couponCreating ? '⏳ Creating Offer...' : '🏷️ Create & Publish Offer'}
                     </button>
                   </form>
                   {couponMsg && (
@@ -2267,7 +2284,7 @@ const AdminDashboard = () => {
                               <div style={{ fontSize: '0.75rem', color: '#a599c2' }}>{cpn.description}</div>
                             </div>
                           </div>
-                          {isMaster && (
+                          {hasCouponsAccess && (
                             <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
                               <button
                                 onClick={() => handleToggleCoupon(cpn.id, cpn.code, cpn.isActive)}
@@ -2292,7 +2309,8 @@ const AdminDashboard = () => {
 
               </div>
             </div>
-        )}
+          );
+        })()}
 
         {/* Tab 6: Customers Directory */}
         {effectiveActivities.includes('customers') && activeTab === 'customers' && (() => {

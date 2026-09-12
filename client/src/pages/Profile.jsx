@@ -423,25 +423,25 @@ const Profile = () => {
               </span>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {effectiveActivities.includes('inventory') && (
-                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>💎 Inventory Catalog</Link>
+                  <Link to="/admin?tab=inventory" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>💎 Inventory Catalog</Link>
                 )}
                 {effectiveActivities.includes('orders') && (
-                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>📦 Orders & Dispatch</Link>
+                  <Link to="/admin?tab=orders" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>📦 Orders & Dispatch</Link>
                 )}
                 {effectiveActivities.includes('customers') && (
-                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>👥 Customers Directory</Link>
+                  <Link to="/admin?tab=customers" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>👥 Customers Directory</Link>
                 )}
                 {effectiveActivities.includes('support') && (
-                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>🎧 Problem Solver Helpdesk</Link>
+                  <Link to="/admin?tab=support" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>🎧 Problem Solver Helpdesk</Link>
                 )}
                 {effectiveActivities.includes('reports') && (
-                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>📊 Sales & Reports</Link>
+                  <Link to="/admin?tab=reports" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>📊 Sales & Reports</Link>
                 )}
                 {effectiveActivities.includes('coupons') && (
-                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>🏷️ Store Offers</Link>
+                  <Link to="/admin?tab=coupons" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>🏷️ Store Offers</Link>
                 )}
                 {isMasterAdmin && (
-                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(230,185,126,0.15)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid #e6b97e', fontWeight: 'bold' }}>👑 Admin Staff Management</Link>
+                  <Link to="/admin?tab=admins" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(230,185,126,0.15)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid #e6b97e', fontWeight: 'bold' }}>👑 Admin Staff Management</Link>
                 )}
               </div>
             </div>

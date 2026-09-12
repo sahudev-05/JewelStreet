@@ -31,6 +31,7 @@ const Footer = () => (
 
         <ul>
           <li className="footer-list-header">Customer Care</li>
+          <li><Link to="/offers" style={{ color: '#e6b97e', fontWeight: 'bold' }}>🏷️ Exclusive Offers & Coupons</Link></li>
           <li><Link to="/live-gold-rates">Live Gold Rates</Link></li>
           <li><Link to="/about">Our Heritage</Link></li>
           <li><Link to="/privacy">Privacy Policy</Link></li>

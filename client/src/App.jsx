@@ -15,6 +15,7 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import AdminDashboard from './pages/AdminDashboard';
 import LiveGoldRates from './pages/LiveGoldRates';
+import Offers from './pages/Offers';
 import { About, Privacy, Terms, Affiliate, Collab, CorporateGifting, Location } from './pages/StaticPages';
 import './index.css';
 
@@ -34,6 +35,8 @@ function App() {
 
                   {/* Functional pages — must come before /:category */}
                   <Route path="/live-gold-rates" element={<LiveGoldRates />} />
+                  <Route path="/offers" element={<Offers />} />
+                  <Route path="/coupons" element={<Offers />} />
                   <Route path="/search" element={<ProductList />} />
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/favourites" element={<Favourites />} />

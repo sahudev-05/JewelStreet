@@ -63,6 +63,9 @@ const Nav = () => {
           <Link to="/live-gold-rates" onClick={() => setMobileOpen(false)}>Live Gold Rates</Link>
         </li>
         <li>
+          <Link to="/offers" onClick={() => setMobileOpen(false)} style={{ color: '#e6b97e', fontWeight: 'bold' }}>🏷️ Offers & Coupons</Link>
+        </li>
+        <li>
           <span className="nav-action-link" onClick={() => handleSectionScroll('review')}>Reviews</span>
         </li>
         <li>
