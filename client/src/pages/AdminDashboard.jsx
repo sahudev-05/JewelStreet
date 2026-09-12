@@ -34,6 +34,68 @@ const emptyProd = {
   description: 'Handcrafted luxury Jewel Street creation.'
 };
 
+const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
+
+const ROLE_PRESETS = [
+  {
+    value: 'inventory_manager',
+    label: '💎 Catalog & Inventory Manager',
+    activities: ['inventory'],
+    desc: 'Manages fine jewelry catalog, stocks, pricing, and making charges.'
+  },
+  {
+    value: 'order_manager',
+    label: '📦 Order Fulfillment Specialist',
+    activities: ['orders'],
+    desc: 'Manages customer orders, armored transit tracking, delivery statuses, and returns.'
+  },
+  {
+    value: 'support_specialist',
+    label: '🎧 Customer Support Executive',
+    activities: ['support'],
+    desc: 'Handles customer problem-solver tickets and resolution inquiries.'
+  },
+  {
+    value: 'customer_manager',
+    label: '👥 Customer Relations Manager',
+    activities: ['customers'],
+    desc: 'Views client profiles, purchasing metrics, contact numbers, and delivery addresses.'
+  },
+  {
+    value: 'reports_analyst',
+    label: '📊 Business & Financial Analyst',
+    activities: ['reports'],
+    desc: 'Accesses store analytics, revenue reports, CSV/PDF exports, and executive email reports.'
+  },
+  {
+    value: 'promotions_manager',
+    label: '🏷️ Promotions & Marketing Lead',
+    activities: ['coupons'],
+    desc: 'Creates and controls promotional discount codes, sales vouchers, and special offers.'
+  },
+  {
+    value: 'store_operations',
+    label: '🏬 Store Operations Supervisor',
+    activities: ['inventory', 'orders', 'customers', 'support'],
+    desc: 'Supervises store operations across inventory, orders, customers & support.'
+  },
+  {
+    value: 'custom',
+    label: '⚙️ Custom Privileges (Select Activities)',
+    activities: ['inventory'],
+    desc: 'Individually select customized operational activities.'
+  },
+];
+
+const ALL_OPERATIONAL_ACTIVITIES = [
+  { key: 'inventory', label: 'Inventory & Catalog', icon: 'fa-gem', desc: 'Add, edit, delete items, stock & making charges' },
+  { key: 'orders', label: 'Orders & Fulfillment', icon: 'fa-truck-loading', desc: 'Order tracking, armored transit, invoices & returns' },
+  { key: 'customers', label: 'Customer Directory', icon: 'fa-users', desc: 'View customer accounts, addresses & order counts' },
+  { key: 'support', label: 'Problem Solver & Support', icon: 'fa-headset', desc: 'Resolve client complaints & support tickets' },
+  { key: 'reports', label: 'Reports & Analytics', icon: 'fa-chart-bar', desc: 'Inventory reports, revenue analytics & CSV/PDF export' },
+  { key: 'coupons', label: 'Offers & Coupons', icon: 'fa-tags', desc: 'Create and toggle promotional discount codes' },
+];
+
 const AdminDashboard = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
@@ -85,7 +147,15 @@ const AdminDashboard = () => {
   const [masterChangePassLoading, setMasterChangePassLoading] = useState(false);
   const [masterChangePassMsg, setMasterChangePassMsg] = useState(null);
 
-  // activeTab: 'inventory' | 'orders' | 'reports' | 'admins'
+  // Master Admin Role Assignment state
+  const [showRoleModal, setShowRoleModal] = useState(false);
+  const [selectedAdminForRole, setSelectedAdminForRole] = useState(null);
+  const [editAdminRole, setEditAdminRole] = useState('inventory_manager');
+  const [editAdminActivities, setEditAdminActivities] = useState(['inventory']);
+  const [roleUpdateLoading, setRoleUpdateLoading] = useState(false);
+  const [roleUpdateMsg, setRoleUpdateMsg] = useState(null);
+
+  // activeTab: 'inventory' | 'orders' | 'reports' | 'admins' | 'customers' | 'support' | 'coupons'
   const [activeTab, setActiveTab] = useState('inventory');
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -121,7 +191,13 @@ const AdminDashboard = () => {
   // Admin Management state
   const [adminList, setAdminList] = useState([]);
   const [adminsLoading, setAdminsLoading] = useState(false);
-  const [newAdminForm, setNewAdminForm] = useState({ name: '', email: '', password: '' });
+  const [newAdminForm, setNewAdminForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    assignedRole: 'inventory_manager',
+    allowedActivities: ['inventory']
+  });
   const [adminCreating, setAdminCreating] = useState(false);
   const [adminMsg, setAdminMsg] = useState(null);
 
@@ -143,12 +219,31 @@ const AdminDashboard = () => {
     checkAdminRole();
   }, []);
 
+  const loadDataForAdmin = (u) => {
+    const uEmail = (u?.email || '').toLowerCase().trim();
+    const isMasterUser = MASTER_ADMINS.includes(uEmail) || u?.role === 'master_admin' || u?.isMaster === true;
+    const activities = isMasterUser
+      ? ['inventory', 'orders', 'customers', 'support', 'reports', 'admins', 'coupons']
+      : (Array.isArray(u?.allowedActivities) && u?.allowedActivities.length > 0 ? u.allowedActivities : ['inventory']);
+
+    if (activities.includes('inventory')) fetchInventory();
+    if (activities.includes('orders')) fetchOrders();
+    if (activities.includes('customers')) fetchCustomers();
+    if (activities.includes('support')) fetchTickets();
+    if (activities.includes('coupons')) fetchCoupons();
+    if (isMasterUser) fetchAdmins();
+
+    // Default active tab to first permitted tab
+    setActiveTab(prevTab => activities.includes(prevTab) ? prevTab : (activities[0] || 'inventory'));
+  };
+
   const checkAdminRole = () => {
     const savedUser = localStorage.getItem('jewel_user');
     if (savedUser) {
       try {
         const u = JSON.parse(savedUser);
         setUser(u);
+        axios.defaults.headers.common['x-admin-email'] = u.email;
         if (u.mustChangePassword) {
           setShowFirstTimeModal(true);
           setFirstTimeEmail(u.email);
@@ -156,12 +251,9 @@ const AdminDashboard = () => {
           setLoading(false);
           return;
         }
-        if (u.role === 'admin' || u.role === 'master_admin' || u.email === 'deevyanshusahu@gmail.com') {
+        if (u.role === 'admin' || u.role === 'master_admin' || MASTER_ADMINS.includes((u.email || '').toLowerCase())) {
           setIsAdmin(true);
-          fetchInventory();
-          fetchOrders();
-          fetchCustomers();
-          fetchTickets();
+          loadDataForAdmin(u);
           return;
         }
       } catch (e) {
@@ -189,10 +281,8 @@ const AdminDashboard = () => {
           setIsAdmin(false);
         } else {
           setIsAdmin(true);
-          fetchInventory();
-          fetchOrders();
-          fetchCustomers();
-          fetchTickets();
+          axios.defaults.headers.common['x-admin-email'] = res.data.email;
+          loadDataForAdmin(res.data);
         }
         return;
       }
@@ -587,6 +677,90 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleNewAdminRoleChange = (roleValue) => {
+    const preset = ROLE_PRESETS.find(r => r.value === roleValue);
+    setNewAdminForm(prev => ({
+      ...prev,
+      assignedRole: roleValue,
+      allowedActivities: preset && roleValue !== 'custom' ? [...preset.activities] : prev.allowedActivities
+    }));
+  };
+
+  const toggleNewAdminActivity = (actKey) => {
+    setNewAdminForm(prev => {
+      const current = prev.allowedActivities || [];
+      const updated = current.includes(actKey)
+        ? current.filter(k => k !== actKey)
+        : [...current, actKey];
+      return {
+        ...prev,
+        assignedRole: 'custom',
+        allowedActivities: updated
+      };
+    });
+  };
+
+  const openEditRoleModal = (admin) => {
+    setSelectedAdminForRole(admin);
+    const roleKey = admin.assignedRole || 'inventory_manager';
+    setEditAdminRole(roleKey);
+    const actList = Array.isArray(admin.allowedActivities) && admin.allowedActivities.length > 0
+      ? [...admin.allowedActivities]
+      : (ROLE_PRESETS.find(r => r.value === roleKey)?.activities || ['inventory']);
+    setEditAdminActivities(actList);
+    setRoleUpdateMsg(null);
+    setShowRoleModal(true);
+  };
+
+  const handleEditRoleChange = (roleValue) => {
+    setEditAdminRole(roleValue);
+    const preset = ROLE_PRESETS.find(r => r.value === roleValue);
+    if (preset && roleValue !== 'custom') {
+      setEditAdminActivities([...preset.activities]);
+    }
+  };
+
+  const toggleEditAdminActivity = (actKey) => {
+    setEditAdminActivities(prev => {
+      const updated = prev.includes(actKey) ? prev.filter(k => k !== actKey) : [...prev, actKey];
+      return updated;
+    });
+    setEditAdminRole('custom');
+  };
+
+  const handleUpdateAdminRoleSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedAdminForRole) return;
+    if (editAdminActivities.length === 0) {
+      setRoleUpdateMsg({ type: 'error', text: 'Please select at least one activity permission for this administrator.' });
+      return;
+    }
+
+    setRoleUpdateLoading(true);
+    setRoleUpdateMsg(null);
+    try {
+      const reqEmail = user?.email || 'deevyanshusahu@gmail.com';
+      const res = await axios.put('/api/auth/update-admin-role', {
+        adminId: selectedAdminForRole.id || selectedAdminForRole.adminId,
+        email: selectedAdminForRole.email,
+        assignedRole: editAdminRole,
+        allowedActivities: editAdminActivities
+      }, {
+        headers: { 'x-admin-email': reqEmail }
+      });
+      setRoleUpdateMsg({ type: 'success', text: res.data.message });
+      fetchAdmins();
+      setTimeout(() => {
+        setShowRoleModal(false);
+        setRoleUpdateMsg(null);
+      }, 1400);
+    } catch (err) {
+      setRoleUpdateMsg({ type: 'error', text: err.response?.data?.message || 'Failed to update administrator role' });
+    } finally {
+      setRoleUpdateLoading(false);
+    }
+  };
+
   const handleCreateAdmin = async (e) => {
     e.preventDefault();
     setAdminCreating(true); setAdminMsg(null);
@@ -595,8 +769,15 @@ const AdminDashboard = () => {
       const res = await axios.post('/api/auth/create-admin', newAdminForm, {
         headers: { 'x-admin-email': reqEmail }
       });
-      setAdminMsg({ type: 'success', text: `\u2705 Admin "${newAdminForm.name}" created! ${res.data.emailSent ? 'Credentials email sent.' : ''}`, previewUrl: res.data.previewUrl });
-      setNewAdminForm({ name: '', email: '', password: '' });
+      const assignedLabel = ROLE_PRESETS.find(r => r.value === newAdminForm.assignedRole)?.label || newAdminForm.assignedRole;
+      setAdminMsg({ type: 'success', text: `✅ Admin "${newAdminForm.name}" created with role "${assignedLabel}"! ${res.data.emailSent ? 'Credentials email sent.' : ''}`, previewUrl: res.data.previewUrl });
+      setNewAdminForm({
+        name: '',
+        email: '',
+        password: '',
+        assignedRole: 'inventory_manager',
+        allowedActivities: ['inventory']
+      });
       fetchAdmins();
     } catch (err) { setAdminMsg({ type: 'error', text: err.response?.data?.message || 'Failed to create admin' }); }
     setAdminCreating(false);
@@ -925,67 +1106,131 @@ const AdminDashboard = () => {
       <div className="admin-container">
         
         {/* Admin Header */}
-        <div className="admin-dashboard-header">
-          <div>
-            <span className="royal-pill"><i className="fas fa-shield-alt" style={{ marginRight: '6px' }}></i> Jewel Street HQ</span>
-            <h1>Inventory & Operations Command Center</h1>
-            <p style={{ color: '#a599c2', margin: '4px 0 0', fontSize: '0.88rem' }}>Logged in as <strong style={{ color: '#e6b97e' }}>{user?.name}</strong></p>
-          </div>
-          <button className="add-prod-btn" onClick={openAddModal}>
-            <i className="fas fa-plus-circle"></i> Add New Jewellery Item
-          </button>
-        </div>
+        {(() => {
+          const uEmail = (user?.email || '').toLowerCase().trim();
+          const isMaster = MASTER_ADMINS.includes(uEmail) || user?.role === 'master_admin' || user?.isMaster === true;
+          const effectiveActivities = isMaster
+            ? ['inventory', 'orders', 'customers', 'support', 'reports', 'admins', 'coupons']
+            : (Array.isArray(user?.allowedActivities) && user?.allowedActivities.length > 0
+                ? user.allowedActivities
+                : ['inventory']);
 
-        {/* Stats Row */}
-        <div className="admin-stats-grid">
-          <div className="stat-card">
-            <div className="stat-icon"><i className="fas fa-coins" style={{ color: '#e6b97e' }}></i></div>
-            <div>
-              <span className="stat-label">Total Store Revenue</span>
-              <h3>₹{totalRevenue.toLocaleString('en-IN')}</h3>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon"><i className="fas fa-box" style={{ color: '#e6b97e' }}></i></div>
-            <div>
-              <span className="stat-label">Active Catalog Items</span>
-              <h3>{products.length} Products</h3>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon"><i className="fas fa-file-invoice" style={{ color: '#e6b97e' }}></i></div>
-            <div>
-              <span className="stat-label">Total Orders Handled</span>
-              <h3>{orders.length} Purchases</h3>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon"><i className="fas fa-exclamation-triangle" style={{ color: '#e6b97e' }}></i></div>
-            <div>
-              <span className="stat-label">Low Stock Alerts</span>
-              <h3 style={{ color: outOfStockCount > 0 ? '#e6b97e' : '#e6b97e' }}>
-                {outOfStockCount} Out of Stock
-              </h3>
-            </div>
-          </div>
-        </div>
+          const assignedPreset = ROLE_PRESETS.find(r => r.value === user?.assignedRole);
+          const roleTitle = isMaster
+            ? '👑 Master Administrator (Full Access)'
+            : (assignedPreset?.label || '💎 Store Administrator');
 
-        {/* Navigation Tabs */}
-        <div className="admin-tabs">
-          {[
+          const allAvailableTabs = [
             { key: 'inventory', icon: 'fa-gem', label: `Inventory (${products.length})` },
             { key: 'orders', icon: 'fa-truck-loading', label: `Orders (${orders.length})` },
             { key: 'customers', icon: 'fa-users', label: `Customers (${customers.length})` },
             { key: 'support', icon: 'fa-headset', label: `Problem Solver (${supportTickets.filter(t => t.status !== 'Resolved').length} Active)` },
             { key: 'reports', icon: 'fa-chart-bar', label: 'Reports & Analytics' },
-            { key: 'admins', icon: 'fa-user-shield', label: 'Admin Management' },
+            ...(isMaster ? [{ key: 'admins', icon: 'fa-user-shield', label: `Admin Management (${adminList.length})` }] : []),
             { key: 'coupons', icon: 'fa-tags', label: `Offers & Coupons (${coupons.length})` },
-          ].map(tab => (
-            <button key={tab.key} className={`admin-tab ${activeTab === tab.key ? 'active' : ''}`} onClick={() => handleTabSwitch(tab.key)}>
-              <i className={`fas ${tab.icon}`}></i> {tab.label}
-            </button>
-          ))}
-        </div>
+          ];
+
+          const visibleTabs = allAvailableTabs.filter(t => effectiveActivities.includes(t.key));
+
+          return (
+            <>
+              <div className="admin-dashboard-header">
+                <div>
+                  <span className="royal-pill"><i className="fas fa-shield-alt" style={{ marginRight: '6px' }}></i> Jewel Street HQ</span>
+                  <h1>Inventory & Operations Command Center</h1>
+                  <p style={{ color: '#a599c2', margin: '6px 0 0', fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                    <span>Logged in as <strong style={{ color: '#e6b97e' }}>{user?.name}</strong></span>
+                    <span style={{
+                      fontSize: '0.76rem',
+                      padding: '2px 10px',
+                      borderRadius: '16px',
+                      background: isMaster ? 'rgba(230,185,126,0.18)' : 'rgba(78,205,196,0.15)',
+                      color: isMaster ? '#e6b97e' : '#4ecdc4',
+                      border: `1px solid ${isMaster ? 'rgba(230,185,126,0.45)' : 'rgba(78,205,196,0.4)'}`,
+                      fontWeight: '600'
+                    }}>
+                      {roleTitle}
+                    </span>
+                  </p>
+                </div>
+                {effectiveActivities.includes('inventory') && (
+                  <button className="add-prod-btn" onClick={openAddModal}>
+                    <i className="fas fa-plus-circle"></i> Add New Jewellery Item
+                  </button>
+                )}
+              </div>
+
+              {/* Stats Row: filtered by activity */}
+              <div className="admin-stats-grid">
+                {(isMaster || effectiveActivities.includes('reports') || effectiveActivities.includes('orders')) && (
+                  <div className="stat-card">
+                    <div className="stat-icon"><i className="fas fa-coins" style={{ color: '#e6b97e' }}></i></div>
+                    <div>
+                      <span className="stat-label">Total Store Revenue</span>
+                      <h3>₹{totalRevenue.toLocaleString('en-IN')}</h3>
+                    </div>
+                  </div>
+                )}
+                {effectiveActivities.includes('inventory') && (
+                  <div className="stat-card">
+                    <div className="stat-icon"><i className="fas fa-box" style={{ color: '#e6b97e' }}></i></div>
+                    <div>
+                      <span className="stat-label">Active Catalog Items</span>
+                      <h3>{products.length} Products</h3>
+                    </div>
+                  </div>
+                )}
+                {effectiveActivities.includes('orders') && (
+                  <div className="stat-card">
+                    <div className="stat-icon"><i className="fas fa-file-invoice" style={{ color: '#e6b97e' }}></i></div>
+                    <div>
+                      <span className="stat-label">Total Orders Handled</span>
+                      <h3>{orders.length} Purchases</h3>
+                    </div>
+                  </div>
+                )}
+                {effectiveActivities.includes('customers') && (
+                  <div className="stat-card">
+                    <div className="stat-icon"><i className="fas fa-users" style={{ color: '#e6b97e' }}></i></div>
+                    <div>
+                      <span className="stat-label">Registered Clients</span>
+                      <h3>{customers.length} Clients</h3>
+                    </div>
+                  </div>
+                )}
+                {effectiveActivities.includes('support') && (
+                  <div className="stat-card">
+                    <div className="stat-icon"><i className="fas fa-headset" style={{ color: '#e6b97e' }}></i></div>
+                    <div>
+                      <span className="stat-label">Active Support Tickets</span>
+                      <h3>{supportTickets.filter(t => t.status !== 'Resolved').length} Unresolved</h3>
+                    </div>
+                  </div>
+                )}
+                {effectiveActivities.includes('inventory') && (
+                  <div className="stat-card">
+                    <div className="stat-icon"><i className="fas fa-exclamation-triangle" style={{ color: '#e6b97e' }}></i></div>
+                    <div>
+                      <span className="stat-label">Low Stock Alerts</span>
+                      <h3 style={{ color: outOfStockCount > 0 ? '#e6b97e' : '#e6b97e' }}>
+                        {outOfStockCount} Out of Stock
+                      </h3>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Navigation Tabs: only show permitted activities */}
+              <div className="admin-tabs">
+                {visibleTabs.map(tab => (
+                  <button key={tab.key} className={`admin-tab ${activeTab === tab.key ? 'active' : ''}`} onClick={() => handleTabSwitch(tab.key)}>
+                    <i className={`fas ${tab.icon}`}></i> {tab.label}
+                  </button>
+                ))}
+              </div>
+            </>
+          );
+        })()}
 
         {/* Tab 1: Inventory Table */}
         {activeTab === 'inventory' && (
@@ -1456,6 +1701,68 @@ const AdminDashboard = () => {
                           <input type={f.type} value={newAdminForm[f.field]} onChange={e=>setNewAdminForm(p=>({...p,[f.field]:e.target.value}))} placeholder={f.ph} required style={{width:'100%',padding:'10px',background:'#090029',border:'1px solid var(--border-color)',borderRadius:'8px',color:'#fff',boxSizing:'border-box'}} />
                         </div>
                       ))}
+
+                      {/* Role Preset Selector */}
+                      <div className="form-row" style={{ marginBottom: '14px' }}>
+                        <label style={{ display: 'block', marginBottom: '6px', color: '#e6b97e', fontSize: '0.85rem', fontWeight: 'bold' }}>
+                          Assigned Role & Designation *
+                        </label>
+                        <select
+                          value={newAdminForm.assignedRole}
+                          onChange={e => handleNewAdminRoleChange(e.target.value)}
+                          style={{ width: '100%', padding: '10px', background: '#090029', border: '1px solid var(--border-color)', borderRadius: '8px', color: '#fff', boxSizing: 'border-box', cursor: 'pointer' }}
+                        >
+                          {ROLE_PRESETS.map(preset => (
+                            <option key={preset.value} value={preset.value}>
+                              {preset.label}
+                            </option>
+                          ))}
+                        </select>
+                        <div style={{ marginTop: '6px', fontSize: '0.78rem', color: '#a599c2', fontStyle: 'italic' }}>
+                          {ROLE_PRESETS.find(p => p.value === newAdminForm.assignedRole)?.desc}
+                        </div>
+                      </div>
+
+                      {/* Activity Permissions Checkboxes */}
+                      <div className="form-row" style={{ marginBottom: '18px' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', color: '#e6b97e', fontSize: '0.85rem', fontWeight: 'bold' }}>
+                          Permitted Dashboard Activities ({newAdminForm.allowedActivities?.length || 0} active)
+                        </label>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px' }}>
+                          {ALL_OPERATIONAL_ACTIVITIES.map(act => {
+                            const isChecked = (newAdminForm.allowedActivities || []).includes(act.key);
+                            return (
+                              <div
+                                key={act.key}
+                                onClick={() => toggleNewAdminActivity(act.key)}
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '8px',
+                                  padding: '8px 10px',
+                                  borderRadius: '6px',
+                                  background: isChecked ? 'rgba(230, 185, 126, 0.15)' : 'rgba(255,255,255,0.02)',
+                                  border: `1px solid ${isChecked ? '#e6b97e' : 'rgba(255,255,255,0.08)'}`,
+                                  color: isChecked ? '#fff' : '#a599c2',
+                                  cursor: 'pointer',
+                                  fontSize: '0.78rem',
+                                  userSelect: 'none'
+                                }}
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={isChecked}
+                                  onChange={() => {}}
+                                  style={{ accentColor: '#e6b97e', pointerEvents: 'none' }}
+                                />
+                                <i className={`fas ${act.icon}`} style={{ color: isChecked ? '#e6b97e' : '#a599c2', fontSize: '0.75rem' }}></i>
+                                <span style={{ whiteSpace: 'nowrap' }}>{act.label}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
                       <button type="submit" disabled={adminCreating} style={{width:'100%',padding:'12px',background:'linear-gradient(135deg,#e6b97e,#d4a060)',border:'none',borderRadius:'8px',color:'#0d0028',fontWeight:'bold',cursor:'pointer',fontSize:'0.95rem',marginTop:'4px'}}>
                         {adminCreating ? '⏳ Creating...' : '👑 Create Admin & Send Email'}
                       </button>
@@ -1464,7 +1771,7 @@ const AdminDashboard = () => {
                       {adminMsg.text}
                       {adminMsg.previewUrl && <div style={{marginTop:'8px'}}><a href={adminMsg.previewUrl} target="_blank" rel="noreferrer" style={{color:'#e6b97e'}}>📬 View Test Email Preview</a></div>}
                     </div>)}
-                    <div style={{marginTop:'16px',padding:'12px',background:'rgba(230,185,126,0.08)',borderRadius:'8px',border:'1px solid rgba(230,185,126,0.2)',fontSize:'0.82rem',color:'#a599c2'}}>ℹ️ New admins will receive login credentials via email.</div>
+                    <div style={{marginTop:'16px',padding:'12px',background:'rgba(230,185,126,0.08)',borderRadius:'8px',border:'1px solid rgba(230,185,126,0.2)',fontSize:'0.82rem',color:'#a599c2'}}>ℹ️ New admins will receive login credentials, assigned role &amp; live Vercel portal link via email.</div>
                   </div>
                 )}
                 <div>
@@ -1473,40 +1780,83 @@ const AdminDashboard = () => {
                     <button onClick={fetchAdmins} style={{padding:'8px 14px',background:'transparent',border:'1px solid var(--border-color)',borderRadius:'6px',color:'#a599c2',cursor:'pointer',fontSize:'0.82rem'}}>🔄 Refresh</button>
                   </div>
                   {adminsLoading ? (<div className="admin-loading"><i className="fas fa-spinner fa-spin"></i> Loading...</div>) : (
-                    <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
-                      {adminList.map(admin=>(
-                        <div key={admin.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',background:'rgba(255,255,255,0.04)',borderRadius:'10px',padding:'14px 18px',border:`1px solid ${admin.role==='master_admin'?'rgba(230,185,126,0.4)':'var(--border-color)'}`}}>
-                          <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
-                            <div style={{width:'36px',height:'36px',borderRadius:'50%',background:admin.role==='master_admin'?'linear-gradient(135deg,#e6b97e,#d4a060)':'linear-gradient(135deg,#c4b8e2,#8e82a8)',display:'flex',alignItems:'center',justifyContent:'center',color:'#0d0028',fontWeight:'bold',fontSize:admin.role==='master_admin'?'1rem':'0.95rem',flexShrink:0}}>{(admin.name||'A')[0].toUpperCase()}</div>
-                            <div>
-                              <div style={{fontWeight:'bold',color:'#fff',display:'flex',alignItems:'center',gap:'6px',flexWrap:'wrap'}}>
-                                {admin.name}
-                                {admin.role==='master_admin'&&<span style={{fontSize:'0.7rem',padding:'2px 8px',background:'rgba(230,185,126,0.2)',color:'#e6b97e',borderRadius:'20px',border:'1px solid rgba(230,185,126,0.4)'}}>👑 Master Admin</span>}
-                                {admin.mustChangePassword && <span style={{fontSize:'0.68rem',padding:'2px 8px',background:'rgba(234,194,136,0.15)',color:'#eac288',borderRadius:'12px',border:'1px solid rgba(234,194,136,0.35)'}}>⚠️ First Login Pending</span>}
+                    <div style={{display:'flex',flexDirection:'column',gap:'12px'}}>
+                      {adminList.map(admin=>{
+                        const adminPreset = ROLE_PRESETS.find(r => r.value === admin.assignedRole);
+                        const roleTitle = admin.role === 'master_admin' ? '👑 Master Admin (Full Control)' : (adminPreset?.label || admin.assignedRole || 'Store Administrator');
+                        const adminActs = admin.role === 'master_admin'
+                          ? ['inventory', 'orders', 'customers', 'support', 'reports', 'coupons', 'admins']
+                          : (admin.allowedActivities || ['inventory']);
+
+                        return (
+                          <div key={admin.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',background:'rgba(255,255,255,0.04)',borderRadius:'10px',padding:'14px 18px',border:`1px solid ${admin.role==='master_admin'?'rgba(230,185,126,0.4)':'var(--border-color)'}`}}>
+                            <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                              <div style={{width:'38px',height:'38px',borderRadius:'50%',background:admin.role==='master_admin'?'linear-gradient(135deg,#e6b97e,#d4a060)':'linear-gradient(135deg,#c4b8e2,#8e82a8)',display:'flex',alignItems:'center',justifyContent:'center',color:'#0d0028',fontWeight:'bold',fontSize:admin.role==='master_admin'?'1rem':'0.95rem',flexShrink:0}}>{(admin.name||'A')[0].toUpperCase()}</div>
+                              <div>
+                                <div style={{fontWeight:'bold',color:'#fff',display:'flex',alignItems:'center',gap:'8px',flexWrap:'wrap'}}>
+                                  <span>{admin.name}</span>
+                                  <span style={{
+                                    fontSize:'0.7rem',
+                                    padding:'2px 8px',
+                                    background: admin.role==='master_admin' ? 'rgba(230,185,126,0.2)' : 'rgba(78,205,196,0.15)',
+                                    color: admin.role==='master_admin' ? '#e6b97e' : '#4ecdc4',
+                                    borderRadius:'14px',
+                                    border: `1px solid ${admin.role==='master_admin' ? 'rgba(230,185,126,0.4)' : 'rgba(78,205,196,0.4)'}`
+                                  }}>
+                                    {roleTitle}
+                                  </span>
+                                  {admin.mustChangePassword && <span style={{fontSize:'0.68rem',padding:'2px 8px',background:'rgba(234,194,136,0.15)',color:'#eac288',borderRadius:'12px',border:'1px solid rgba(234,194,136,0.35)'}}>⚠️ First Login Pending</span>}
+                                </div>
+                                <div style={{fontSize:'0.8rem',color:'#a599c2',marginTop:'2px'}}>{admin.email}</div>
+                                
+                                {/* Permitted Activity Badges */}
+                                <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', marginTop: '6px' }}>
+                                  {admin.role === 'master_admin' ? (
+                                    <span style={{ fontSize: '0.68rem', padding: '2px 8px', background: 'rgba(230,185,126,0.12)', color: '#e6b97e', borderRadius: '4px', border: '1px solid rgba(230,185,126,0.3)' }}>
+                                      ⚡ Complete Access (All 7 Activities)
+                                    </span>
+                                  ) : (
+                                    adminActs.map(actKey => {
+                                      const actDef = ALL_OPERATIONAL_ACTIVITIES.find(a => a.key === actKey);
+                                      return (
+                                        <span key={actKey} style={{ fontSize: '0.66rem', padding: '1px 6px', background: 'rgba(78,205,196,0.1)', color: '#4ecdc4', borderRadius: '4px', border: '1px solid rgba(78,205,196,0.25)' }}>
+                                          <i className={`fas ${actDef?.icon || 'fa-check'}`} style={{ marginRight: '3px' }}></i>
+                                          {actDef?.label || actKey}
+                                        </span>
+                                      );
+                                    })
+                                  )}
+                                </div>
+                                <div style={{fontSize:'0.72rem',color:'#5a4e7a',marginTop:'4px'}}>Added: {new Date(admin.createdAt).toLocaleDateString('en-IN')}</div>
                               </div>
-                              <div style={{fontSize:'0.8rem',color:'#a599c2'}}>{admin.email}</div>
-                              <div style={{fontSize:'0.72rem',color:'#5a4e7a'}}>Added: {new Date(admin.createdAt).toLocaleDateString('en-IN')}</div>
                             </div>
+                            {admin.role!=='master_admin' && isMaster && (
+                              <div style={{display:'flex',gap:'8px',flexShrink:0,flexWrap:'wrap',justifyContent:'flex-end'}}>
+                                <button
+                                  onClick={()=>openEditRoleModal(admin)}
+                                  style={{padding:'7px 12px',background:'rgba(78,205,196,0.15)',border:'1px solid #4ecdc4',borderRadius:'6px',color:'#4ecdc4',cursor:'pointer',fontSize:'0.8rem',fontWeight:'600'}}
+                                  title="Assign roles and customize operational permissions"
+                                >
+                                  <i className="fas fa-user-tag"></i> Assign Role
+                                </button>
+                                <button
+                                  onClick={()=>openChangeAdminPassModal(admin)}
+                                  style={{padding:'7px 12px',background:'rgba(230,185,126,0.15)',border:'1px solid #e6b97e',borderRadius:'6px',color:'#e6b97e',cursor:'pointer',fontSize:'0.8rem',fontWeight:'600'}}
+                                  title="Change or reset this administrator's password"
+                                >
+                                  <i className="fas fa-key"></i> Change Pass
+                                </button>
+                                <button
+                                  onClick={()=>handleRemoveAdmin(admin.id,admin.name)}
+                                  style={{padding:'7px 12px',background:'rgba(186,75,95,0.14)',border:'1px solid rgba(186,75,95,0.35)',borderRadius:'6px',color:'#e89da9',cursor:'pointer',fontSize:'0.8rem'}}
+                                >
+                                  <i className="fas fa-user-times"></i> Remove
+                                </button>
+                              </div>
+                            )}
                           </div>
-                          {admin.role!=='master_admin' && isMaster && (
-                            <div style={{display:'flex',gap:'8px',flexShrink:0}}>
-                              <button
-                                onClick={()=>openChangeAdminPassModal(admin)}
-                                style={{padding:'7px 14px',background:'rgba(230,185,126,0.15)',border:'1px solid #e6b97e',borderRadius:'6px',color:'#e6b97e',cursor:'pointer',fontSize:'0.8rem',fontWeight:'600'}}
-                                title="Change or reset this administrator's password"
-                              >
-                                <i className="fas fa-key"></i> Change Password
-                              </button>
-                              <button
-                                onClick={()=>handleRemoveAdmin(admin.id,admin.name)}
-                                style={{padding:'7px 14px',background:'rgba(186,75,95,0.14)',border:'1px solid rgba(186,75,95,0.35)',borderRadius:'6px',color:'#e89da9',cursor:'pointer',fontSize:'0.8rem'}}
-                              >
-                                <i className="fas fa-user-times"></i> Remove
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                        );
+                      })}
                       {adminList.length===0&&<p style={{color:'#a599c2',textAlign:'center',padding:'20px'}}>No admins found.</p>}
                     </div>
                   )}
@@ -1518,22 +1868,22 @@ const AdminDashboard = () => {
 
         {/* Tab 5: Offers & Coupons Management */}
         {activeTab === 'coupons' && (() => {
-          const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
-          const userEmail = (user?.email || '').toLowerCase().trim();
-          const isMaster = MASTER_ADMINS.includes(userEmail) || user?.role === 'master_admin';
+          const uEmail = (user?.email || '').toLowerCase().trim();
+          const isMaster = MASTER_ADMINS.includes(uEmail) || user?.role === 'master_admin' || user?.isMaster === true;
+          const hasCouponsAccess = isMaster || (user?.allowedActivities || []).includes('coupons');
 
           return (
             <div className="admin-tab-content">
-              {!isMaster && (
+              {!hasCouponsAccess && (
                 <div style={{ marginBottom: '20px', padding: '14px 18px', background: 'rgba(186, 75, 95, 0.12)', border: '1px solid rgba(186, 75, 95, 0.35)', borderRadius: '10px', color: '#e89da9', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <span style={{ fontSize: '1.2rem' }}>🔒</span>
-                  <span><strong>Restricted Access:</strong> Only Master Admin (<code>deevyanshusahu@gmail.com</code>) is permitted to create, toggle, or delete promotional offers & coupons.</span>
+                  <span><strong>Restricted Access:</strong> Only Master Admin or appointed Promotions Managers are permitted to manage promotional offers & coupons.</span>
                 </div>
               )}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '28px', alignItems: 'start' }}>
                 
                 {/* Coupon Creation Form */}
-                <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '24px', border: '1px solid var(--border-color)', opacity: isMaster ? 1 : 0.6 }}>
+                <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '24px', border: '1px solid var(--border-color)', opacity: hasCouponsAccess ? 1 : 0.6 }}>
                   <h3 style={{ color: '#e6b97e', marginBottom: '18px' }}><i className="fas fa-tag"></i> Create Promotional Offer</h3>
                   <form onSubmit={handleCreateCoupon}>
                     <div className="form-row" style={{ marginBottom: '14px' }}>
@@ -2559,6 +2909,130 @@ const AdminDashboard = () => {
                   style={{ padding: '10px 22px', background: 'linear-gradient(135deg, #e6b97e, #d4a060)', border: 'none', borderRadius: '8px', color: '#0d0028', fontWeight: 'bold', cursor: 'pointer' }}
                 >
                   {ticketStatusUpdating ? 'Updating Record...' : '💾 Save & Update Ticket'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Master Admin Role & Permissions Assignment Modal */}
+      {showRoleModal && selectedAdminForRole && (
+        <div className="admin-modal-overlay" onClick={() => setShowRoleModal(false)} style={{ zIndex: 999999 }}>
+          <div className="admin-modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: '560px', background: 'linear-gradient(145deg, #0d0033 0%, #06001a 100%)', border: '2px solid #e6b97e', borderRadius: '16px', padding: '30px', boxShadow: '0 10px 40px rgba(0,0,0,0.9)' }}>
+            
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', borderBottom: '1px solid rgba(230,185,126,0.3)', paddingBottom: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ fontSize: '1.6rem' }}>👑</span>
+                <div>
+                  <h3 style={{ margin: 0, color: '#fff', fontSize: '1.25rem', fontFamily: "'Georgia', serif" }}>
+                    Assign Role &amp; Permissions
+                  </h3>
+                  <span style={{ fontSize: '0.8rem', color: '#e6b97e' }}>Master Administrator Access Control</span>
+                </div>
+              </div>
+              <button className="close-modal-btn" onClick={() => setShowRoleModal(false)}>✕</button>
+            </div>
+
+            {/* Target Admin Card */}
+            <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '10px', padding: '14px 18px', marginBottom: '18px', border: '1px solid rgba(230,185,126,0.2)' }}>
+              <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.95rem' }}>{selectedAdminForRole.name}</div>
+              <div style={{ fontSize: '0.82rem', color: '#a599c2', marginTop: '2px' }}>{selectedAdminForRole.email}</div>
+            </div>
+
+            {roleUpdateMsg && (
+              <div style={{
+                marginBottom: '18px',
+                padding: '12px 14px',
+                borderRadius: '8px',
+                fontSize: '0.86rem',
+                background: roleUpdateMsg.type === 'success' ? 'rgba(198, 217, 190, 0.14)' : 'rgba(186, 75, 95, 0.14)',
+                border: `1px solid ${roleUpdateMsg.type === 'success' ? '#c6d9be' : '#e89da9'}`,
+                color: roleUpdateMsg.type === 'success' ? '#c6d9be' : '#e89da9',
+              }}>
+                {roleUpdateMsg.text}
+              </div>
+            )}
+
+            <form onSubmit={handleUpdateAdminRoleSubmit}>
+              {/* Role Preset Selector */}
+              <div className="form-group" style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', marginBottom: '6px', color: '#e6b97e', fontSize: '0.88rem', fontWeight: 'bold' }}>
+                  Select Designation / Role Preset *
+                </label>
+                <select
+                  value={editAdminRole}
+                  onChange={e => handleEditRoleChange(e.target.value)}
+                  style={{ width: '100%', padding: '11px', background: '#090029', border: '1px solid rgba(230, 185, 126, 0.4)', borderRadius: '8px', color: '#fff', fontSize: '0.95rem', fontWeight: 'bold', cursor: 'pointer' }}
+                >
+                  {ROLE_PRESETS.map(preset => (
+                    <option key={preset.value} value={preset.value}>
+                      {preset.label}
+                    </option>
+                  ))}
+                </select>
+                <div style={{ marginTop: '6px', fontSize: '0.8rem', color: '#a599c2', fontStyle: 'italic' }}>
+                  {ROLE_PRESETS.find(p => p.value === editAdminRole)?.desc}
+                </div>
+              </div>
+
+              {/* Granular Activity Checkboxes */}
+              <div className="form-group" style={{ marginBottom: '22px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#e6b97e', fontSize: '0.88rem', fontWeight: 'bold' }}>
+                  Permitted Dashboard Activities ({editAdminActivities.length} granted)
+                </label>
+                <span style={{ display: 'block', fontSize: '0.78rem', color: '#a599c2', marginBottom: '10px' }}>
+                  This administrator will strictly see and perform ONLY the checked activities. All other dashboard tabs will remain completely hidden.
+                </span>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px' }}>
+                  {ALL_OPERATIONAL_ACTIVITIES.map(act => {
+                    const isChecked = editAdminActivities.includes(act.key);
+                    return (
+                      <div
+                        key={act.key}
+                        onClick={() => toggleEditAdminActivity(act.key)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          padding: '10px 12px',
+                          borderRadius: '8px',
+                          background: isChecked ? 'rgba(230, 185, 126, 0.16)' : 'rgba(255,255,255,0.03)',
+                          border: `1.5px solid ${isChecked ? '#e6b97e' : 'rgba(255,255,255,0.08)'}`,
+                          color: isChecked ? '#fff' : '#a599c2',
+                          cursor: 'pointer',
+                          fontSize: '0.82rem',
+                          userSelect: 'none'
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => {}}
+                          style={{ accentColor: '#e6b97e', pointerEvents: 'none' }}
+                        />
+                        <i className={`fas ${act.icon}`} style={{ color: isChecked ? '#e6b97e' : '#a599c2', fontSize: '0.82rem' }}></i>
+                        <span style={{ fontWeight: isChecked ? '600' : 'normal' }}>{act.label}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '24px' }}>
+                <button
+                  type="button"
+                  onClick={() => setShowRoleModal(false)}
+                  style={{ padding: '10px 18px', background: 'transparent', border: '1px solid var(--border-color)', borderRadius: '8px', color: '#a599c2', cursor: 'pointer' }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={roleUpdateLoading}
+                  style={{ padding: '11px 24px', background: 'linear-gradient(135deg, #e6b97e, #d4a060)', border: 'none', borderRadius: '8px', color: '#0d0028', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.92rem' }}
+                >
+                  {roleUpdateLoading ? 'Updating Permissions...' : '👑 Save Role & Privileges'}
                 </button>
               </div>
             </form>
