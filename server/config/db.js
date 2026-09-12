@@ -8,21 +8,27 @@ try {
   console.warn('DNS server fallback notice:', dnsErr.message);
 }
 
+const DEFAULT_URI = 'mongodb+srv://deevyanshusahu_db_user:MxK7OIOfbWkk6MBh@cluster0.e32jvv6.mongodb.net/jewelstreet?retryWrites=true&w=majority';
+
+let cachedPromise = null;
+
 const connectDB = async () => {
-  const uri = process.env.MONGODB_URI;
-  if (!uri) {
-    console.warn('⚠️  MONGODB_URI not set in .env — running without database.');
-    return;
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
   }
 
-  try {
-    const conn = await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 10000,
-      socketTimeoutMS: 45000,
-      connectTimeoutMS: 10000,
-      maxPoolSize: 10,
-    });
+  if (cachedPromise) {
+    return cachedPromise;
+  }
 
+  const uri = process.env.MONGODB_URI || process.env.MONGO_URI || DEFAULT_URI;
+
+  cachedPromise = mongoose.connect(uri, {
+    serverSelectionTimeoutMS: 10000,
+    socketTimeoutMS: 45000,
+    connectTimeoutMS: 10000,
+    maxPoolSize: 10,
+  }).then(async (conn) => {
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
 
     mongoose.connection.on('disconnected', () => {
@@ -36,13 +42,22 @@ const connectDB = async () => {
     });
 
     // Seed initial data and sync any local offline records
-    await seedInitialData();
-    await syncPendingLocalData();
+    try {
+      await seedInitialData();
+      await syncPendingLocalData();
+    } catch (seedErr) {
+      console.warn('Seed error:', seedErr.message);
+    }
 
-  } catch (error) {
+    return conn;
+  }).catch((error) => {
+    cachedPromise = null;
     console.warn(`⚠️  MongoDB not connected: ${error.message}`);
     console.warn('   Using file-based fallback storage for products & orders.');
-  }
+    return null;
+  });
+
+  return cachedPromise;
 };
 
 // Seed products + master admin if not already present

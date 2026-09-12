@@ -8,6 +8,7 @@ const { protect, requireActivity } = require('../middleware/authMiddleware');
 const fs = require('fs');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const connectDB = require('../config/db');
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -60,6 +61,9 @@ router.post('/register', async (req, res) => {
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      try { await connectDB(); } catch (e) {}
+    }
     const { email, password, portal } = req.body;
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password are required' });
@@ -373,6 +377,9 @@ const isMasterAdminEmail = (email) => {
 // GET /api/auth/my-role — Real-time query for an administrator's current role and permitted activities
 router.get('/my-role', async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      try { await connectDB(); } catch (e) {}
+    }
     const emailParam = req.query.email || req.headers['x-admin-email'] || '';
     if (!emailParam) {
       return res.status(400).json({ message: 'Email query parameter or x-admin-email header is required' });
@@ -848,6 +855,9 @@ const ROLE_DEFAULT_ACTIVITIES = {
 // POST /api/auth/create-admin — Master admin creates a sub-admin with email notification and assigned roles/activities
 router.post('/create-admin', async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      try { await connectDB(); } catch (e) {}
+    }
     const requesterEmail = req.headers['x-admin-email'] || req.body.requesterEmail || '';
     if (requesterEmail && !isMasterAdminEmail(requesterEmail)) {
       return res.status(403).json({ message: 'Access Denied: Only Master Admin (deevyanshusahu@gmail.com) can create new administrators.' });
@@ -959,6 +969,9 @@ router.post('/create-admin', async (req, res) => {
 // PUT /api/auth/update-admin-role — Master Admin updates a sub-admin's assigned role and activity permissions (or promotes to Master Admin)
 router.put('/update-admin-role', async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      try { await connectDB(); } catch (e) {}
+    }
     const requesterEmail = req.headers['x-admin-email'] || req.body.requesterEmail || '';
     if (!isMasterAdminEmail(requesterEmail)) {
       return res.status(403).json({ message: 'Access Denied: Only Master Admin can modify administrator roles & activities.' });
@@ -1058,12 +1071,16 @@ router.put('/update-admin-role', async (req, res) => {
 
 // GET /api/auth/list-admins — Get all admin users with assigned roles & activities
 router.get('/list-admins', async (req, res) => {
+  if (mongoose.connection.readyState !== 1) {
+    try { await connectDB(); } catch (e) {}
+  }
+
   // Try MongoDB first
   if (mongoose.connection.readyState === 1) {
     try {
       const dbAdmins = await Admin.find({}).lean();
-      if (dbAdmins.length > 0) {
-        return res.json(dbAdmins.map(a => ({
+      if (dbAdmins && dbAdmins.length > 0) {
+        const formatted = dbAdmins.map(a => ({
           id: a.adminId || (a._id ? a._id.toString() : `admin_${Date.now()}`),
           name: a.name,
           email: a.email,
@@ -1074,10 +1091,19 @@ router.get('/list-admins', async (req, res) => {
             : (a.allowedActivities && a.allowedActivities.length > 0 ? a.allowedActivities : ['inventory']),
           mustChangePassword: Boolean(a.mustChangePassword),
           createdAt: a.createdAt
-        })));
+        }));
+
+        // Keep in-memory cache in sync
+        adminList = formatted;
+        saveAdmins();
+
+        return res.json(formatted);
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error('List admins DB query error:', e.message);
+    }
   }
+
   // File fallback
   const safeList = adminList.map(({ password: _p, ...rest }) => ({
     ...rest,
@@ -1093,6 +1119,9 @@ router.get('/list-admins', async (req, res) => {
 
 // DELETE /api/auth/remove-admin/:id — Remove admin by ID
 router.delete('/remove-admin/:id', async (req, res) => {
+  if (mongoose.connection.readyState !== 1) {
+    try { await connectDB(); } catch (e) {}
+  }
   const { id } = req.params;
   const requesterEmail = req.headers['x-admin-email'] || req.query.requesterEmail || '';
   if (requesterEmail && !isMasterAdminEmail(requesterEmail)) {

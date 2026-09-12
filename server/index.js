@@ -29,6 +29,18 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Global database connection middleware to ensure Mongoose is ready before any route executes
+app.use(async (req, res, next) => {
+  if (require('mongoose').connection.readyState !== 1) {
+    try {
+      await connectDB();
+    } catch (err) {
+      console.warn('DB connection middleware warning:', err.message);
+    }
+  }
+  next();
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/cart', cartRoutes);

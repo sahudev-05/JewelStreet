@@ -210,7 +210,14 @@ const AdminDashboard = () => {
   const [emailReportData, setEmailReportData] = useState(null);
 
   // Admin Management state
-  const [adminList, setAdminList] = useState([]);
+  const [adminList, setAdminList] = useState(() => {
+    try {
+      const cached = localStorage.getItem('jewel_admin_cache');
+      return cached ? JSON.parse(cached) : [];
+    } catch (e) {
+      return [];
+    }
+  });
   const [adminsLoading, setAdminsLoading] = useState(false);
   const [newAdminForm, setNewAdminForm] = useState({
     name: '',
@@ -568,9 +575,40 @@ const AdminDashboard = () => {
 
   const fetchAdmins = async () => {
     setAdminsLoading(true);
-    try { const res = await axios.get('/api/auth/list-admins'); setAdminList(res.data || []); }
-    catch (err) {}
-    setAdminsLoading(false);
+    try {
+      const reqEmail = user?.email || (localStorage.getItem('jewel_user') ? JSON.parse(localStorage.getItem('jewel_user') || '{}').email : 'deevyanshusahu@gmail.com');
+      const res = await axios.get('/api/auth/list-admins', {
+        headers: { 'x-admin-email': reqEmail }
+      });
+      if (Array.isArray(res.data) && res.data.length > 0) {
+        setAdminList(res.data);
+        try {
+          localStorage.setItem('jewel_admin_cache', JSON.stringify(res.data));
+        } catch (e) {}
+      }
+    } catch (err) {
+      console.warn('Fetch admins server notice, preserving cached list:', err);
+      try {
+        const cached = localStorage.getItem('jewel_admin_cache');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length > 0) setAdminList(parsed);
+        }
+      } catch (e) {}
+    } finally {
+      setAdminsLoading(false);
+    }
+  };
+
+  const handleAdminLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('jewel_token');
+    localStorage.removeItem('jewel_user');
+    delete axios.defaults.headers.common['x-admin-email'];
+    delete axios.defaults.headers.common['Authorization'];
+    setUser(null);
+    setIsAdmin(false);
+    setLoading(false);
   };
 
   const fetchCoupons = async () => {
@@ -684,7 +722,7 @@ const AdminDashboard = () => {
   const handleTabSwitch = (tab) => {
     setActiveTab(tab);
     if (tab === 'reports' && !inventoryReport) fetchReports();
-    if (tab === 'admins' && adminList.length === 0) fetchAdmins();
+    if (tab === 'admins') fetchAdmins();
     if (tab === 'coupons' && coupons.length === 0) fetchCoupons();
     if (tab === 'customers') fetchCustomers();
     if (tab === 'support') fetchTickets();
@@ -1310,11 +1348,33 @@ const AdminDashboard = () => {
                     </span>
                   </p>
                 </div>
-                {effectiveActivities.includes('inventory') && (
-                  <button className="add-prod-btn" onClick={openAddModal}>
-                    <i className="fas fa-plus-circle"></i> Add New Jewellery Item
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                  {effectiveActivities.includes('inventory') && (
+                    <button className="add-prod-btn" onClick={openAddModal}>
+                      <i className="fas fa-plus-circle"></i> Add New Jewellery Item
+                    </button>
+                  )}
+                  <button
+                    onClick={handleAdminLogout}
+                    style={{
+                      padding: '10px 18px',
+                      background: 'rgba(239, 68, 68, 0.12)',
+                      border: '1px solid rgba(239, 68, 68, 0.35)',
+                      borderRadius: '8px',
+                      color: '#f87171',
+                      cursor: 'pointer',
+                      fontSize: '0.85rem',
+                      fontWeight: '600',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      transition: 'all 0.2s ease'
+                    }}
+                    title="Sign out of Admin Console"
+                  >
+                    <i className="fas fa-sign-out-alt"></i> Exit Console
                   </button>
-                )}
+                </div>
               </div>
 
               {/* Stats Row: filtered by activity */}
