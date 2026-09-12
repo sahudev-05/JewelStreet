@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import EmailReportModal from '../components/EmailReportModal';
 import {
+  CategoryDonutChart,
+  CategoryStockBarChart,
+  MonthlyRevenueBarChart,
+  OrderStatusPieChart,
+  TopSellingBarChart
+} from '../components/ReportCharts';
+import {
   exportInventoryCSV,
   exportSalesCSV,
   exportOrdersCSV,
@@ -23,20 +30,31 @@ const CATS = [
   { value: 'anklet', label: 'Anklets' },
   { value: 'pendent', label: 'Pendants' },
   { value: 'mangalsutra', label: 'Mangalsutra' },
-  { value: 'nosepin', label: 'Nose Pin' },
-  { value: 'hair', label: 'Hair Accessories' },
-  { value: 'watch', label: 'Luxury Watches' },
+  { value: 'nosepin', label: 'Nose Pins' },
+  { value: 'accessories', label: 'Accessories' }
 ];
 
 const emptyProd = {
-  name: '', category: 'rings', weight: '6.0', purity: '91.6%',
-  price: '\u20b945,000', stock: 12, image: '/photos/product1.jpg',
-  description: 'Handcrafted luxury Jewel Street creation.'
+  name: '',
+  description: '',
+  price: '',
+  category: 'rings',
+  stock: '',
+  material: '22K Gold',
+  weight: '',
+  makingChargePercent: 18,
+  image: '',
 };
 
 const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
 
 const ROLE_PRESETS = [
+  {
+    value: 'master_admin',
+    label: '👑 Master Administrator (Full Access)',
+    activities: ['inventory', 'orders', 'customers', 'support', 'reports', 'coupons', 'admins'],
+    desc: 'Unrestricted master access across all store operations, role assignments, security and administrators.'
+  },
   {
     value: 'inventory_manager',
     label: '💎 Catalog & Inventory Manager',
@@ -94,6 +112,7 @@ const ALL_OPERATIONAL_ACTIVITIES = [
   { key: 'support', label: 'Problem Solver & Support', icon: 'fa-headset', desc: 'Resolve client complaints & support tickets' },
   { key: 'reports', label: 'Reports & Analytics', icon: 'fa-chart-bar', desc: 'Inventory reports, revenue analytics & CSV/PDF export' },
   { key: 'coupons', label: 'Offers & Coupons', icon: 'fa-tags', desc: 'Create and toggle promotional discount codes' },
+  { key: 'admins', label: 'Admin Access Control', icon: 'fa-user-shield', desc: 'Create, modify and manage store administrators' },
 ];
 
 const AdminDashboard = () => {
@@ -758,6 +777,31 @@ const AdminDashboard = () => {
       setRoleUpdateMsg({ type: 'error', text: err.response?.data?.message || 'Failed to update administrator role' });
     } finally {
       setRoleUpdateLoading(false);
+    }
+  };
+
+  const handleMakeMasterAdmin = async (admin) => {
+    const confirmMsg = `Are you sure you want to promote ${admin.name} (${admin.email}) to Master Administrator?\n\nThey will receive full, unrestricted access across all 7 operational modules and admin management privileges.`;
+    if (!window.confirm(confirmMsg)) return;
+
+    try {
+      const adminEmail = (user?.email || '').toLowerCase().trim();
+      const res = await axios.put('/api/auth/update-admin-role', {
+        adminId: admin.id || admin.adminId,
+        email: admin.email,
+        assignedRole: 'master_admin',
+        allowedActivities: ['inventory', 'orders', 'customers', 'support', 'reports', 'coupons', 'admins'],
+        requesterEmail: adminEmail
+      }, {
+        headers: { 'x-admin-email': adminEmail }
+      });
+
+      if (res.data.success) {
+        alert(`👑 ${admin.name} is now a Master Administrator!`);
+        fetchAdmins();
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to promote administrator to Master Admin');
     }
   };
 
@@ -1640,6 +1684,13 @@ const AdminDashboard = () => {
                         <div key={s.label} className="stat-card"><div className="stat-icon">{s.icon}</div><div><span className="stat-label">{s.label}</span><h3 style={s.col?{color:s.val>0?s.col:'#c6d9be'}:{}}>{s.val}</h3></div></div>
                       )}
                     </div>
+
+                    {/* Interactive Graphs for Inventory */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px', margin: '24px 0' }}>
+                      <CategoryDonutChart categoryStats={inventoryReport.categoryStats} title="Category Valuation Distribution" />
+                      <CategoryStockBarChart categoryStats={inventoryReport.categoryStats} />
+                    </div>
+
                     <h3 style={{ color: '#e6b97e', margin: '24px 0 12px' }}>📊 Category-wise Breakdown</h3>
                     <div className="table-responsive"><table className="admin-table"><thead><tr><th>Category</th><th>Products</th><th>Stock Units</th><th>Inventory Value</th></tr></thead><tbody>
                       {Object.entries(inventoryReport.categoryStats).map(([cat,stats])=>(<tr key={cat}><td><span className="cat-tag">{cat}</span></td><td>{stats.products}</td><td>{stats.count}</td><td className="price-cell">₹{(stats.value||0).toLocaleString('en-IN')}</td></tr>))}
@@ -1658,11 +1709,21 @@ const AdminDashboard = () => {
                         <div key={s.label} className="stat-card"><div className="stat-icon">{s.icon}</div><div><span className="stat-label">{s.label}</span><h3>{s.val}</h3></div></div>
                       )}
                     </div>
-                    {salesReport.monthly.length>0 && (<><h3 style={{color:'#e6b97e',margin:'24px 0 12px'}}>📅 Monthly Revenue Trend</h3><div className="table-responsive"><table className="admin-table"><thead><tr><th>Month</th><th>Orders</th><th>Revenue</th></tr></thead><tbody>{salesReport.monthly.map(m=>(<tr key={m.month}><td>{m.month}</td><td>{m.orders}</td><td className="price-cell">₹{(m.revenue||0).toLocaleString('en-IN')}</td></tr>))}</tbody></table></div></>)}
-                    <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'24px',marginTop:'24px'}}>
-                      <div><h3 style={{color:'#e6b97e',marginBottom:'12px'}}>📋 Order Status Breakdown</h3><div style={{background:'rgba(255,255,255,0.04)',borderRadius:'10px',padding:'16px',border:'1px solid var(--border-color)'}}>{Object.entries(salesReport.statusBreakdown).length>0?Object.entries(salesReport.statusBreakdown).map(([s,c])=>(<div key={s} style={{display:'flex',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid rgba(255,255,255,0.06)'}}><span className={`status-pill ${s.toLowerCase().replace(/\s+/g,'-')}`}>{s}</span><strong style={{color:'#e6b97e'}}>{c} orders</strong></div>)):<p style={{color:'#a599c2',textAlign:'center'}}>No orders yet</p>}</div></div>
-                      <div><h3 style={{color:'#e6b97e',marginBottom:'12px'}}>🏆 Top Selling Items</h3><div style={{background:'rgba(255,255,255,0.04)',borderRadius:'10px',padding:'16px',border:'1px solid var(--border-color)'}}>{salesReport.topItems.length>0?salesReport.topItems.map((it,i)=>(<div key={i} style={{display:'flex',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid rgba(255,255,255,0.06)',fontSize:'0.85rem'}}><span>{i+1}. {it.name}</span><strong style={{color:'#e6b97e'}}>×{it.qty}</strong></div>)):<p style={{color:'#a599c2',textAlign:'center'}}>No sales data yet</p>}</div></div>
+
+                    {/* Monthly Revenue Bar Chart */}
+                    {salesReport.monthly && salesReport.monthly.length > 0 && (
+                      <div style={{ marginTop: '24px' }}>
+                        <MonthlyRevenueBarChart monthly={salesReport.monthly} />
+                      </div>
+                    )}
+
+                    {/* Order Status Donut/Pie & Top Selling Ranked Chart */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', margin: '24px 0' }}>
+                      <OrderStatusPieChart statusBreakdown={salesReport.statusBreakdown} />
+                      <TopSellingBarChart topItems={salesReport.topItems} />
                     </div>
+
+                    {salesReport.monthly.length>0 && (<><h3 style={{color:'#e6b97e',margin:'24px 0 12px'}}>📅 Monthly Revenue Table</h3><div className="table-responsive"><table className="admin-table"><thead><tr><th>Month</th><th>Orders</th><th>Revenue</th></tr></thead><tbody>{salesReport.monthly.map(m=>(<tr key={m.month}><td>{m.month}</td><td>{m.orders}</td><td className="price-cell">₹{(m.revenue||0).toLocaleString('en-IN')}</td></tr>))}</tbody></table></div></>)}
                   </div>
                 )}
                 {!inventoryReport && !salesReport && !reportsLoading && (
@@ -1728,7 +1789,7 @@ const AdminDashboard = () => {
                         <label style={{ display: 'block', marginBottom: '8px', color: '#e6b97e', fontSize: '0.85rem', fontWeight: 'bold' }}>
                           Permitted Dashboard Activities ({newAdminForm.allowedActivities?.length || 0} active)
                         </label>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '10px' }}>
                           {ALL_OPERATIONAL_ACTIVITIES.map(act => {
                             const isChecked = (newAdminForm.allowedActivities || []).includes(act.key);
                             return (
@@ -1738,25 +1799,28 @@ const AdminDashboard = () => {
                                 style={{
                                   display: 'flex',
                                   alignItems: 'center',
-                                  gap: '8px',
-                                  padding: '8px 10px',
-                                  borderRadius: '6px',
-                                  background: isChecked ? 'rgba(230, 185, 126, 0.15)' : 'rgba(255,255,255,0.02)',
-                                  border: `1px solid ${isChecked ? '#e6b97e' : 'rgba(255,255,255,0.08)'}`,
+                                  gap: '10px',
+                                  padding: '9px 12px',
+                                  borderRadius: '8px',
+                                  background: isChecked ? 'rgba(230, 185, 126, 0.18)' : 'rgba(255,255,255,0.03)',
+                                  border: `1.5px solid ${isChecked ? '#e6b97e' : 'rgba(255,255,255,0.1)'}`,
                                   color: isChecked ? '#fff' : '#a599c2',
                                   cursor: 'pointer',
-                                  fontSize: '0.78rem',
-                                  userSelect: 'none'
+                                  fontSize: '0.8rem',
+                                  userSelect: 'none',
+                                  boxSizing: 'border-box',
+                                  minWidth: 0,
+                                  transition: 'all 0.15s ease'
                                 }}
                               >
                                 <input
                                   type="checkbox"
                                   checked={isChecked}
                                   onChange={() => {}}
-                                  style={{ accentColor: '#e6b97e', pointerEvents: 'none' }}
+                                  style={{ accentColor: '#e6b97e', pointerEvents: 'none', flexShrink: 0 }}
                                 />
-                                <i className={`fas ${act.icon}`} style={{ color: isChecked ? '#e6b97e' : '#a599c2', fontSize: '0.75rem' }}></i>
-                                <span style={{ whiteSpace: 'nowrap' }}>{act.label}</span>
+                                <i className={`fas ${act.icon}`} style={{ color: isChecked ? '#e6b97e' : '#a599c2', fontSize: '0.82rem', flexShrink: 0 }}></i>
+                                <span style={{ fontWeight: isChecked ? '600' : 'normal', lineHeight: '1.25' }}>{act.label}</span>
                               </div>
                             );
                           })}
@@ -1771,7 +1835,7 @@ const AdminDashboard = () => {
                       {adminMsg.text}
                       {adminMsg.previewUrl && <div style={{marginTop:'8px'}}><a href={adminMsg.previewUrl} target="_blank" rel="noreferrer" style={{color:'#e6b97e'}}>📬 View Test Email Preview</a></div>}
                     </div>)}
-                    <div style={{marginTop:'16px',padding:'12px',background:'rgba(230,185,126,0.08)',borderRadius:'8px',border:'1px solid rgba(230,185,126,0.2)',fontSize:'0.82rem',color:'#a599c2'}}>ℹ️ New admins will receive login credentials, assigned role &amp; live Vercel portal link via email.</div>
+                    <div style={{marginTop:'16px',padding:'12px',background:'rgba(230,185,126,0.08)',borderRadius:'8px',border:'1px solid rgba(230,185,126,0.2)',fontSize:'0.82rem',color:'#a599c2'}}>ℹ️ New admins will receive login credentials and role assignment details via email.</div>
                   </div>
                 )}
                 <div>
@@ -1832,6 +1896,13 @@ const AdminDashboard = () => {
                             </div>
                             {admin.role!=='master_admin' && isMaster && (
                               <div style={{display:'flex',gap:'8px',flexShrink:0,flexWrap:'wrap',justifyContent:'flex-end'}}>
+                                <button
+                                  onClick={()=>handleMakeMasterAdmin(admin)}
+                                  style={{padding:'7px 12px',background:'rgba(230,185,126,0.18)',border:'1px solid #e6b97e',borderRadius:'6px',color:'#e6b97e',cursor:'pointer',fontSize:'0.8rem',fontWeight:'bold',display:'flex',alignItems:'center',gap:'5px'}}
+                                  title="Promote this administrator to Master Administrator with full access"
+                                >
+                                  <span>👑</span> Make Master Admin
+                                </button>
                                 <button
                                   onClick={()=>openEditRoleModal(admin)}
                                   style={{padding:'7px 12px',background:'rgba(78,205,196,0.15)',border:'1px solid #4ecdc4',borderRadius:'6px',color:'#4ecdc4',cursor:'pointer',fontSize:'0.8rem',fontWeight:'600'}}
@@ -2974,6 +3045,27 @@ const AdminDashboard = () => {
                 <div style={{ marginTop: '6px', fontSize: '0.8rem', color: '#a599c2', fontStyle: 'italic' }}>
                   {ROLE_PRESETS.find(p => p.value === editAdminRole)?.desc}
                 </div>
+                <div style={{ marginTop: '10px' }}>
+                  <button
+                    type="button"
+                    onClick={() => handleEditRoleChange('master_admin')}
+                    style={{
+                      padding: '7px 14px',
+                      background: editAdminRole === 'master_admin' ? 'linear-gradient(135deg,#e6b97e,#d4a060)' : 'rgba(230,185,126,0.12)',
+                      border: '1px solid #e6b97e',
+                      borderRadius: '6px',
+                      color: editAdminRole === 'master_admin' ? '#0d0028' : '#e6b97e',
+                      cursor: 'pointer',
+                      fontSize: '0.8rem',
+                      fontWeight: 'bold',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    👑 Quick: Grant Master Admin (Full Access)
+                  </button>
+                </div>
               </div>
 
               {/* Granular Activity Checkboxes */}
@@ -2984,7 +3076,7 @@ const AdminDashboard = () => {
                 <span style={{ display: 'block', fontSize: '0.78rem', color: '#a599c2', marginBottom: '10px' }}>
                   This administrator will strictly see and perform ONLY the checked activities. All other dashboard tabs will remain completely hidden.
                 </span>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '10px' }}>
                   {ALL_OPERATIONAL_ACTIVITIES.map(act => {
                     const isChecked = editAdminActivities.includes(act.key);
                     return (
@@ -2994,25 +3086,28 @@ const AdminDashboard = () => {
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px',
+                          gap: '10px',
                           padding: '10px 12px',
                           borderRadius: '8px',
-                          background: isChecked ? 'rgba(230, 185, 126, 0.16)' : 'rgba(255,255,255,0.03)',
+                          background: isChecked ? 'rgba(230, 185, 126, 0.18)' : 'rgba(255,255,255,0.03)',
                           border: `1.5px solid ${isChecked ? '#e6b97e' : 'rgba(255,255,255,0.08)'}`,
                           color: isChecked ? '#fff' : '#a599c2',
                           cursor: 'pointer',
                           fontSize: '0.82rem',
-                          userSelect: 'none'
+                          userSelect: 'none',
+                          boxSizing: 'border-box',
+                          minWidth: 0,
+                          transition: 'all 0.15s ease'
                         }}
                       >
                         <input
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => {}}
-                          style={{ accentColor: '#e6b97e', pointerEvents: 'none' }}
+                          style={{ accentColor: '#e6b97e', pointerEvents: 'none', flexShrink: 0 }}
                         />
-                        <i className={`fas ${act.icon}`} style={{ color: isChecked ? '#e6b97e' : '#a599c2', fontSize: '0.82rem' }}></i>
-                        <span style={{ fontWeight: isChecked ? '600' : 'normal' }}>{act.label}</span>
+                        <i className={`fas ${act.icon}`} style={{ color: isChecked ? '#e6b97e' : '#a599c2', fontSize: '0.82rem', flexShrink: 0 }}></i>
+                        <span style={{ fontWeight: isChecked ? '600' : 'normal', lineHeight: '1.25' }}>{act.label}</span>
                       </div>
                     );
                   })}
