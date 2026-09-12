@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
 const Admin = require('../models/Admin');
-const { protect } = require('../middleware/authMiddleware');
+const { protect, requireActivity } = require('../middleware/authMiddleware');
 const fs = require('fs');
 const path = require('path');
 const nodemailer = require('nodemailer');
@@ -117,12 +117,22 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ message: 'Invalid admin credentials' });
       }
 
-      const adminId = (effectiveAdmin && (effectiveAdmin.adminId || effectiveAdmin.id)) || 'admin_deevyanshu_2026';
+      const adminId = (effectiveAdmin && (effectiveAdmin.adminId || effectiveAdmin.id)) || (dbUser ? dbUser._id : `master_${Date.now()}`);
+      const isDeevyanshuEmail = cleanEmail.includes('deevyanshu');
+      const emailPrefix = cleanEmail.split('@')[0];
+      const fallbackName = emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1);
+      const rawMasterName = (effectiveAdmin && effectiveAdmin.name) || (dbUser && dbUser.name);
+      const resolvedName = (rawMasterName && (!rawMasterName.toLowerCase().includes('deevyanshu') || isDeevyanshuEmail))
+        ? rawMasterName
+        : (isDeevyanshuEmail ? 'Deevyanshu Sahu' : fallbackName);
+
       return res.json({
         _id: adminId,
-        name: 'Deevyanshu Sahu (Royal Admin)',
+        name: resolvedName,
         email: cleanEmail,
         role: 'master_admin',
+        assignedRole: 'master_admin',
+        allowedActivities: ['inventory', 'orders', 'customers', 'support', 'reports', 'coupons', 'admins'],
         mustChangePassword: false,
         token: generateToken(adminId),
       });
@@ -141,12 +151,26 @@ router.post('/login', async (req, res) => {
 
       const mustChange = effectiveAdmin.mustChangePassword !== undefined ? effectiveAdmin.mustChangePassword : (dbUser?.mustChangePassword ?? true);
       const adminId = effectiveAdmin.adminId || effectiveAdmin.id || (dbUser ? dbUser._id : `admin_${Date.now()}`);
+      const allowed = Array.isArray(effectiveAdmin.allowedActivities) && effectiveAdmin.allowedActivities.length > 0
+        ? effectiveAdmin.allowedActivities
+        : ['inventory'];
+      const assignedRole = effectiveAdmin.assignedRole || 'inventory_manager';
+
+      const isDeevSubEmail = cleanEmail.includes('deevyanshu');
+      const subPrefix = cleanEmail.split('@')[0];
+      const fallbackSubName = subPrefix.charAt(0).toUpperCase() + subPrefix.slice(1);
+      const rawSubName = (effectiveAdmin && effectiveAdmin.name) || (dbUser && dbUser.name);
+      const resolvedSubName = (rawSubName && (!rawSubName.toLowerCase().includes('deevyanshu') || isDeevSubEmail))
+        ? rawSubName
+        : fallbackSubName;
 
       return res.json({
         _id: adminId,
-        name: effectiveAdmin.name || (dbUser && dbUser.name) || 'Store Administrator',
+        name: resolvedSubName,
         email: cleanEmail,
         role: 'admin',
+        assignedRole,
+        allowedActivities: allowed,
         mustChangePassword: Boolean(mustChange),
         token: generateToken(adminId),
       });
@@ -329,17 +353,21 @@ const saveAdmins = () => {
   } catch (e) {}
 };
 
+const ROOT_MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
+
 // Helper to check if email is Master Admin
 const isMasterAdminEmail = (email) => {
   if (!email) return false;
   const clean = email.toLowerCase().trim();
-  const envMasters = (process.env.MASTER_ADMIN_EMAILS || 'deevyanshu.sahu@gmail.com,deevyanshusahu@gmail.com,admin@jewelstreet.com')
+  if (ROOT_MASTER_ADMINS.includes(clean)) return true;
+  const envMasters = (process.env.MASTER_ADMIN_EMAILS || '')
     .toLowerCase()
     .split(',')
-    .map(e => e.trim());
+    .map(e => e.trim())
+    .filter(Boolean);
   if (envMasters.includes(clean)) return true;
   const found = adminList.find(a => (a.email || '').toLowerCase().trim() === clean);
-  return found && (found.role === 'master_admin' || found.role === 'admin');
+  return Boolean(found && found.role === 'master_admin');
 };
 
 // POST /api/auth/forgot-password — Request 6-digit OTP for password reset (User & Admin)
@@ -356,7 +384,9 @@ router.post('/forgot-password', async (req, res) => {
     let userType = 'User';
 
     if (isMasterAdminEmail(cleanEmail)) {
-      accountName = 'Deevyanshu Sahu';
+      const fallbackList = getFallbackAdmins();
+      const masterDoc = fallbackList.find(a => a.email && a.email.toLowerCase() === cleanEmail);
+      accountName = (masterDoc && masterDoc.name) || cleanEmail.split('@')[0];
       isFound = true;
       userType = 'Admin';
     }
@@ -570,12 +600,18 @@ router.post('/first-time-password-change', async (req, res) => {
 
     const adminId = (targetAdmin && (targetAdmin.adminId || targetAdmin.id)) || (dbUser ? dbUser._id : `admin_${Date.now()}`);
     const adminName = (targetAdmin && targetAdmin.name) || (dbUser && dbUser.name) || 'Store Administrator';
+    const assignedRole = (targetAdmin && targetAdmin.assignedRole) || 'inventory_manager';
+    const allowedActivities = (targetAdmin && Array.isArray(targetAdmin.allowedActivities) && targetAdmin.allowedActivities.length > 0)
+      ? targetAdmin.allowedActivities
+      : ['inventory'];
 
     const safeUser = {
       _id: adminId,
       name: adminName,
       email: cleanEmail,
-      role: 'admin',
+      role: (targetAdmin && targetAdmin.role) || 'admin',
+      assignedRole,
+      allowedActivities,
       mustChangePassword: false,
       token: generateToken(adminId),
     };
@@ -685,7 +721,19 @@ router.put('/update-admin-password', async (req, res) => {
   }
 });
 
-// POST /api/auth/create-admin — Master admin creates a sub-admin with email notification
+// Role default activity mappings
+const ROLE_DEFAULT_ACTIVITIES = {
+  inventory_manager: ['inventory'],
+  order_manager: ['orders'],
+  support_specialist: ['support'],
+  customer_manager: ['customers'],
+  reports_analyst: ['reports'],
+  promotions_manager: ['coupons'],
+  store_operations: ['inventory', 'orders', 'customers', 'support'],
+  custom: ['inventory'],
+};
+
+// POST /api/auth/create-admin — Master admin creates a sub-admin with email notification and assigned roles/activities
 router.post('/create-admin', async (req, res) => {
   try {
     const requesterEmail = req.headers['x-admin-email'] || req.body.requesterEmail || '';
@@ -693,7 +741,7 @@ router.post('/create-admin', async (req, res) => {
       return res.status(403).json({ message: 'Access Denied: Only Master Admin (deevyanshusahu@gmail.com) can create new administrators.' });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, assignedRole, allowedActivities } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'Name, email and password are required' });
     }
@@ -710,13 +758,24 @@ router.post('/create-admin', async (req, res) => {
     const existingInMemory = adminList.find(a => a.email === cleanEmail);
     if (existingInMemory) return res.status(400).json({ message: 'An admin with this email already exists' });
 
+    const isMasterRole = assignedRole === 'master_admin';
+    const finalRole = assignedRole || 'inventory_manager';
+    const finalActivities = isMasterRole
+      ? ['inventory', 'orders', 'customers', 'support', 'reports', 'coupons', 'admins']
+      : ((Array.isArray(allowedActivities) && allowedActivities.length > 0)
+        ? allowedActivities
+        : (ROLE_DEFAULT_ACTIVITIES[finalRole] || ['inventory']));
+    const adminSystemRole = isMasterRole ? 'master_admin' : 'admin';
+
     const newAdminId = `admin_${Date.now()}`;
     const newAdmin = {
       id: newAdminId,
       name,
       email: cleanEmail,
       password,
-      role: 'admin',
+      role: adminSystemRole,
+      assignedRole: finalRole,
+      allowedActivities: finalActivities,
       mustChangePassword: true,
       createdAt: new Date().toISOString()
     };
@@ -724,24 +783,45 @@ router.post('/create-admin', async (req, res) => {
     // Save to MongoDB Admin collection
     if (mongoose.connection.readyState === 1) {
       try {
-        await Admin.create({ adminId: newAdminId, name, email: cleanEmail, password, role: 'admin', mustChangePassword: true });
+        await Admin.create({
+          adminId: newAdminId,
+          name,
+          email: cleanEmail,
+          password,
+          role: adminSystemRole,
+          assignedRole: finalRole,
+          allowedActivities: finalActivities,
+          mustChangePassword: true
+        });
       } catch (e) { console.error('Admin MongoDB save error:', e.message); }
       // Also create User record so admin can login via /api/auth/login
       try {
         const existingUser = await User.findOne({ email: cleanEmail });
-        if (!existingUser) await User.create({ name, email: cleanEmail, password, role: 'admin', mustChangePassword: true });
-      } catch (e) {}
+        if (!existingUser) {
+          await User.create({ name, email: cleanEmail, password, role: adminSystemRole });
+        } else {
+          existingUser.role = adminSystemRole;
+          await existingUser.save();
+        }
+      } catch (e) { console.error('Admin User sync error:', e.message); }
     }
 
     // Always update in-memory + file
     adminList.push(newAdmin);
     saveAdmins();
 
-    // Send welcome email to the new admin using EmailJS
+    // Send welcome email to the new admin using EmailJS with live Vercel links
     let emailSent = false;
     try {
       const { sendAdminWelcomeEmail } = require('../services/emailService');
-      const emailRes = await sendAdminWelcomeEmail({ name, email: cleanEmail, password, role: 'admin' });
+      const emailRes = await sendAdminWelcomeEmail({
+        name,
+        email: cleanEmail,
+        password,
+        role: adminSystemRole,
+        assignedRole: finalRole,
+        allowedActivities: finalActivities
+      });
       emailSent = emailRes.success;
     } catch (emailErr) {
       console.warn('Admin welcome email error:', emailErr.message);
@@ -749,7 +829,8 @@ router.post('/create-admin', async (req, res) => {
 
     const { password: _p, ...safeAdmin } = newAdmin;
     return res.status(201).json({
-      message: 'Admin created successfully',
+      success: true,
+      message: isMasterRole ? 'Master Admin created successfully' : 'Admin created successfully',
       admin: safeAdmin,
       emailSent,
       previewUrl: null,
@@ -761,7 +842,107 @@ router.post('/create-admin', async (req, res) => {
   }
 });
 
-// GET /api/auth/list-admins — Get all admin users
+// PUT /api/auth/update-admin-role — Master Admin updates a sub-admin's assigned role and activity permissions (or promotes to Master Admin)
+router.put('/update-admin-role', async (req, res) => {
+  try {
+    const requesterEmail = req.headers['x-admin-email'] || req.body.requesterEmail || '';
+    if (!isMasterAdminEmail(requesterEmail)) {
+      return res.status(403).json({ message: 'Access Denied: Only Master Admin can modify administrator roles & activities.' });
+    }
+
+    const { adminId, email, assignedRole, allowedActivities } = req.body;
+    if (!adminId && !email) {
+      return res.status(400).json({ message: 'Admin ID or email is required' });
+    }
+
+    const targetEmail = (email || '').toLowerCase().trim();
+    const isTargetRootMaster = ROOT_MASTER_ADMINS.includes(targetEmail);
+    if (isTargetRootMaster && assignedRole !== 'master_admin') {
+      return res.status(400).json({ message: 'Cannot demote the primary Master Administrator.' });
+    }
+
+    const isPromotingToMaster = assignedRole === 'master_admin';
+    const finalRole = assignedRole || 'inventory_manager';
+    const finalActivities = isPromotingToMaster
+      ? ['inventory', 'orders', 'customers', 'support', 'reports', 'coupons', 'admins']
+      : ((Array.isArray(allowedActivities) && allowedActivities.length > 0)
+        ? allowedActivities
+        : (ROLE_DEFAULT_ACTIVITIES[finalRole] || ['inventory']));
+    const roleToSet = isPromotingToMaster ? 'master_admin' : 'admin';
+
+    // Update in MongoDB
+    let updatedDoc = null;
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const queryConditions = [];
+        if (targetEmail) queryConditions.push({ email: targetEmail });
+        if (adminId) {
+          queryConditions.push({ adminId });
+          if (mongoose.Types.ObjectId.isValid(adminId)) {
+            queryConditions.push({ _id: adminId });
+          }
+        }
+        const query = queryConditions.length > 0 ? { $or: queryConditions } : { email: targetEmail };
+        updatedDoc = await Admin.findOneAndUpdate(
+          query,
+          { $set: { role: roleToSet, assignedRole: finalRole, allowedActivities: finalActivities } },
+          { new: true }
+        );
+        if (targetEmail || (updatedDoc && updatedDoc.email)) {
+          await User.findOneAndUpdate(
+            { email: targetEmail || updatedDoc.email },
+            { $set: { role: roleToSet } }
+          );
+        }
+      } catch (e) {
+        console.error('MongoDB update admin role error:', e.message);
+      }
+    }
+
+    // Update in-memory + file
+    const memIdx = adminList.findIndex(a => 
+      (targetEmail && (a.email || '').toLowerCase().trim() === targetEmail) ||
+      (adminId && (a.id === adminId || a.adminId === adminId))
+    );
+    if (memIdx !== -1) {
+      adminList[memIdx].role = roleToSet;
+      adminList[memIdx].assignedRole = finalRole;
+      adminList[memIdx].allowedActivities = finalActivities;
+      saveAdmins();
+    } else if (targetEmail) {
+      adminList.push({
+        id: adminId || `admin_${Date.now()}`,
+        name: (updatedDoc && updatedDoc.name) || targetEmail.split('@')[0],
+        email: targetEmail,
+        role: roleToSet,
+        assignedRole: finalRole,
+        allowedActivities: finalActivities,
+        mustChangePassword: false,
+        createdAt: new Date().toISOString()
+      });
+      saveAdmins();
+    }
+
+    return res.json({
+      success: true,
+      message: isPromotingToMaster
+        ? 'Administrator successfully promoted to Master Admin with full access!'
+        : 'Administrator role & activities updated successfully!',
+      admin: {
+        id: adminId || (updatedDoc && updatedDoc.adminId),
+        email: targetEmail || (updatedDoc && updatedDoc.email),
+        role: roleToSet,
+        assignedRole: finalRole,
+        allowedActivities: finalActivities
+      }
+    });
+  } catch (error) {
+    console.error('Update admin role error:', error);
+    return res.status(500).json({ message: error.message || 'Failed to update admin role' });
+  }
+});
+
+// GET /api/auth/list-admins — Get all admin users with assigned roles & activities
 router.get('/list-admins', async (req, res) => {
   // Try MongoDB first
   if (mongoose.connection.readyState === 1) {
@@ -769,18 +950,30 @@ router.get('/list-admins', async (req, res) => {
       const dbAdmins = await Admin.find({}).lean();
       if (dbAdmins.length > 0) {
         return res.json(dbAdmins.map(a => ({
-          id: a.adminId,
+          id: a.adminId || (a._id ? a._id.toString() : `admin_${Date.now()}`),
           name: a.name,
           email: a.email,
           role: a.role,
-          mustChangePassword: a.mustChangePassword,
+          assignedRole: a.role === 'master_admin' ? 'master_admin' : (a.assignedRole || 'inventory_manager'),
+          allowedActivities: a.role === 'master_admin'
+            ? ['inventory', 'orders', 'customers', 'support', 'reports', 'coupons', 'admins']
+            : (a.allowedActivities && a.allowedActivities.length > 0 ? a.allowedActivities : ['inventory']),
+          mustChangePassword: Boolean(a.mustChangePassword),
           createdAt: a.createdAt
         })));
       }
     } catch (e) {}
   }
   // File fallback
-  const safeList = adminList.map(({ password: _p, ...rest }) => rest);
+  const safeList = adminList.map(({ password: _p, ...rest }) => ({
+    ...rest,
+    id: rest.id || rest.adminId,
+    assignedRole: rest.role === 'master_admin' ? 'master_admin' : (rest.assignedRole || 'inventory_manager'),
+    allowedActivities: rest.role === 'master_admin'
+      ? ['inventory', 'orders', 'customers', 'support', 'reports', 'coupons', 'admins']
+      : (rest.allowedActivities && rest.allowedActivities.length > 0 ? rest.allowedActivities : ['inventory']),
+    mustChangePassword: Boolean(rest.mustChangePassword)
+  }));
   res.json(safeList);
 });
 
@@ -829,7 +1022,7 @@ router.delete('/remove-admin/:id', async (req, res) => {
 });
 
 // GET /api/auth/customers — List all registered clients with order statistics
-router.get('/customers', async (req, res) => {
+router.get('/customers', requireActivity('customers'), async (req, res) => {
   try {
     const Order = require('../models/Order');
     let customers = [];

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const CustomerQuery = require('../models/CustomerQuery');
+const { requireActivity } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -187,7 +188,7 @@ router.post('/tickets/create', async (req, res) => {
 });
 
 // PUT /api/support/tickets/:id/resolve — Admin solves/updates problem
-router.put('/tickets/:id/resolve', async (req, res) => {
+router.put('/tickets/:id/resolve', requireActivity('support'), async (req, res) => {
   try {
     const { id } = req.params;
     const { status = 'Resolved', resolutionNotes, resolvedBy } = req.body;
@@ -238,7 +239,7 @@ router.put('/tickets/:id/resolve', async (req, res) => {
 });
 
 // DELETE /api/support/tickets/:id — Delete/Archive ticket
-router.delete('/tickets/:id', async (req, res) => {
+router.delete('/tickets/:id', requireActivity('support'), async (req, res) => {
   try {
     const { id } = req.params;
     if (mongoose.connection.readyState === 1) {

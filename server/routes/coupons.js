@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const Coupon = require('../models/Coupon');
+const { requireActivity } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -89,13 +90,9 @@ router.get('/all', async (req, res) => {
   }
 });
 
-// POST /api/coupons/add — Master Admin creates a new coupon
-router.post('/add', async (req, res) => {
+// POST /api/coupons/add — Creates a new coupon (Master Admin or Coupons manager)
+router.post('/add', requireActivity('coupons'), async (req, res) => {
   try {
-    const requesterEmail = req.headers['x-admin-email'] || req.body.requesterEmail || '';
-    if (requesterEmail && !isMasterAdmin(requesterEmail)) {
-      return res.status(403).json({ message: 'Access Denied: Only Master Admin (deevyanshusahu@gmail.com) can create promotional offers and coupons.' });
-    }
 
     const { code, discountType = 'percentage', discountValue, minPurchase = 0, description = '' } = req.body;
     if (!code || discountValue === undefined) {
@@ -149,13 +146,9 @@ router.post('/add', async (req, res) => {
   }
 });
 
-// PUT /api/coupons/:id/toggle — Master Admin toggles active state
-router.put('/:id/toggle', async (req, res) => {
+// PUT /api/coupons/:id/toggle — Toggles active state
+router.put('/:id/toggle', requireActivity('coupons'), async (req, res) => {
   try {
-    const requesterEmail = req.headers['x-admin-email'] || req.body.requesterEmail || '';
-    if (requesterEmail && !isMasterAdmin(requesterEmail)) {
-      return res.status(403).json({ message: 'Access Denied: Only Master Admin (deevyanshusahu@gmail.com) can manage coupon status.' });
-    }
 
     const { id } = req.params;
     let updatedCoupon = null;
@@ -185,13 +178,9 @@ router.put('/:id/toggle', async (req, res) => {
   }
 });
 
-// DELETE /api/coupons/:id — Master Admin deletes a coupon
-router.delete('/:id', async (req, res) => {
+// DELETE /api/coupons/:id — Deletes a coupon
+router.delete('/:id', requireActivity('coupons'), async (req, res) => {
   try {
-    const requesterEmail = req.headers['x-admin-email'] || req.query.requesterEmail || '';
-    if (requesterEmail && !isMasterAdmin(requesterEmail)) {
-      return res.status(403).json({ message: 'Access Denied: Only Master Admin (deevyanshusahu@gmail.com) can delete coupons.' });
-    }
 
     const { id } = req.params;
 

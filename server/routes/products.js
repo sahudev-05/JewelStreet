@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { requireActivity } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -438,7 +439,7 @@ router.get('/inventory/all', async (req, res) => {
 });
 
 // POST /api/products/inventory/add — Admin Add New Product
-router.post('/inventory/add', async (req, res) => {
+router.post('/inventory/add', requireActivity('inventory'), async (req, res) => {
   const { name, category, purity, weight, price, image, description, stock } = req.body;
   if (!name || !category) {
     return res.status(400).json({ message: 'Name and category are required' });
@@ -486,7 +487,7 @@ router.post('/inventory/add', async (req, res) => {
 });
 
 // PUT /api/products/inventory/:id — Admin Update Product
-router.put('/inventory/:id', async (req, res) => {
+router.put('/inventory/:id', requireActivity('inventory'), async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
 
@@ -537,7 +538,7 @@ router.put('/inventory/:id', async (req, res) => {
 });
 
 // DELETE /api/products/inventory/:id — Admin Delete Product
-router.delete('/inventory/:id', async (req, res) => {
+router.delete('/inventory/:id', requireActivity('inventory'), async (req, res) => {
   const { id } = req.params;
 
   // Delete from MongoDB
@@ -601,7 +602,7 @@ router.get('/:category', async (req, res) => {
 });
 
 // GET /api/products/reports/inventory — Inventory report summary
-router.get('/reports/inventory', (req, res) => {
+router.get('/reports/inventory', requireActivity('reports'), (req, res) => {
   const report = [];
   let totalItems = 0;
   let totalValue = 0;
@@ -652,7 +653,7 @@ router.get('/reports/inventory', (req, res) => {
 });
 
 // GET /api/products/reports/sales — Sales analytics from orders
-router.get('/reports/sales', (req, res) => {
+router.get('/reports/sales', requireActivity('reports'), (req, res) => {
   // This endpoint reads from the orders file
   const ordersPath = require('path').join(__dirname, '../data/orders.json');
   let orders = [];
@@ -708,7 +709,7 @@ router.get('/reports/sales', (req, res) => {
 });
 
 // POST /api/products/inventory/update-making-charges — Bulk update making charges for all, category, or selected products
-router.post('/inventory/update-making-charges', async (req, res) => {
+router.post('/inventory/update-making-charges', requireActivity('inventory'), async (req, res) => {
   try {
     const { scope = 'all', categoryKey = 'all', productIds = [], makingChargePercent = 18 } = req.body;
     const percentNum = parseFloat(makingChargePercent) || 18;

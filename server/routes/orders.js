@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const Order = require('../models/Order');
+const { requireActivity } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -146,7 +147,7 @@ router.get('/all-orders', async (req, res) => {
 });
 
 // PUT /api/orders/:id/status — Admin route to update fulfillment status
-router.put('/:id/status', async (req, res) => {
+router.put('/:id/status', requireActivity('orders'), async (req, res) => {
   try {
     const { status } = req.body;
     const { id } = req.params;
@@ -312,7 +313,7 @@ router.post('/:id/cancel', async (req, res) => {
 });
 
 // PUT /api/orders/:id/process-return — Admin approves or rejects Return / Exchange request
-router.put('/:id/process-return', async (req, res) => {
+router.put('/:id/process-return', requireActivity('orders'), async (req, res) => {
   try {
     const { id } = req.params;
     const { action = 'Approved', note = '' } = req.body; // action: 'Approved' or 'Rejected'
