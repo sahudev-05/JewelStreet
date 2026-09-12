@@ -48,7 +48,7 @@ const emptyProd = {
   image: '',
 };
 
-const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
+const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
 
 const ROLE_PRESETS = [
   {
@@ -400,17 +400,24 @@ const AdminDashboard = () => {
         newPassword: firstTimeNewPass,
       });
       setFirstTimeMsg({ type: 'success', text: res.data.message });
-      if (res.data?.user) {
-        localStorage.setItem('jewel_user', JSON.stringify(res.data.user));
-        localStorage.setItem('jewel_token', res.data.token);
-        setUser(res.data.user);
+      const updatedUser = res.data?.user;
+      if (updatedUser) {
+        localStorage.setItem('jewel_user', JSON.stringify(updatedUser));
+        if (res.data.token) {
+          localStorage.setItem('jewel_token', res.data.token);
+        }
+        setUser(updatedUser);
+        axios.defaults.headers.common['x-admin-email'] = updatedUser.email;
       }
       setTimeout(() => {
         setShowFirstTimeModal(false);
         setIsAdmin(true);
-        fetchInventory();
-        fetchOrders();
-      }, 1500);
+        if (updatedUser) {
+          loadDataForAdmin(updatedUser);
+        } else {
+          fetchInventory();
+        }
+      }, 1400);
     } catch (err) {
       setFirstTimeMsg({ type: 'error', text: err.response?.data?.message || 'Failed to update passcode' });
     } finally {
@@ -1752,7 +1759,7 @@ const AdminDashboard = () => {
 
         {/* Tab 4: Admin Management */}
         {activeTab === 'admins' && (() => {
-          const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
+          const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
           const userEmail = (user?.email || '').toLowerCase().trim();
           const isMaster = MASTER_ADMINS.includes(userEmail) || user?.role === 'master_admin' || user?.isMaster === true;
 
@@ -1863,20 +1870,27 @@ const AdminDashboard = () => {
                     </form>
                     {adminMsg && (<div style={{marginTop:'16px',padding:'12px 16px',borderRadius:'8px',background:adminMsg.type==='success'?'rgba(198,217,190,0.14)':'rgba(186,75,95,0.14)',border:`1px solid ${adminMsg.type==='success'?'#c6d9be':'#e89da9'}`,color:adminMsg.type==='success'?'#c6d9be':'#e89da9',fontSize:'0.88rem'}}>
                       {adminMsg.text}
-                      {adminMsg.previewUrl && <div style={{marginTop:'8px'}}><a href={adminMsg.previewUrl} target="_blank" rel="noreferrer" style={{color:'#e6b97e'}}>📬 View Test Email Preview</a></div>}
+                      {adminMsg.previewUrl && (
+                        <div style={{ marginTop: '8px' }}>
+                          <a href={adminMsg.previewUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#e6b97e', textDecoration: 'underline' }}>
+                            View Ethereal Preview Email ↗
+                          </a>
+                        </div>
+                      )}
                     </div>)}
-                    <div style={{marginTop:'16px',padding:'12px',background:'rgba(230,185,126,0.08)',borderRadius:'8px',border:'1px solid rgba(230,185,126,0.2)',fontSize:'0.82rem',color:'#a599c2'}}>ℹ️ New admins will receive login credentials and role assignment details via email.</div>
                   </div>
                 )}
-                <div>
-                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'16px'}}>
-                    <h3 style={{color:'#e6b97e',margin:0}}><i className="fas fa-users-cog"></i> Active Administrators ({adminList.length})</h3>
+                <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '24px', border: '1px solid var(--border-color)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+                    <h3 style={{ color: '#e6b97e', margin: 0 }}><i className="fas fa-users-cog"></i> Active Administrator Accounts ({adminList.length})</h3>
                     <button onClick={fetchAdmins} style={{padding:'8px 14px',background:'transparent',border:'1px solid var(--border-color)',borderRadius:'6px',color:'#a599c2',cursor:'pointer',fontSize:'0.82rem'}}>🔄 Refresh</button>
                   </div>
-                  {adminsLoading ? (<div className="admin-loading"><i className="fas fa-spinner fa-spin"></i> Loading...</div>) : (
-                    <div style={{display:'flex',flexDirection:'column',gap:'12px'}}>
-                      {adminList.map(admin=>{
-                        const adminPreset = ROLE_PRESETS.find(r => r.value === admin.assignedRole);
+                  {adminsLoading ? (
+                    <div className="admin-loading"><i className="fas fa-spinner fa-spin"></i> Loading admins...</div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                      {adminList.map(admin => {
+                        const adminPreset = ROLE_PRESETS.find(p => p.value === admin.assignedRole);
                         const roleTitle = admin.role === 'master_admin' ? '👑 Master Admin (Full Control)' : (adminPreset?.label || admin.assignedRole || 'Store Administrator');
                         const adminActs = admin.role === 'master_admin'
                           ? ['inventory', 'orders', 'customers', 'support', 'reports', 'coupons', 'admins']
@@ -1925,9 +1939,13 @@ const AdminDashboard = () => {
                                     }}>
                                       {roleTitle}
                                     </span>
-                                    {admin.mustChangePassword && (
-                                      <span style={{ fontSize: '0.68rem', padding: '2px 8px', background: 'rgba(234,194,136,0.15)', color: '#eac288', borderRadius: '12px', border: '1px solid rgba(234,194,136,0.35)' }}>
-                                        ⚠️ First Login Pending
+                                    {admin.mustChangePassword ? (
+                                      <span style={{ fontSize: '0.68rem', padding: '2px 8px', background: 'rgba(234,194,136,0.18)', color: '#eac288', borderRadius: '12px', border: '1px solid rgba(234,194,136,0.4)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                        <span>⚠️</span> First Login Pending
+                                      </span>
+                                    ) : (
+                                      <span style={{ fontSize: '0.68rem', padding: '2px 8px', background: 'rgba(78,205,196,0.18)', color: '#4ecdc4', borderRadius: '12px', border: '1px solid rgba(78,205,196,0.4)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                        <i className="fas fa-check-circle" style={{ fontSize: '0.72rem' }}></i> Active &amp; Verified
                                       </span>
                                     )}
                                   </div>

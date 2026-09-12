@@ -61,7 +61,7 @@ const Header = () => {
         {/* User Account / Profile Icon with Interactive Dropdown */}
         {(() => {
           const activeUser = user || (localStorage.getItem('jewel_user') ? JSON.parse(localStorage.getItem('jewel_user')) : null);
-          const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
+          const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
           const userEmail = (activeUser?.email || '').toLowerCase().trim();
           const isMaster = MASTER_ADMINS.includes(userEmail) || activeUser?.role === 'master_admin';
           const isAdmin = isMaster || activeUser?.role === 'admin';

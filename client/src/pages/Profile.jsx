@@ -53,7 +53,7 @@ const Profile = () => {
       setEditPincode(currentUser.pincode || '');
       fetchOrders(currentUser.email);
       const email = (currentUser.email || '').toLowerCase().trim();
-      const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
+      const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
       const isM = MASTER_ADMINS.includes(email) || currentUser.role === 'master_admin';
       const isA = isM || currentUser.role === 'admin';
       if (isA) {
@@ -174,7 +174,7 @@ const Profile = () => {
     ? user.name
     : fallbackDisplayName;
 
-  const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
+  const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
   const isMasterAdmin = MASTER_ADMINS.includes(userEmail) || user?.role === 'master_admin';
   const isAdmin = isMasterAdmin || user?.role === 'admin';
 

@@ -25,7 +25,7 @@ const Nav = () => {
     }
   };
 
-  const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
+  const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
   const userEmail = (user?.email || '').toLowerCase().trim();
   const isAdmin = user && (user.role === 'admin' || user.role === 'master_admin' || MASTER_ADMINS.includes(userEmail));
 
