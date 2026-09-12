@@ -486,7 +486,7 @@
   grid-column: span 2;
 }
 
-.form-group label {
+.profile-container .form-group label {
   display: block;
   font-size: 0.8rem;
   color: #e6b97e;
@@ -494,7 +494,7 @@
   margin-bottom: 6px;
 }
 
-.form-group input {
+.profile-container .form-group input {
   width: 100%;
   padding: 10px 12px;
   background: #090029;

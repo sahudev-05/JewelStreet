@@ -66,6 +66,13 @@ const Header = () => {
           const isMaster = MASTER_ADMINS.includes(userEmail) || activeUser?.role === 'master_admin';
           const isAdmin = isMaster || activeUser?.role === 'admin';
 
+          const isDeev = userEmail.includes('deevyanshu');
+          const emailPrefix = userEmail ? userEmail.split('@')[0] : 'User';
+          const fallbackHeaderName = emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1);
+          const headerDisplayName = (activeUser?.name && (!activeUser.name.toLowerCase().includes('deevyanshu') || isDeev))
+            ? activeUser.name
+            : fallbackHeaderName;
+
           return (
             <div
               className="user-profile-menu-wrap"
@@ -75,7 +82,7 @@ const Header = () => {
               <Link
                 to={activeUser ? '/profile' : '/login'}
                 className="icon-btn"
-                title={activeUser ? (isMaster ? `👑 Master Admin: ${activeUser.name || 'Master Admin'}` : isAdmin ? `🛡️ Admin: ${activeUser.name || 'Store Admin'}` : `👤 Profile: ${activeUser.name || 'Privilege Member'}`) : 'Sign In / Register'}
+                title={activeUser ? (isMaster ? `👑 Master Admin: ${headerDisplayName}` : isAdmin ? `🛡️ Admin: ${headerDisplayName}` : `👤 Profile: ${headerDisplayName}`) : 'Sign In / Register'}
                 onClick={() => setProfileMenuOpen(false)}
               >
                 <i className={activeUser ? (isAdmin ? 'fas fa-user-shield' : 'fas fa-user-circle') : 'fa fa-user'}></i>
@@ -91,10 +98,10 @@ const Header = () => {
                 <div className="profile-dropdown-menu">
                   <div className="profile-dropdown-header">
                     <div className="dropdown-avatar">
-                      {(activeUser.name || 'U')[0].toUpperCase()}
+                      {headerDisplayName.charAt(0).toUpperCase()}
                     </div>
                     <div className="dropdown-user-info">
-                      <strong className="dropdown-name">{activeUser.name || (isMaster ? 'Master Administrator' : isAdmin ? 'Store Administrator' : 'Valued Client')}</strong>
+                      <strong className="dropdown-name">{headerDisplayName}</strong>
                       <span className="dropdown-email">{activeUser.email}</span>
                       <div className="dropdown-designation">
                         {isMaster ? (

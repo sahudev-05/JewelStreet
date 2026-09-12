@@ -160,7 +160,7 @@
   gap: 6px;
 }
 
-.form-row input, .form-row select {
+.checkout-form .form-row input, .checkout-form .form-row select {
   width: 100%;
   padding: 11px 14px;
   background: #1f0b36;
@@ -172,11 +172,11 @@
   transition: border-color 0.25s ease;
 }
 
-.form-row input:focus, .form-row select:focus {
+.checkout-form .form-row input:focus, .checkout-form .form-row select:focus {
   border-color: var(--accent-primary);
 }
 
-.form-row select option { background: #1f0b36; }
+.checkout-form .form-row select option { background: #1f0b36; }
 
 /* Bill Summary */
 .bill-summary { margin-bottom: 28px; }

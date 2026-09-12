@@ -6,7 +6,9 @@ import {
   CategoryStockBarChart,
   MonthlyRevenueBarChart,
   OrderStatusPieChart,
-  TopSellingBarChart
+  TopSellingBarChart,
+  InventoryReportGraphs,
+  SalesReportGraphs
 } from '../components/ReportCharts';
 import {
   exportInventoryCSV,
@@ -260,7 +262,14 @@ const AdminDashboard = () => {
     const savedUser = localStorage.getItem('jewel_user');
     if (savedUser) {
       try {
-        const u = JSON.parse(savedUser);
+        let u = JSON.parse(savedUser);
+        const uEmail = (u?.email || '').toLowerCase().trim();
+        const isDeev = uEmail.includes('deevyanshu');
+        if (!isDeev && u.name && u.name.toLowerCase().includes('deevyanshu')) {
+          const prefix = uEmail ? uEmail.split('@')[0] : 'Admin';
+          u.name = prefix.charAt(0).toUpperCase() + prefix.slice(1);
+          localStorage.setItem('jewel_user', JSON.stringify(u));
+        }
         setUser(u);
         axios.defaults.headers.common['x-admin-email'] = u.email;
         if (u.mustChangePassword) {
@@ -290,18 +299,25 @@ const AdminDashboard = () => {
     try {
       const res = await axios.post('/api/auth/login', { email: loginEmail, password: loginPass, portal: 'admin' });
       if (res.data?.token) {
-        localStorage.setItem('jewel_user', JSON.stringify(res.data));
-        localStorage.setItem('jewel_token', res.data.token);
-        setUser(res.data);
-        if (res.data.mustChangePassword) {
+        let userData = res.data;
+        const uEmail = (userData.email || '').toLowerCase().trim();
+        const isDeev = uEmail.includes('deevyanshu');
+        if (!isDeev && userData.name && userData.name.toLowerCase().includes('deevyanshu')) {
+          const prefix = uEmail ? uEmail.split('@')[0] : 'Admin';
+          userData.name = prefix.charAt(0).toUpperCase() + prefix.slice(1);
+        }
+        localStorage.setItem('jewel_user', JSON.stringify(userData));
+        localStorage.setItem('jewel_token', userData.token);
+        setUser(userData);
+        if (userData.mustChangePassword) {
           setShowFirstTimeModal(true);
-          setFirstTimeEmail(res.data.email);
+          setFirstTimeEmail(userData.email);
           setFirstTimeCurrentPass(loginPass);
           setIsAdmin(false);
         } else {
           setIsAdmin(true);
-          axios.defaults.headers.common['x-admin-email'] = res.data.email;
-          loadDataForAdmin(res.data);
+          axios.defaults.headers.common['x-admin-email'] = userData.email;
+          loadDataForAdmin(userData);
         }
         return;
       }
@@ -1183,7 +1199,17 @@ const AdminDashboard = () => {
                   <span className="royal-pill"><i className="fas fa-shield-alt" style={{ marginRight: '6px' }}></i> Jewel Street HQ</span>
                   <h1>Inventory & Operations Command Center</h1>
                   <p style={{ color: '#a599c2', margin: '6px 0 0', fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                    <span>Logged in as <strong style={{ color: '#e6b97e' }}>{user?.name}</strong></span>
+                    {(() => {
+                      const uEmail = (user?.email || '').toLowerCase().trim();
+                      const isDeev = uEmail.includes('deevyanshu');
+                      const emailPrefix = uEmail ? uEmail.split('@')[0] : 'Admin';
+                      const adminDisplayName = (user?.name && (!user.name.toLowerCase().includes('deevyanshu') || isDeev))
+                        ? user.name
+                        : (emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1));
+                      return (
+                        <span>Logged in as <strong style={{ color: '#e6b97e' }}>{adminDisplayName}</strong></span>
+                      );
+                    })()}
                     <span style={{
                       fontSize: '0.76rem',
                       padding: '2px 10px',
@@ -1685,11 +1711,8 @@ const AdminDashboard = () => {
                       )}
                     </div>
 
-                    {/* Interactive Graphs for Inventory */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px', margin: '24px 0' }}>
-                      <CategoryDonutChart categoryStats={inventoryReport.categoryStats} title="Category Valuation Distribution" />
-                      <CategoryStockBarChart categoryStats={inventoryReport.categoryStats} />
-                    </div>
+                    {/* Interactive Graphs with Deep Filters for Inventory */}
+                    <InventoryReportGraphs categoryStats={inventoryReport.categoryStats} />
 
                     <h3 style={{ color: '#e6b97e', margin: '24px 0 12px' }}>📊 Category-wise Breakdown</h3>
                     <div className="table-responsive"><table className="admin-table"><thead><tr><th>Category</th><th>Products</th><th>Stock Units</th><th>Inventory Value</th></tr></thead><tbody>
@@ -1710,18 +1733,8 @@ const AdminDashboard = () => {
                       )}
                     </div>
 
-                    {/* Monthly Revenue Bar Chart */}
-                    {salesReport.monthly && salesReport.monthly.length > 0 && (
-                      <div style={{ marginTop: '24px' }}>
-                        <MonthlyRevenueBarChart monthly={salesReport.monthly} />
-                      </div>
-                    )}
-
-                    {/* Order Status Donut/Pie & Top Selling Ranked Chart */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', margin: '24px 0' }}>
-                      <OrderStatusPieChart statusBreakdown={salesReport.statusBreakdown} />
-                      <TopSellingBarChart topItems={salesReport.topItems} />
-                    </div>
+                    {/* Interactive Graphs with Multi-Metric Filters for Sales */}
+                    <SalesReportGraphs salesReport={salesReport} />
 
                     {salesReport.monthly.length>0 && (<><h3 style={{color:'#e6b97e',margin:'24px 0 12px'}}>📅 Monthly Revenue Table</h3><div className="table-responsive"><table className="admin-table"><thead><tr><th>Month</th><th>Orders</th><th>Revenue</th></tr></thead><tbody>{salesReport.monthly.map(m=>(<tr key={m.month}><td>{m.month}</td><td>{m.orders}</td><td className="price-cell">₹{(m.revenue||0).toLocaleString('en-IN')}</td></tr>))}</tbody></table></div></>)}
                   </div>
@@ -1785,11 +1798,11 @@ const AdminDashboard = () => {
                       </div>
 
                       {/* Activity Permissions Checkboxes */}
-                      <div className="form-row" style={{ marginBottom: '18px' }}>
+                      <div className="admin-field-block" style={{ marginBottom: '18px' }}>
                         <label style={{ display: 'block', marginBottom: '8px', color: '#e6b97e', fontSize: '0.85rem', fontWeight: 'bold' }}>
                           Permitted Dashboard Activities ({newAdminForm.allowedActivities?.length || 0} active)
                         </label>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '10px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '8px' }}>
                           {ALL_OPERATIONAL_ACTIVITIES.map(act => {
                             const isChecked = (newAdminForm.allowedActivities || []).includes(act.key);
                             return (
@@ -1800,27 +1813,44 @@ const AdminDashboard = () => {
                                   display: 'flex',
                                   alignItems: 'center',
                                   gap: '10px',
-                                  padding: '9px 12px',
+                                  padding: '10px 12px',
                                   borderRadius: '8px',
                                   background: isChecked ? 'rgba(230, 185, 126, 0.18)' : 'rgba(255,255,255,0.03)',
                                   border: `1.5px solid ${isChecked ? '#e6b97e' : 'rgba(255,255,255,0.1)'}`,
                                   color: isChecked ? '#fff' : '#a599c2',
                                   cursor: 'pointer',
-                                  fontSize: '0.8rem',
+                                  fontSize: '0.82rem',
                                   userSelect: 'none',
                                   boxSizing: 'border-box',
                                   minWidth: 0,
+                                  overflow: 'hidden',
                                   transition: 'all 0.15s ease'
                                 }}
                               >
-                                <input
-                                  type="checkbox"
-                                  checked={isChecked}
-                                  onChange={() => {}}
-                                  style={{ accentColor: '#e6b97e', pointerEvents: 'none', flexShrink: 0 }}
-                                />
-                                <i className={`fas ${act.icon}`} style={{ color: isChecked ? '#e6b97e' : '#a599c2', fontSize: '0.82rem', flexShrink: 0 }}></i>
-                                <span style={{ fontWeight: isChecked ? '600' : 'normal', lineHeight: '1.25' }}>{act.label}</span>
+                                <div
+                                  style={{
+                                    width: '18px',
+                                    height: '18px',
+                                    minWidth: '18px',
+                                    maxWidth: '18px',
+                                    borderRadius: '4px',
+                                    border: `2px solid ${isChecked ? '#e6b97e' : 'rgba(255,255,255,0.35)'}`,
+                                    background: isChecked ? '#e6b97e' : 'rgba(0,0,0,0.4)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: '#0d0028',
+                                    fontSize: '11px',
+                                    fontWeight: 'bold',
+                                    flexShrink: 0,
+                                    boxSizing: 'border-box',
+                                    transition: 'all 0.15s ease'
+                                  }}
+                                >
+                                  {isChecked && <i className="fas fa-check" style={{ fontSize: '10px', color: '#0d0028' }}></i>}
+                                </div>
+                                <i className={`fas ${act.icon}`} style={{ color: isChecked ? '#e6b97e' : '#a599c2', fontSize: '0.85rem', flexShrink: 0 }}></i>
+                                <span style={{ fontWeight: isChecked ? '600' : 'normal', lineHeight: '1.25', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{act.label}</span>
                               </div>
                             );
                           })}
@@ -1853,73 +1883,110 @@ const AdminDashboard = () => {
                           : (admin.allowedActivities || ['inventory']);
 
                         return (
-                          <div key={admin.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',background:'rgba(255,255,255,0.04)',borderRadius:'10px',padding:'14px 18px',border:`1px solid ${admin.role==='master_admin'?'rgba(230,185,126,0.4)':'var(--border-color)'}`}}>
-                            <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
-                              <div style={{width:'38px',height:'38px',borderRadius:'50%',background:admin.role==='master_admin'?'linear-gradient(135deg,#e6b97e,#d4a060)':'linear-gradient(135deg,#c4b8e2,#8e82a8)',display:'flex',alignItems:'center',justifyContent:'center',color:'#0d0028',fontWeight:'bold',fontSize:admin.role==='master_admin'?'1rem':'0.95rem',flexShrink:0}}>{(admin.name||'A')[0].toUpperCase()}</div>
-                              <div>
-                                <div style={{fontWeight:'bold',color:'#fff',display:'flex',alignItems:'center',gap:'8px',flexWrap:'wrap'}}>
-                                  <span>{admin.name}</span>
-                                  <span style={{
-                                    fontSize:'0.7rem',
-                                    padding:'2px 8px',
-                                    background: admin.role==='master_admin' ? 'rgba(230,185,126,0.2)' : 'rgba(78,205,196,0.15)',
-                                    color: admin.role==='master_admin' ? '#e6b97e' : '#4ecdc4',
-                                    borderRadius:'14px',
-                                    border: `1px solid ${admin.role==='master_admin' ? 'rgba(230,185,126,0.4)' : 'rgba(78,205,196,0.4)'}`
-                                  }}>
-                                    {roleTitle}
-                                  </span>
-                                  {admin.mustChangePassword && <span style={{fontSize:'0.68rem',padding:'2px 8px',background:'rgba(234,194,136,0.15)',color:'#eac288',borderRadius:'12px',border:'1px solid rgba(234,194,136,0.35)'}}>⚠️ First Login Pending</span>}
+                          <div key={admin.id} style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '12px',
+                            background: 'rgba(255,255,255,0.04)',
+                            borderRadius: '12px',
+                            padding: '16px 20px',
+                            border: `1px solid ${admin.role === 'master_admin' ? 'rgba(230,185,126,0.45)' : 'rgba(255,255,255,0.08)'}`,
+                            boxShadow: admin.role === 'master_admin' ? '0 4px 18px rgba(230,185,126,0.08)' : 'none'
+                          }}>
+                            {/* Top Info Row */}
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '14px', flexWrap: 'wrap' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                                <div style={{
+                                  width: '42px',
+                                  height: '42px',
+                                  borderRadius: '50%',
+                                  background: admin.role === 'master_admin' ? 'linear-gradient(135deg,#e6b97e,#d4a060)' : 'linear-gradient(135deg,#c4b8e2,#8e82a8)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  color: '#0d0028',
+                                  fontWeight: 'bold',
+                                  fontSize: admin.role === 'master_admin' ? '1.05rem' : '0.95rem',
+                                  flexShrink: 0
+                                }}>
+                                  {(admin.name || 'A')[0].toUpperCase()}
                                 </div>
-                                <div style={{fontSize:'0.8rem',color:'#a599c2',marginTop:'2px'}}>{admin.email}</div>
-                                
-                                {/* Permitted Activity Badges */}
-                                <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', marginTop: '6px' }}>
-                                  {admin.role === 'master_admin' ? (
-                                    <span style={{ fontSize: '0.68rem', padding: '2px 8px', background: 'rgba(230,185,126,0.12)', color: '#e6b97e', borderRadius: '4px', border: '1px solid rgba(230,185,126,0.3)' }}>
-                                      ⚡ Complete Access (All 7 Activities)
+                                <div>
+                                  <div style={{ fontWeight: 'bold', color: '#fff', fontSize: '0.98rem', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                    <span>{admin.name}</span>
+                                    <span style={{
+                                      fontSize: '0.72rem',
+                                      padding: '2px 9px',
+                                      background: admin.role === 'master_admin' ? 'rgba(230,185,126,0.2)' : 'rgba(78,205,196,0.15)',
+                                      color: admin.role === 'master_admin' ? '#e6b97e' : '#4ecdc4',
+                                      borderRadius: '14px',
+                                      border: `1px solid ${admin.role === 'master_admin' ? 'rgba(230,185,126,0.4)' : 'rgba(78,205,196,0.4)'}`,
+                                      fontWeight: '600'
+                                    }}>
+                                      {roleTitle}
                                     </span>
-                                  ) : (
-                                    adminActs.map(actKey => {
-                                      const actDef = ALL_OPERATIONAL_ACTIVITIES.find(a => a.key === actKey);
-                                      return (
-                                        <span key={actKey} style={{ fontSize: '0.66rem', padding: '1px 6px', background: 'rgba(78,205,196,0.1)', color: '#4ecdc4', borderRadius: '4px', border: '1px solid rgba(78,205,196,0.25)' }}>
-                                          <i className={`fas ${actDef?.icon || 'fa-check'}`} style={{ marginRight: '3px' }}></i>
-                                          {actDef?.label || actKey}
-                                        </span>
-                                      );
-                                    })
-                                  )}
+                                    {admin.mustChangePassword && (
+                                      <span style={{ fontSize: '0.68rem', padding: '2px 8px', background: 'rgba(234,194,136,0.15)', color: '#eac288', borderRadius: '12px', border: '1px solid rgba(234,194,136,0.35)' }}>
+                                        ⚠️ First Login Pending
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div style={{ fontSize: '0.82rem', color: '#a599c2', marginTop: '2px' }}>{admin.email}</div>
                                 </div>
-                                <div style={{fontSize:'0.72rem',color:'#5a4e7a',marginTop:'4px'}}>Added: {new Date(admin.createdAt).toLocaleDateString('en-IN')}</div>
+                              </div>
+
+                              <div style={{ fontSize: '0.75rem', color: '#746596' }}>
+                                Added: {new Date(admin.createdAt).toLocaleDateString('en-IN')}
                               </div>
                             </div>
-                            {admin.role!=='master_admin' && isMaster && (
-                              <div style={{display:'flex',gap:'8px',flexShrink:0,flexWrap:'wrap',justifyContent:'flex-end'}}>
+
+                            {/* Middle Row: Permitted Activity Badges */}
+                            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
+                              <span style={{ fontSize: '0.72rem', color: '#a599c2', marginRight: '4px' }}>Permissions:</span>
+                              {admin.role === 'master_admin' ? (
+                                <span style={{ fontSize: '0.7rem', padding: '2px 9px', background: 'rgba(230,185,126,0.12)', color: '#e6b97e', borderRadius: '4px', border: '1px solid rgba(230,185,126,0.3)', fontWeight: 'bold' }}>
+                                  ⚡ Complete Master Access (All 7 Operations)
+                                </span>
+                              ) : (
+                                adminActs.map(actKey => {
+                                  const actDef = ALL_OPERATIONAL_ACTIVITIES.find(a => a.key === actKey);
+                                  return (
+                                    <span key={actKey} style={{ fontSize: '0.68rem', padding: '2px 8px', background: 'rgba(78,205,196,0.1)', color: '#4ecdc4', borderRadius: '4px', border: '1px solid rgba(78,205,196,0.25)' }}>
+                                      <i className={`fas ${actDef?.icon || 'fa-check'}`} style={{ marginRight: '4px' }}></i>
+                                      {actDef?.label || actKey}
+                                    </span>
+                                  );
+                                })
+                              )}
+                            </div>
+
+                            {/* Bottom Action Buttons Row */}
+                            {admin.role !== 'master_admin' && isMaster && (
+                              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-end', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                                 <button
-                                  onClick={()=>handleMakeMasterAdmin(admin)}
-                                  style={{padding:'7px 12px',background:'rgba(230,185,126,0.18)',border:'1px solid #e6b97e',borderRadius:'6px',color:'#e6b97e',cursor:'pointer',fontSize:'0.8rem',fontWeight:'bold',display:'flex',alignItems:'center',gap:'5px'}}
+                                  onClick={() => handleMakeMasterAdmin(admin)}
+                                  style={{ padding: '7px 14px', background: 'rgba(230,185,126,0.18)', border: '1px solid #e6b97e', borderRadius: '6px', color: '#e6b97e', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px' }}
                                   title="Promote this administrator to Master Administrator with full access"
                                 >
                                   <span>👑</span> Make Master Admin
                                 </button>
                                 <button
-                                  onClick={()=>openEditRoleModal(admin)}
-                                  style={{padding:'7px 12px',background:'rgba(78,205,196,0.15)',border:'1px solid #4ecdc4',borderRadius:'6px',color:'#4ecdc4',cursor:'pointer',fontSize:'0.8rem',fontWeight:'600'}}
+                                  onClick={() => openEditRoleModal(admin)}
+                                  style={{ padding: '7px 14px', background: 'rgba(78,205,196,0.15)', border: '1px solid #4ecdc4', borderRadius: '6px', color: '#4ecdc4', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
                                   title="Assign roles and customize operational permissions"
                                 >
                                   <i className="fas fa-user-tag"></i> Assign Role
                                 </button>
                                 <button
-                                  onClick={()=>openChangeAdminPassModal(admin)}
-                                  style={{padding:'7px 12px',background:'rgba(230,185,126,0.15)',border:'1px solid #e6b97e',borderRadius:'6px',color:'#e6b97e',cursor:'pointer',fontSize:'0.8rem',fontWeight:'600'}}
+                                  onClick={() => openChangeAdminPassModal(admin)}
+                                  style={{ padding: '7px 14px', background: 'rgba(230,185,126,0.15)', border: '1px solid #e6b97e', borderRadius: '6px', color: '#e6b97e', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
                                   title="Change or reset this administrator's password"
                                 >
                                   <i className="fas fa-key"></i> Change Pass
                                 </button>
                                 <button
-                                  onClick={()=>handleRemoveAdmin(admin.id,admin.name)}
-                                  style={{padding:'7px 12px',background:'rgba(186,75,95,0.14)',border:'1px solid rgba(186,75,95,0.35)',borderRadius:'6px',color:'#e89da9',cursor:'pointer',fontSize:'0.8rem'}}
+                                  onClick={() => handleRemoveAdmin(admin.id, admin.name)}
+                                  style={{ padding: '7px 14px', background: 'rgba(186,75,95,0.14)', border: '1px solid rgba(186,75,95,0.35)', borderRadius: '6px', color: '#e89da9', cursor: 'pointer', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '6px' }}
                                 >
                                   <i className="fas fa-user-times"></i> Remove
                                 </button>
@@ -3069,14 +3136,14 @@ const AdminDashboard = () => {
               </div>
 
               {/* Granular Activity Checkboxes */}
-              <div className="form-group" style={{ marginBottom: '22px' }}>
+              <div className="admin-field-block" style={{ marginBottom: '22px' }}>
                 <label style={{ display: 'block', marginBottom: '8px', color: '#e6b97e', fontSize: '0.88rem', fontWeight: 'bold' }}>
                   Permitted Dashboard Activities ({editAdminActivities.length} granted)
                 </label>
                 <span style={{ display: 'block', fontSize: '0.78rem', color: '#a599c2', marginBottom: '10px' }}>
                   This administrator will strictly see and perform ONLY the checked activities. All other dashboard tabs will remain completely hidden.
                 </span>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '10px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '8px' }}>
                   {ALL_OPERATIONAL_ACTIVITIES.map(act => {
                     const isChecked = editAdminActivities.includes(act.key);
                     return (
@@ -3097,17 +3164,34 @@ const AdminDashboard = () => {
                           userSelect: 'none',
                           boxSizing: 'border-box',
                           minWidth: 0,
+                          overflow: 'hidden',
                           transition: 'all 0.15s ease'
                         }}
                       >
-                        <input
-                          type="checkbox"
-                          checked={isChecked}
-                          onChange={() => {}}
-                          style={{ accentColor: '#e6b97e', pointerEvents: 'none', flexShrink: 0 }}
-                        />
+                        <div
+                          style={{
+                            width: '18px',
+                            height: '18px',
+                            minWidth: '18px',
+                            maxWidth: '18px',
+                            borderRadius: '4px',
+                            border: `2px solid ${isChecked ? '#e6b97e' : 'rgba(255,255,255,0.35)'}`,
+                            background: isChecked ? '#e6b97e' : 'rgba(0,0,0,0.4)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#0d0028',
+                            fontSize: '11px',
+                            fontWeight: 'bold',
+                            flexShrink: 0,
+                            boxSizing: 'border-box',
+                            transition: 'all 0.15s ease'
+                          }}
+                        >
+                          {isChecked && <i className="fas fa-check" style={{ fontSize: '10px', color: '#0d0028' }}></i>}
+                        </div>
                         <i className={`fas ${act.icon}`} style={{ color: isChecked ? '#e6b97e' : '#a599c2', fontSize: '0.82rem', flexShrink: 0 }}></i>
-                        <span style={{ fontWeight: isChecked ? '600' : 'normal', lineHeight: '1.25' }}>{act.label}</span>
+                        <span style={{ fontWeight: isChecked ? '600' : 'normal', lineHeight: '1.25', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{act.label}</span>
                       </div>
                     );
                   })}

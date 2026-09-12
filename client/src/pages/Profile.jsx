@@ -32,6 +32,13 @@ const Profile = () => {
     if (savedUser) {
       try {
         currentUser = JSON.parse(savedUser);
+        const email = (currentUser.email || '').toLowerCase().trim();
+        const isDeev = email.includes('deevyanshu');
+        if (!isDeev && currentUser.name && currentUser.name.toLowerCase().includes('deevyanshu')) {
+          const prefix = email ? email.split('@')[0] : 'Valued Client';
+          currentUser.name = prefix.charAt(0).toUpperCase() + prefix.slice(1);
+          localStorage.setItem('jewel_user', JSON.stringify(currentUser));
+        }
         setUser(currentUser);
       } catch (e) {
         console.error('Error parsing user', e);
@@ -160,6 +167,13 @@ const Profile = () => {
   };
 
   const userEmail = (user?.email || '').toLowerCase().trim();
+  const isDeev = userEmail.includes('deevyanshu');
+  const emailPrefix = userEmail ? userEmail.split('@')[0] : 'User';
+  const fallbackDisplayName = emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1);
+  const displayName = (user?.name && (!user.name.toLowerCase().includes('deevyanshu') || isDeev))
+    ? user.name
+    : fallbackDisplayName;
+
   const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
   const isMasterAdmin = MASTER_ADMINS.includes(userEmail) || user?.role === 'master_admin';
   const isAdmin = isMasterAdmin || user?.role === 'admin';
@@ -172,7 +186,7 @@ const Profile = () => {
         <div className="profile-header">
           <div className="avatar-wrap">
             <div className="avatar-circle">
-              {user?.name ? user.name.charAt(0).toUpperCase() : (isMasterAdmin ? 'M' : isAdmin ? 'A' : 'U')}
+              {displayName.charAt(0).toUpperCase()}
             </div>
             {isMasterAdmin ? (
               <span className="admin-crown-tag" title="Master Administrator" style={{ background: 'linear-gradient(135deg, #e6b97e, #d4a060)', color: '#0d0028', fontWeight: 'bold' }}>
@@ -186,7 +200,7 @@ const Profile = () => {
           </div>
           
           <div className="profile-header-info">
-            <h2>{user?.name || (isMasterAdmin ? 'Master Administrator' : isAdmin ? 'Store Administrator' : 'Valued Client')}</h2>
+            <h2>{displayName}</h2>
             <p className="user-email">{user?.email || 'admin@jewelstreet.com'}</p>
             <div className="role-pill-wrap">
               <span className={`role-badge ${isMasterAdmin ? 'master-badge' : isAdmin ? 'admin-badge' : 'member-badge'}`} style={{

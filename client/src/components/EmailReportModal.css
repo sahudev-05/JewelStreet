@@ -113,8 +113,8 @@
   color: #a599c2;
 }
 
-.form-group input,
-.form-group textarea {
+.email-report-modal .form-group input,
+.email-report-modal .form-group textarea {
   width: 100%;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -127,7 +127,7 @@
   box-sizing: border-box;
 }
 
-.form-group input:focus {
+.email-report-modal .form-group input:focus {
   border-color: #e6b97e;
   box-shadow: 0 0 8px rgba(230, 185, 126, 0.2);
 }
