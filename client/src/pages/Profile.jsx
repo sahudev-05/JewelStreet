@@ -53,12 +53,29 @@ const Profile = () => {
       setEditPincode(currentUser.pincode || '');
       fetchOrders(currentUser.email);
       const email = (currentUser.email || '').toLowerCase().trim();
-      const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
-      const isM = MASTER_ADMINS.includes(email) || currentUser.role === 'master_admin';
+      const ROOT_MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
+      const isM = ROOT_MASTER_ADMINS.includes(email) || currentUser.role === 'master_admin';
       const isA = isM || currentUser.role === 'admin';
       if (isA) {
         setActiveTab('admin');
       }
+
+      // Fetch live role & permissions to reflect any Master Admin updates dynamically
+      axios.get(`/api/auth/my-role?email=${encodeURIComponent(email)}`)
+        .then(res => {
+          if (res.data && res.data.role) {
+            const freshUser = {
+              ...currentUser,
+              role: res.data.role,
+              assignedRole: res.data.assignedRole,
+              allowedActivities: res.data.allowedActivities,
+              isMaster: res.data.isMaster
+            };
+            setUser(freshUser);
+            localStorage.setItem('jewel_user', JSON.stringify(freshUser));
+          }
+        })
+        .catch(() => {});
     }
   }, []);
 
@@ -174,9 +191,93 @@ const Profile = () => {
     ? user.name
     : fallbackDisplayName;
 
-  const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
-  const isMasterAdmin = MASTER_ADMINS.includes(userEmail) || user?.role === 'master_admin';
+  const ROOT_MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
+  const isMasterAdmin = ROOT_MASTER_ADMINS.includes(userEmail) || user?.role === 'master_admin' || user?.assignedRole === 'master_admin' || user?.isMaster === true;
   const isAdmin = isMasterAdmin || user?.role === 'admin';
+
+  const ROLE_DEFINITIONS = {
+    master_admin: {
+      title: 'Master Administrator Executive Profile',
+      designation: 'Master Administrator & Systems Director',
+      authority: 'Tier-1 Root Governance (Full Authority)',
+      tag: 'Master Admin',
+      badgeIcon: 'fa-crown',
+      division: 'Jewel Street Haute Joaillerie Flagship Atelier HQ'
+    },
+    inventory_manager: {
+      title: 'Catalog & Inventory Manager Profile',
+      designation: 'Catalog & Inventory Manager',
+      authority: 'Tier-2 Inventory Governance (Restricted Scope)',
+      tag: 'Inventory Manager',
+      badgeIcon: 'fa-gem',
+      division: 'Jewel Street Atelier & Catalog Operations'
+    },
+    order_manager: {
+      title: 'Order Fulfillment Specialist Profile',
+      designation: 'Order Fulfillment & Logistics Specialist',
+      authority: 'Tier-2 Order Operations (Restricted Scope)',
+      tag: 'Order Specialist',
+      badgeIcon: 'fa-truck-loading',
+      division: 'Jewel Street Armored Dispatch & Logistics'
+    },
+    support_specialist: {
+      title: 'Customer Support Executive Profile',
+      designation: 'Customer Support Executive',
+      authority: 'Tier-2 Customer Helpdesk (Restricted Scope)',
+      tag: 'Support Executive',
+      badgeIcon: 'fa-headset',
+      division: 'Jewel Street Client Relations & Concierge'
+    },
+    customer_manager: {
+      title: 'Customer Relations Manager Profile',
+      designation: 'Customer Relations Manager',
+      authority: 'Tier-2 Client Directory (Restricted Scope)',
+      tag: 'Client Relations',
+      badgeIcon: 'fa-users',
+      division: 'Jewel Street Patron Accounts & Advisory'
+    },
+    reports_analyst: {
+      title: 'Business & Financial Analyst Profile',
+      designation: 'Business & Financial Analyst',
+      authority: 'Tier-2 Intelligence & Reports (Restricted Scope)',
+      tag: 'Financial Analyst',
+      badgeIcon: 'fa-chart-bar',
+      division: 'Jewel Street Financial Audit & Analytics'
+    },
+    promotions_manager: {
+      title: 'Promotions & Marketing Lead Profile',
+      designation: 'Promotions & Marketing Lead',
+      authority: 'Tier-2 Promotions Governance (Restricted Scope)',
+      tag: 'Promotions Lead',
+      badgeIcon: 'fa-tags',
+      division: 'Jewel Street Campaign & Marketing Bureau'
+    },
+    store_operations: {
+      title: 'Store Operations Supervisor Profile',
+      designation: 'Store Operations Supervisor',
+      authority: 'Tier-2 Store Operations (Multi-Scope)',
+      tag: 'Operations Supervisor',
+      badgeIcon: 'fa-user-shield',
+      division: 'Jewel Street Haute Joaillerie Store Operations'
+    },
+    custom: {
+      title: 'Custom Operations Administrator Profile',
+      designation: 'Custom Operations Administrator',
+      authority: 'Tier-2 Restricted Operational Access',
+      tag: 'Operations Admin',
+      badgeIcon: 'fa-user-shield',
+      division: 'Jewel Street Haute Joaillerie Store Operations'
+    }
+  };
+
+  const activeRoleKey = isMasterAdmin ? 'master_admin' : (user?.assignedRole || 'inventory_manager');
+  const roleMeta = ROLE_DEFINITIONS[activeRoleKey] || ROLE_DEFINITIONS.custom;
+
+  const effectiveActivities = isMasterAdmin
+    ? ['inventory', 'orders', 'customers', 'support', 'reports', 'coupons', 'admins']
+    : (Array.isArray(user?.allowedActivities) && user?.allowedActivities.length > 0
+        ? user.allowedActivities
+        : ['inventory']);
 
   return (
     <div className="profile-page">
@@ -193,8 +294,8 @@ const Profile = () => {
                 <i className="fas fa-crown"></i> Master Admin
               </span>
             ) : isAdmin ? (
-              <span className="admin-crown-tag" title="Store Administrator" style={{ background: 'linear-gradient(135deg, #f0dbbf, #d4a060)', color: '#0d0028', fontWeight: 'bold' }}>
-                <i className="fas fa-user-shield"></i> Store Admin
+              <span className="admin-crown-tag" title={roleMeta.designation} style={{ background: 'linear-gradient(135deg, #f0dbbf, #d4a060)', color: '#0d0028', fontWeight: 'bold' }}>
+                <i className={`fas ${roleMeta.badgeIcon}`}></i> {roleMeta.tag}
               </span>
             ) : null}
           </div>
@@ -212,7 +313,7 @@ const Profile = () => {
                 {isMasterAdmin ? (
                   <><i className="fas fa-crown" style={{ marginRight: '6px' }}></i> Master Administrator & Systems Director</>
                 ) : isAdmin ? (
-                  <><i className="fas fa-user-shield" style={{ marginRight: '6px' }}></i> Store Operations Administrator</>
+                  <><i className={`fas ${roleMeta.badgeIcon}`} style={{ marginRight: '6px' }}></i> {roleMeta.designation}</>
                 ) : (
                   <><i className="fas fa-gem" style={{ marginRight: '6px' }}></i> Royal Privilege Member</>
                 )}
@@ -243,10 +344,10 @@ const Profile = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '18px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '14px' }}>
               <div>
                 <span style={{ fontSize: '0.78rem', color: '#e6b97e', fontWeight: 'bold', letterSpacing: '1px', textTransform: 'uppercase' }}>
-                  👑 Official Administration Credentials
+                  {isMasterAdmin ? '👑 Official Administration Credentials' : '🛡️ Official Staff Credentials'}
                 </span>
                 <h3 style={{ margin: '4px 0 0', color: '#fff', fontFamily: 'serif', fontSize: '1.35rem' }}>
-                  {isMasterAdmin ? 'Master Administrator Executive Profile' : 'Store Operations Staff Profile'}
+                  {roleMeta.title}
                 </h3>
               </div>
               <div style={{ display: 'flex', gap: '10px' }}>
@@ -292,19 +393,19 @@ const Profile = () => {
               <div style={{ background: '#090029', padding: '14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <span style={{ fontSize: '0.75rem', color: '#a599c2', display: 'block', marginBottom: '4px' }}>Official Designation</span>
                 <strong style={{ color: '#e6b97e', fontSize: '0.95rem' }}>
-                  {isMasterAdmin ? 'Master Administrator & Systems Director' : 'Store Operations Administrator'}
+                  {roleMeta.designation}
                 </strong>
               </div>
               <div style={{ background: '#090029', padding: '14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <span style={{ fontSize: '0.75rem', color: '#a599c2', display: 'block', marginBottom: '4px' }}>Governance Authority Level</span>
                 <strong style={{ color: isMasterAdmin ? '#e6b97e' : '#f0dbbf', fontSize: '0.95rem' }}>
-                  {isMasterAdmin ? 'Tier-1 Root Governance (Full Authority)' : 'Tier-2 Store Operations'}
+                  {roleMeta.authority}
                 </strong>
               </div>
               <div style={{ background: '#090029', padding: '14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <span style={{ fontSize: '0.75rem', color: '#a599c2', display: 'block', marginBottom: '4px' }}>Assigned Division</span>
                 <strong style={{ color: '#fff', fontSize: '0.95rem' }}>
-                  Jewel Street Haute Joaillerie Flagship Atelier HQ
+                  {roleMeta.division}
                 </strong>
               </div>
               <div style={{ background: '#090029', padding: '14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
@@ -315,16 +416,30 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Quick module links */}
+            {/* Quick module links: ONLY display permitted modules */}
             <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-              <span style={{ fontSize: '0.75rem', color: '#a599c2', display: 'block', marginBottom: '8px' }}>Administrative Management Access:</span>
+              <span style={{ fontSize: '0.75rem', color: '#a599c2', display: 'block', marginBottom: '8px' }}>
+                Authorized Administrative Access ({effectiveActivities.length} Modules):
+              </span>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>💎 Inventory Catalog</Link>
-                <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>📦 Orders & Dispatch</Link>
-                <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>👥 Customers Directory</Link>
-                <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>🎧 Problem Solver Helpdesk</Link>
-                <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>📊 Sales & Reports</Link>
-                <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>🏷️ Store Offers</Link>
+                {effectiveActivities.includes('inventory') && (
+                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>💎 Inventory Catalog</Link>
+                )}
+                {effectiveActivities.includes('orders') && (
+                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>📦 Orders & Dispatch</Link>
+                )}
+                {effectiveActivities.includes('customers') && (
+                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>👥 Customers Directory</Link>
+                )}
+                {effectiveActivities.includes('support') && (
+                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>🎧 Problem Solver Helpdesk</Link>
+                )}
+                {effectiveActivities.includes('reports') && (
+                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>📊 Sales & Reports</Link>
+                )}
+                {effectiveActivities.includes('coupons') && (
+                  <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid rgba(230,185,126,0.3)' }}>🏷️ Store Offers</Link>
+                )}
                 {isMasterAdmin && (
                   <Link to="/admin" style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(230,185,126,0.15)', color: '#e6b97e', textDecoration: 'none', fontSize: '0.8rem', border: '1px solid #e6b97e', fontWeight: 'bold' }}>👑 Admin Staff Management</Link>
                 )}
@@ -361,34 +476,52 @@ const Profile = () => {
         {activeTab === 'admin' && isAdmin && (
           <div className="tab-content" style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '14px', padding: '28px', border: '1px solid rgba(230,185,126,0.3)' }}>
             <h3 style={{ color: '#e6b97e', margin: '0 0 8px', fontFamily: 'serif', fontSize: '1.3rem' }}>
-              <i className="fas fa-crown" style={{ marginRight: '8px' }}></i>
-              {isMasterAdmin ? 'Master Administrator Privileges' : 'Store Operations Administrator Privileges'}
+              <i className={`fas ${roleMeta.badgeIcon}`} style={{ marginRight: '8px' }}></i>
+              {isMasterAdmin ? 'Master Administrator Privileges' : `${roleMeta.designation} Privileges`}
             </h3>
             <p style={{ color: '#c4b8e2', fontSize: '0.9rem', marginBottom: '20px' }}>
-              Your administrator account is verified. You have authorized management rights over store catalog, fulfillment logistics, and client resolution.
+              {isMasterAdmin
+                ? 'Your Master Administrator credentials have full governance authority across all catalog, orders, analytics, and administrator permissions.'
+                : `Your administrator account is verified with operational scope granted for: ${effectiveActivities.join(', ')}.`}
             </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px', marginBottom: '24px' }}>
-              <div style={{ background: '#090029', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
-                <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-gem" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Inventory Management</h4>
-                <p style={{ color: '#a599c2', fontSize: '0.82rem', margin: 0 }}>Add, edit, remove products, modify gold purity and live stock levels.</p>
-              </div>
-              <div style={{ background: '#090029', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
-                <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-truck-loading" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Order Operations</h4>
-                <p style={{ color: '#a599c2', fontSize: '0.82rem', margin: 0 }}>Update order statuses to In Armored Transit, Delivered, or Cancelled with refund tracking.</p>
-              </div>
-              <div style={{ background: '#090029', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
-                <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-users" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Customer Directory</h4>
-                <p style={{ color: '#a599c2', fontSize: '0.82rem', margin: 0 }}>View all registered clients, contact information, lifetime purchase amounts, and locations.</p>
-              </div>
-              <div style={{ background: '#090029', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
-                <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-headset" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Problem Solver Helpdesk</h4>
-                <p style={{ color: '#a599c2', fontSize: '0.82rem', margin: 0 }}>Review customer inquiries, record resolution notes, and update ticket progress.</p>
-              </div>
-              <div style={{ background: '#090029', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
-                <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-chart-line" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Financial & Sales Analytics</h4>
-                <p style={{ color: '#a599c2', fontSize: '0.82rem', margin: 0 }}>Export CSV/PDF audits and review monthly revenue breakdowns.</p>
-              </div>
+              {effectiveActivities.includes('inventory') && (
+                <div style={{ background: '#090029', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
+                  <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-gem" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Inventory Management</h4>
+                  <p style={{ color: '#a599c2', fontSize: '0.82rem', margin: 0 }}>Add, edit, remove products, modify gold purity and live stock levels.</p>
+                </div>
+              )}
+              {effectiveActivities.includes('orders') && (
+                <div style={{ background: '#090029', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
+                  <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-truck-loading" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Order Operations</h4>
+                  <p style={{ color: '#a599c2', fontSize: '0.82rem', margin: 0 }}>Update order statuses to In Armored Transit, Delivered, or Cancelled with refund tracking.</p>
+                </div>
+              )}
+              {effectiveActivities.includes('customers') && (
+                <div style={{ background: '#090029', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
+                  <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-users" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Customer Directory</h4>
+                  <p style={{ color: '#a599c2', fontSize: '0.82rem', margin: 0 }}>View all registered clients, contact information, lifetime purchase amounts, and locations.</p>
+                </div>
+              )}
+              {effectiveActivities.includes('support') && (
+                <div style={{ background: '#090029', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
+                  <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-headset" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Problem Solver Helpdesk</h4>
+                  <p style={{ color: '#a599c2', fontSize: '0.82rem', margin: 0 }}>Review customer inquiries, record resolution notes, and update ticket progress.</p>
+                </div>
+              )}
+              {effectiveActivities.includes('reports') && (
+                <div style={{ background: '#090029', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
+                  <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-chart-line" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Financial & Sales Analytics</h4>
+                  <p style={{ color: '#a599c2', fontSize: '0.82rem', margin: 0 }}>Export CSV/PDF audits and review monthly revenue breakdowns.</p>
+                </div>
+              )}
+              {effectiveActivities.includes('coupons') && (
+                <div style={{ background: '#090029', padding: '16px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
+                  <h4 style={{ color: '#fff', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-tags" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Promotions & Coupons</h4>
+                  <p style={{ color: '#a599c2', fontSize: '0.82rem', margin: 0 }}>Manage store discounts, promo codes, and special sales offers.</p>
+                </div>
+              )}
               {isMasterAdmin && (
                 <div style={{ background: 'rgba(230, 185, 126, 0.08)', padding: '16px', borderRadius: '10px', border: '1px solid rgba(230, 185, 126, 0.3)' }}>
                   <h4 style={{ color: '#e6b97e', margin: '0 0 6px', fontSize: '0.95rem' }}><i className="fas fa-user-shield" style={{ color: '#e6b97e', marginRight: '6px' }}></i> Administrator Management</h4>

@@ -48,7 +48,7 @@ const emptyProd = {
   image: '',
 };
 
-const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
+const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
 
 const ROLE_PRESETS = [
   {
@@ -236,8 +236,61 @@ const AdminDashboard = () => {
   const [editProd, setEditProd] = useState(null);
   const [newProd, setNewProd] = useState({ ...emptyProd });
 
+  const uEmail = (user?.email || '').toLowerCase().trim();
+  const isMaster = MASTER_ADMINS.includes(uEmail) || user?.role === 'master_admin' || user?.assignedRole === 'master_admin' || user?.isMaster === true;
+  const effectiveActivities = isMaster
+    ? ['inventory', 'orders', 'customers', 'support', 'reports', 'admins', 'coupons']
+    : (Array.isArray(user?.allowedActivities) && user?.allowedActivities.length > 0
+        ? user.allowedActivities
+        : ['inventory']);
+
+  useEffect(() => {
+    if (isAdmin && effectiveActivities.length > 0 && !effectiveActivities.includes(activeTab)) {
+      setActiveTab(effectiveActivities[0]);
+    }
+  }, [isAdmin, effectiveActivities, activeTab]);
+
   useEffect(() => {
     checkAdminRole();
+
+    // Auto sync admin role and permitted activities periodically and on window focus
+    const syncLiveRole = () => {
+      const savedUser = localStorage.getItem('jewel_user');
+      if (savedUser) {
+        try {
+          const parsed = JSON.parse(savedUser);
+          const email = (parsed.email || '').toLowerCase().trim();
+          if (email) {
+            axios.get(`/api/auth/my-role?email=${encodeURIComponent(email)}`)
+              .then(res => {
+                if (res.data && res.data.role) {
+                  setUser(prev => {
+                    const fresh = {
+                      ...prev,
+                      ...parsed,
+                      role: res.data.role,
+                      assignedRole: res.data.assignedRole,
+                      allowedActivities: res.data.allowedActivities,
+                      mustChangePassword: res.data.mustChangePassword,
+                      isMaster: res.data.isMaster
+                    };
+                    localStorage.setItem('jewel_user', JSON.stringify(fresh));
+                    return fresh;
+                  });
+                }
+              })
+              .catch(() => {});
+          }
+        } catch (e) {}
+      }
+    };
+
+    window.addEventListener('focus', syncLiveRole);
+    const pollTimer = setInterval(syncLiveRole, 12000);
+    return () => {
+      window.removeEventListener('focus', syncLiveRole);
+      clearInterval(pollTimer);
+    };
   }, []);
 
   const loadDataForAdmin = (u) => {
@@ -282,6 +335,31 @@ const AdminDashboard = () => {
         if (u.role === 'admin' || u.role === 'master_admin' || MASTER_ADMINS.includes((u.email || '').toLowerCase())) {
           setIsAdmin(true);
           loadDataForAdmin(u);
+
+          // Verify live role from server to immediately reflect any Master Admin role updates
+          axios.get(`/api/auth/my-role?email=${encodeURIComponent(uEmail)}`)
+            .then(res => {
+              if (res.data && res.data.role) {
+                const fresh = {
+                  ...u,
+                  role: res.data.role,
+                  assignedRole: res.data.assignedRole,
+                  allowedActivities: res.data.allowedActivities,
+                  mustChangePassword: res.data.mustChangePassword,
+                  isMaster: res.data.isMaster
+                };
+                setUser(fresh);
+                localStorage.setItem('jewel_user', JSON.stringify(fresh));
+                if (fresh.mustChangePassword) {
+                  setShowFirstTimeModal(true);
+                  setFirstTimeEmail(fresh.email);
+                  setIsAdmin(false);
+                } else {
+                  loadDataForAdmin(fresh);
+                }
+              }
+            })
+            .catch(() => {});
           return;
         }
       } catch (e) {
@@ -394,11 +472,13 @@ const AdminDashboard = () => {
     setFirstTimeLoading(true);
     setFirstTimeMsg(null);
     try {
+      const token = localStorage.getItem('jewel_token') || localStorage.getItem('token') || '';
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
       const res = await axios.post('/api/auth/first-time-password-change', {
         email: firstTimeEmail,
         currentPassword: firstTimeCurrentPass,
         newPassword: firstTimeNewPass,
-      });
+      }, { headers });
       setFirstTimeMsg({ type: 'success', text: res.data.message });
       const updatedUser = res.data?.user;
       if (updatedUser) {
@@ -415,9 +495,9 @@ const AdminDashboard = () => {
         if (updatedUser) {
           loadDataForAdmin(updatedUser);
         } else {
-          fetchInventory();
+          loadDataForAdmin(user);
         }
-      }, 1400);
+      }, 1000);
     } catch (err) {
       setFirstTimeMsg({ type: 'error', text: err.response?.data?.message || 'Failed to update passcode' });
     } finally {
@@ -1310,7 +1390,7 @@ const AdminDashboard = () => {
         })()}
 
         {/* Tab 1: Inventory Table */}
-        {activeTab === 'inventory' && (
+        {effectiveActivities.includes('inventory') && activeTab === 'inventory' && (
           <div className="admin-tab-content">
             <div className="inventory-controls" style={{ display: 'flex', gap: '14px', alignItems: 'center', flexWrap: 'wrap' }}>
               <input
@@ -1465,7 +1545,7 @@ const AdminDashboard = () => {
         )}
 
         {/* Tab 2: Orders Fulfillment & Segregation */}
-        {activeTab === 'orders' && (() => {
+        {effectiveActivities.includes('orders') && activeTab === 'orders' && (() => {
           const filteredOrders = orders.filter(o => {
             const q = orderSearchQuery.toLowerCase().trim();
             const matchesSearch = !q || (
@@ -1662,7 +1742,7 @@ const AdminDashboard = () => {
         })()}
 
         {/* Tab 3: Reports & Analytics */}
-        {activeTab === 'reports' && (
+        {effectiveActivities.includes('reports') && activeTab === 'reports' && (
           <div className="admin-tab-content">
             <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
               {[{k:'inventory',label:'📦 Inventory Report',color:'#e6b97e'},{k:'sales',label:'📊 Sales Report',color:'#f0dbbf'}].map(r => (
@@ -1758,20 +1838,9 @@ const AdminDashboard = () => {
         )}
 
         {/* Tab 4: Admin Management */}
-        {activeTab === 'admins' && (() => {
-          const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
-          const userEmail = (user?.email || '').toLowerCase().trim();
-          const isMaster = MASTER_ADMINS.includes(userEmail) || user?.role === 'master_admin' || user?.isMaster === true;
-
-          return (
-            <div className="admin-tab-content">
-              {!isMaster && (
-                <div style={{ marginBottom: '20px', padding: '14px 18px', background: 'rgba(230, 185, 126, 0.1)', border: '1px solid rgba(230, 185, 126, 0.3)', borderRadius: '10px', color: '#e6b97e', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ fontSize: '1.2rem' }}>👑</span>
-                  <span><strong>Sub-Administrator View:</strong> Administrative account creation and credential overrides are strictly reserved for Master Admin (<code>deevyanshusahu@gmail.com</code>).</span>
-                </div>
-              )}
-              <div style={{ display: 'grid', gridTemplateColumns: isMaster ? '1fr 1.5fr' : '1fr', gap: '28px', alignItems: 'start' }}>
+        {isMaster && activeTab === 'admins' && (
+          <div className="admin-tab-content">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '28px', alignItems: 'start' }}>
                 {isMaster && (
                   <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '24px', border: '1px solid var(--border-color)' }}>
                     <h3 style={{ color: '#e6b97e', marginBottom: '18px' }}><i className="fas fa-user-plus"></i> Create New Admin</h3>
@@ -2019,23 +2088,11 @@ const AdminDashboard = () => {
                 </div>
               </div>
             </div>
-          );
-        })()}
+        )}
 
         {/* Tab 5: Offers & Coupons Management */}
-        {activeTab === 'coupons' && (() => {
-          const uEmail = (user?.email || '').toLowerCase().trim();
-          const isMaster = MASTER_ADMINS.includes(uEmail) || user?.role === 'master_admin' || user?.isMaster === true;
-          const hasCouponsAccess = isMaster || (user?.allowedActivities || []).includes('coupons');
-
-          return (
+        {effectiveActivities.includes('coupons') && activeTab === 'coupons' && (
             <div className="admin-tab-content">
-              {!hasCouponsAccess && (
-                <div style={{ marginBottom: '20px', padding: '14px 18px', background: 'rgba(186, 75, 95, 0.12)', border: '1px solid rgba(186, 75, 95, 0.35)', borderRadius: '10px', color: '#e89da9', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ fontSize: '1.2rem' }}>🔒</span>
-                  <span><strong>Restricted Access:</strong> Only Master Admin or appointed Promotions Managers are permitted to manage promotional offers & coupons.</span>
-                </div>
-              )}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '28px', alignItems: 'start' }}>
                 
                 {/* Coupon Creation Form */}
@@ -2175,11 +2232,10 @@ const AdminDashboard = () => {
 
               </div>
             </div>
-          );
-        })()}
+        )}
 
         {/* Tab 6: Customers Directory */}
-        {activeTab === 'customers' && (() => {
+        {effectiveActivities.includes('customers') && activeTab === 'customers' && (() => {
           const filteredCustomers = customers.filter(c => {
             const q = customerSearchQuery.toLowerCase();
             return (
@@ -2337,7 +2393,7 @@ const AdminDashboard = () => {
         })()}
 
         {/* Tab 7: Problem Solver (Customer Support Helpdesk) */}
-        {activeTab === 'support' && (() => {
+        {effectiveActivities.includes('support') && activeTab === 'support' && (() => {
           const filteredTickets = supportTickets.filter(t => {
             const matchesStatus = ticketFilterStatus === 'all' || t.status === ticketFilterStatus;
             const q = ticketSearchQuery.toLowerCase();

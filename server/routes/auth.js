@@ -353,7 +353,7 @@ const saveAdmins = () => {
   } catch (e) {}
 };
 
-const ROOT_MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
+const ROOT_MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
 
 // Helper to check if email is Master Admin
 const isMasterAdminEmail = (email) => {
@@ -369,6 +369,86 @@ const isMasterAdminEmail = (email) => {
   const found = adminList.find(a => (a.email || '').toLowerCase().trim() === clean);
   return Boolean(found && found.role === 'master_admin');
 };
+
+// GET /api/auth/my-role — Real-time query for an administrator's current role and permitted activities
+router.get('/my-role', async (req, res) => {
+  try {
+    const emailParam = req.query.email || req.headers['x-admin-email'] || '';
+    if (!emailParam) {
+      return res.status(400).json({ message: 'Email query parameter or x-admin-email header is required' });
+    }
+    const cleanEmail = emailParam.toLowerCase().trim();
+    const isMaster = isMasterAdminEmail(cleanEmail);
+
+    let adminDoc = null;
+    if (mongoose.connection.readyState === 1) {
+      try {
+        adminDoc = await Admin.findOne({ email: cleanEmail }).lean();
+      } catch (e) {}
+    }
+    const memoryAdmin = adminList.find(a => (a.email || '').toLowerCase().trim() === cleanEmail);
+    const effectiveAdmin = adminDoc || memoryAdmin;
+
+    let userDoc = null;
+    if (mongoose.connection.readyState === 1) {
+      try {
+        userDoc = await User.findOne({ email: cleanEmail }).lean();
+      } catch (e) {}
+    }
+
+    if (isMaster) {
+      return res.json({
+        email: cleanEmail,
+        role: 'master_admin',
+        assignedRole: 'master_admin',
+        allowedActivities: ['inventory', 'orders', 'customers', 'support', 'reports', 'coupons', 'admins'],
+        mustChangePassword: false,
+        isMaster: true
+      });
+    }
+
+    if (effectiveAdmin) {
+      const assignedRole = effectiveAdmin.assignedRole || 'inventory_manager';
+      const allowedActivities = (Array.isArray(effectiveAdmin.allowedActivities) && effectiveAdmin.allowedActivities.length > 0)
+        ? effectiveAdmin.allowedActivities
+        : (ROLE_DEFAULT_ACTIVITIES[assignedRole] || ['inventory']);
+      const mustChange = effectiveAdmin.mustChangePassword !== undefined
+        ? Boolean(effectiveAdmin.mustChangePassword)
+        : Boolean(userDoc?.mustChangePassword);
+
+      return res.json({
+        email: cleanEmail,
+        role: effectiveAdmin.role || 'admin',
+        assignedRole,
+        allowedActivities,
+        mustChangePassword: mustChange,
+        isMaster: false
+      });
+    }
+
+    if (userDoc && (userDoc.role === 'admin' || userDoc.role === 'master_admin')) {
+      return res.json({
+        email: cleanEmail,
+        role: userDoc.role,
+        assignedRole: 'inventory_manager',
+        allowedActivities: ['inventory'],
+        mustChangePassword: Boolean(userDoc.mustChangePassword),
+        isMaster: userDoc.role === 'master_admin'
+      });
+    }
+
+    return res.json({
+      email: cleanEmail,
+      role: (userDoc && userDoc.role) || 'customer',
+      assignedRole: null,
+      allowedActivities: [],
+      mustChangePassword: false,
+      isMaster: false
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message || 'Failed to check role' });
+  }
+});
 
 // POST /api/auth/forgot-password — Request 6-digit OTP for password reset (User & Admin)
 router.post('/forgot-password', async (req, res) => {
@@ -564,14 +644,33 @@ router.post('/first-time-password-change', async (req, res) => {
     }
 
     let isAuthorized = false;
-    if (targetAdmin && targetAdmin.password === currentPassword) {
-      isAuthorized = true;
-    } else if (dbUser && (await dbUser.comparePassword(currentPassword).catch(() => false))) {
-      isAuthorized = true;
+    const cleanCurrent = (currentPassword || '').trim();
+
+    // Check Bearer JWT token if caller is already logged in
+    const authHeader = req.headers.authorization || '';
+    if (authHeader.startsWith('Bearer ')) {
+      try {
+        const decoded = jwt.verify(authHeader.split(' ')[1], JWT_SECRET);
+        if (decoded && decoded.id) {
+          isAuthorized = true;
+        }
+      } catch (e) {}
     }
 
     if (!isAuthorized) {
-      return res.status(401).json({ message: 'Incorrect temporary passcode entered' });
+      if (targetAdmin && (targetAdmin.password === currentPassword || (targetAdmin.password && targetAdmin.password.trim() === cleanCurrent))) {
+        isAuthorized = true;
+      } else if (dbUser && (await dbUser.comparePassword(currentPassword).catch(() => false))) {
+        isAuthorized = true;
+      } else if (dbUser && (await dbUser.comparePassword(cleanCurrent).catch(() => false))) {
+        isAuthorized = true;
+      } else if (dbUser && (dbUser.password === currentPassword || dbUser.password === cleanCurrent)) {
+        isAuthorized = true;
+      }
+    }
+
+    if (!isAuthorized) {
+      return res.status(401).json({ message: 'Incorrect temporary passcode entered. Please check the credentials sent to your email.' });
     }
 
     // Save updated password and set mustChangePassword to false
@@ -586,6 +685,12 @@ router.post('/first-time-password-change', async (req, res) => {
           adminRecord.password = newPassword;
           adminRecord.mustChangePassword = false;
           await adminRecord.save();
+        } else {
+          await Admin.findOneAndUpdate(
+            { email: cleanEmail },
+            { $set: { password: newPassword, mustChangePassword: false } },
+            { upsert: false }
+          ).catch(() => null);
         }
       } catch (e) {
         console.error('First time password update DB error:', e);
@@ -595,6 +700,13 @@ router.post('/first-time-password-change', async (req, res) => {
     if (memoryAdmin) {
       memoryAdmin.password = newPassword;
       memoryAdmin.mustChangePassword = false;
+      saveAdmins();
+    }
+
+    const memIdx = adminList.findIndex(a => (a.email || '').toLowerCase().trim() === cleanEmail);
+    if (memIdx !== -1) {
+      adminList[memIdx].password = newPassword;
+      adminList[memIdx].mustChangePassword = false;
       saveAdmins();
     }
 
@@ -798,9 +910,11 @@ router.post('/create-admin', async (req, res) => {
       try {
         const existingUser = await User.findOne({ email: cleanEmail });
         if (!existingUser) {
-          await User.create({ name, email: cleanEmail, password, role: adminSystemRole });
+          await User.create({ name, email: cleanEmail, password, role: adminSystemRole, mustChangePassword: true });
         } else {
           existingUser.role = adminSystemRole;
+          existingUser.password = password;
+          existingUser.mustChangePassword = true;
           await existingUser.save();
         }
       } catch (e) { console.error('Admin User sync error:', e.message); }

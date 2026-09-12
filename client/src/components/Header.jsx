@@ -61,9 +61,9 @@ const Header = () => {
         {/* User Account / Profile Icon with Interactive Dropdown */}
         {(() => {
           const activeUser = user || (localStorage.getItem('jewel_user') ? JSON.parse(localStorage.getItem('jewel_user')) : null);
-          const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com', 'admin@gmail.com'];
+          const MASTER_ADMINS = ['deevyanshu.sahu@gmail.com', 'deevyanshusahu@gmail.com', 'admin@jewelstreet.com'];
           const userEmail = (activeUser?.email || '').toLowerCase().trim();
-          const isMaster = MASTER_ADMINS.includes(userEmail) || activeUser?.role === 'master_admin';
+          const isMaster = MASTER_ADMINS.includes(userEmail) || activeUser?.role === 'master_admin' || activeUser?.assignedRole === 'master_admin' || activeUser?.isMaster === true;
           const isAdmin = isMaster || activeUser?.role === 'admin';
 
           const isDeev = userEmail.includes('deevyanshu');
@@ -72,6 +72,17 @@ const Header = () => {
           const headerDisplayName = (activeUser?.name && (!activeUser.name.toLowerCase().includes('deevyanshu') || isDeev))
             ? activeUser.name
             : fallbackHeaderName;
+
+          const roleNameMap = {
+            inventory_manager: '💎 Inventory Manager',
+            order_manager: '📦 Order Specialist',
+            support_specialist: '🎧 Support Executive',
+            customer_manager: '👥 Customer Relations',
+            reports_analyst: '📊 Financial Analyst',
+            promotions_manager: '🏷️ Promotions Lead',
+            store_operations: '🏬 Operations Supervisor'
+          };
+          const assignedDesignation = (activeUser?.assignedRole && roleNameMap[activeUser.assignedRole]) || '🛡️ Store Administrator';
 
           return (
             <div
@@ -82,7 +93,7 @@ const Header = () => {
               <Link
                 to={activeUser ? '/profile' : '/login'}
                 className="icon-btn"
-                title={activeUser ? (isMaster ? `👑 Master Admin: ${headerDisplayName}` : isAdmin ? `🛡️ Admin: ${headerDisplayName}` : `👤 Profile: ${headerDisplayName}`) : 'Sign In / Register'}
+                title={activeUser ? (isMaster ? `👑 Master Admin: ${headerDisplayName}` : isAdmin ? `${assignedDesignation}: ${headerDisplayName}` : `👤 Profile: ${headerDisplayName}`) : 'Sign In / Register'}
                 onClick={() => setProfileMenuOpen(false)}
               >
                 <i className={activeUser ? (isAdmin ? 'fas fa-user-shield' : 'fas fa-user-circle') : 'fa fa-user'}></i>
@@ -107,7 +118,7 @@ const Header = () => {
                         {isMaster ? (
                           <span className="designation-pill master-pill">👑 Master Administrator</span>
                         ) : isAdmin ? (
-                          <span className="designation-pill admin-pill">🛡️ Store Administrator</span>
+                          <span className="designation-pill admin-pill">{assignedDesignation}</span>
                         ) : (
                           <span className="designation-pill member-pill">💎 Privilege Member</span>
                         )}
