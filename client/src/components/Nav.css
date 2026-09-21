@@ -144,8 +144,11 @@
   .nav-list li { width: 100%; }
   .nav-list li a, .nav-action-link, .nav-dropbtn {
     display: block;
-    padding: 12px 20px;
-    font-size: 0.9rem;
+    padding: 14px 20px;
+    font-size: 0.88rem;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
   }
   .nav-dropdown-content {
     position: static;
@@ -154,15 +157,26 @@
     box-shadow: none;
     background: rgba(255,255,255,0.03);
     border: none;
+    border-top: 1px solid var(--border-color);
     border-radius: 0;
     min-width: 100%;
     grid-template-columns: 1fr;
     padding-left: 16px;
   }
+  .nav-dropdown.mobile-dropdown-open .nav-dropdown-content {
+    display: flex;
+    flex-direction: column;
+  }
+  /* Keep hover for desktop fallback but mobile uses class */
   .nav-dropdown:hover .nav-dropdown-content {
     display: flex;
     flex-direction: column;
   }
-  .nav-dropdown-content a { padding: 8px 16px; }
+  .nav-dropdown-content a { padding: 12px 16px; min-height: 44px; display: flex; align-items: center; }
   .nav-list li a::after, .nav-action-link::after, .nav-dropbtn::after { display: none; }
+}
+
+@media (max-width: 480px) {
+  .site-nav { padding: 0 12px; }
+  .nav-mobile-toggle { font-size: 0.82rem; padding: 10px 16px; }
 }

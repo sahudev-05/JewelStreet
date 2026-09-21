@@ -186,6 +186,21 @@
 
 .go-cart-link:hover { opacity: 0.9; }
 
-@media (max-width: 480px) {
-  .fav-card { width: clamp(160px, 46vw, 220px); }
+@media (max-width: 600px) {
+  .favs-page { padding: 20px 12px 60px; }
+  .favs-header { margin-bottom: 24px; }
+  .favs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .fav-card { width: 100%; }
+  .fav-info h3 { font-size: 0.95rem; }
+  .fav-actions { gap: 6px; }
+  .fav-cart-btn { padding: 10px 6px; font-size: 0.8rem; }
+}
+
+@media (max-width: 380px) {
+  .favs-grid { grid-template-columns: 1fr; }
+  .fav-card { width: 100%; }
 }

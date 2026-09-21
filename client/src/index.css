@@ -109,4 +109,47 @@ a {
 button {
   font-family: var(--sans-font);
   cursor: pointer;
+  touch-action: manipulation; /* Prevents 300ms delay on mobile tap */
+}
+
+/* Global mobile improvements */
+a {
+  -webkit-touch-callout: none;
+}
+
+/* Prevent iOS zoom on input focus (needs 16px font minimum) */
+input, select, textarea {
+  font-size: max(16px, 1rem); /* prevents iOS auto-zoom */
+  font-family: var(--sans-font);
+}
+
+/* Safe area insets for notched phones (iPhone X+) */
+.site-header {
+  padding-top: max(14px, env(safe-area-inset-top));
+}
+
+/* Tap highlight suppression */
+* {
+  -webkit-tap-highlight-color: rgba(230, 185, 126, 0.15);
+}
+
+/* Smooth momentum scrolling on iOS */
+.product-modal-container,
+.reviews-list-container {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Global touch-friendly min sizes */
+@media (max-width: 768px) {
+  /* Ensure no horizontal overflow */
+  body { overflow-x: hidden; }
+
+  /* Reduce excessive letter-spacing on tiny screens */
+  .section-subtitle { letter-spacing: 2px; }
+  .brand-subtitle { letter-spacing: 3px; }
+}
+
+@media (max-width: 480px) {
+  /* Scrollbar hidden on mobile */
+  ::-webkit-scrollbar { width: 0; }
 }

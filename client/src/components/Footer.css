@@ -126,7 +126,10 @@
 }
 
 @media (max-width: 500px) {
+  .site-footer { padding: 36px 16px 20px; }
   .footer-info {
     grid-template-columns: 1fr;
   }
+  .footer-title { font-size: 1.6rem; }
+  .socials a { width: 40px; height: 40px; }
 }

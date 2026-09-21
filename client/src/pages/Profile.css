@@ -415,9 +415,11 @@
 
 /* Responsive mobile */
 @media (max-width: 600px) {
+  .profile-page { padding: 20px 12px; }
   .profile-header {
     flex-direction: column;
     text-align: center;
+    padding: 20px 16px;
   }
   .role-pill-wrap {
     justify-content: center;
@@ -433,6 +435,17 @@
     flex-direction: column;
     align-items: flex-start;
   }
+  .profile-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 4px;
+  }
+  .profile-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { white-space: nowrap; padding: 12px 16px; font-size: 0.9rem; }
+  .profile-header-info h2 { font-size: 1.5rem; }
+  .order-item-row img { width: 44px; height: 44px; }
+  .view-inv-btn { width: 100%; justify-content: center; }
 }
 
 .card-header-with-edit {

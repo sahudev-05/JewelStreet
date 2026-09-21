@@ -120,3 +120,14 @@
   background: var(--accent-primary);
   color: #000;
 }
+
+@media (max-width: 600px) {
+  .product-list-page { padding: 20px 12px 60px; }
+  .page-banner { padding: 28px 16px; border-radius: 12px; }
+  .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .catalog-toolbar { font-size: 0.8rem; }
+}
+
+@media (max-width: 380px) {
+  .cards-grid { grid-template-columns: 1fr; }
+}
